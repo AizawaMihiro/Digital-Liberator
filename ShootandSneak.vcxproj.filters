@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{c47c51b9-b2bf-4228-82f1-a53d21ea2345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BootScene">
+      <UniqueIdentifier>{5c102e71-5c96-4142-a35e-8ecedb99b500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleScene">
+      <UniqueIdentifier>{05477c67-a5cc-4463-b4f2-ef710294ca1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene">
+      <UniqueIdentifier>{58b935cf-9222-470e-9320-d780bdc95b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{002964e9-b904-4b12-8345-c309e9c40746}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx9.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dxlib.hpp">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BootScene.h">
+      <Filter>BootScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TitleScene.h">
+      <Filter>TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneFactory.h" />
+    <ClInclude Include="Source\Screen.h" />
+    <ClInclude Include="Library\App.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\GameObject.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\myDxLib.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\ObjectManager.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\resourceLoader.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\SceneBase.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\SceneManager.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Time.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx9.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_ja_gryph_ranges.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BootScene.cpp">
+      <Filter>BootScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TitleScene.cpp">
+      <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneFactory.cpp" />
+    <ClCompile Include="Library\App.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\main.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\ObjectManager.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\SceneManager.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Time.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
