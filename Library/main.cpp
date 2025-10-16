@@ -43,6 +43,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 
+    HWND hwnd = GetMainWindowHandle(); // ウィンドウハンドルを取得する関数
+	SetWindowTextA(hwnd, "Digital Liberator");// ウィンドウタイトルを変更する
+
 	SetHookWinProc([](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT /*CALLBACK*/
 	{
 		// DxLibとImGuiのウィンドウプロシージャを両立させる
