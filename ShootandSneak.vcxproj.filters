@@ -93,6 +93,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -151,5 +152,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
 </Project>

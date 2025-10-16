@@ -1,5 +1,13 @@
 #pragma once
 #include "Object3D.h"
+enum State
+{
+	IDLE,
+	MOVE,
+	HIDE,
+	ATTACK,
+	DEAD
+};
 
 class Player :
     public Object3D
@@ -9,18 +17,14 @@ public:
 	~Player();
 	void Update() override;
 	void Draw() override;
+	void ChangeState(State newState);
+
 private:
-	enum State
-	{
-		IDLE, MOVE, JUMP, CROUCH, ATTACK, DEAD, MAX_STATE
-	};
 	State state;
 	void UpdateIdle();
 	void UpdateMove();
-	void UpdateJump();
-	void UpdateCrouch();
+	void UpdateHide();
 	void UpdateAttack();
 	void UpdateDead();
-	void ChangeState(State newState);
 };
 
