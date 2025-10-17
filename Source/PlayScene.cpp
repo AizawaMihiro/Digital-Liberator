@@ -1,7 +1,14 @@
 #include "PlayScene.h"
+#include "../Player.h"
+#include "../Enemy.h"
+#include "../Camera.h"
 
 PlayScene::PlayScene()
 {
+	player = new Player();
+	camera = new Camera();
+	enemy = new Enemy();
+	camera->SetTargetPosition(player->GetTransform().position);
 }
 
 PlayScene::~PlayScene()

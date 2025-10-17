@@ -3,7 +3,7 @@
 Enemy::Enemy()
 	:state(PATROL)
 {
-	hModel = MV1LoadModel("data/model/Enemy.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
+	hModel = MV1LoadModel("Assets/model/Enemy.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	if (hModel == -1) {
 		// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ‚É¸”s
 		printf("Enemy Model Load Error\n");

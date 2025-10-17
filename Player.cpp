@@ -3,7 +3,7 @@
 Player::Player()
 	:state(IDLE)
 {
-	hModel = MV1LoadModel("data/model/Player.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
+	hModel = MV1LoadModel("Assets/model/Player.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	if (hModel == -1) {
 		// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ‚É¸”s
 		printf("Player Model Load Error\n");

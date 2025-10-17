@@ -1,6 +1,10 @@
 #pragma once
 #include "../Library/SceneBase.h"
 
+class Player;
+class Camera;
+class Enemy;
+
 /// <summary>
 /// ゲームプレイのシーンを制御する
 /// </summary>
@@ -11,4 +15,9 @@ public:
 	~PlayScene();
 	void Update() override;
 	void Draw() override;
+
+private:
+	Player* player;
+	Camera* camera;
+	Enemy* enemy;
 };
