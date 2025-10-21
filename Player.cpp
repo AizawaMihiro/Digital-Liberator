@@ -1,15 +1,18 @@
 #include "Player.h"
+#include "Camera.h"
+#include "ImGui/imgui.h"
 
 Player::Player()
 	:state(IDLE)
 {
-	hModel = MV1LoadModel("Assets/model/Player.mv1");//Ç‹ÇæÉÇÉfÉãÇ™Ç»Ç¢ÇÃÇ≈âº
+	hModel = MV1LoadModel("Assets/model/player01.mv1");//Ç‹ÇæÉÇÉfÉãÇ™Ç»Ç¢ÇÃÇ≈âº
 	if (hModel == -1) {
 		// ÉÇÉfÉãÇÃì«Ç›çûÇ›Ç…é∏îs
 		printf("Player Model Load Error\n");
 	}
 	transform.position = VZero;
 	transform.scale = VZero;
+	camera = FindGameObject<Camera>();
 }
 
 Player::~Player()
@@ -43,21 +46,21 @@ void Player::Update()
 	default:
 		break;
 	}
+	ImGui::Begin("Player");
+	ImGui::InputFloat("PositionX", &transform.position.x);
+	ImGui::InputFloat("PositionY", &transform.position.y);
+	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::End();
 }
 
 void Player::Draw()
 {
-	if (hModel != -1)
-	{
-		MV1SetPosition(hModel, transform.position);
-		MV1SetRotationXYZ(hModel, transform.rotation);
-		MV1SetScale(hModel, transform.scale);
-		MV1DrawModel(hModel);
-	}
+	Object3D::Draw();
 }
 
 void Player::UpdateIdle()
 {
+	transform.position.z += 0.2f;
 }
 
 void Player::UpdateMove()

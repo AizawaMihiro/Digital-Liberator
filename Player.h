@@ -9,10 +9,15 @@ enum State
 	DEAD
 };
 
+class Camera;
+
 class Player :
     public Object3D
 {
 public:
+	/// <summary>
+	/// Cameraクラスより後に生成される必要がある
+	/// </summary>
 	Player();
 	~Player();
 	void Update() override;
@@ -26,5 +31,6 @@ private:
 	void UpdateHide();
 	void UpdateAttack();
 	void UpdateDead();
+	Camera* camera;
 };
 

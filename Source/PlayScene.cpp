@@ -5,8 +5,8 @@
 
 PlayScene::PlayScene()
 {
-	player = new Player();
 	camera = new Camera();
+	player = new Player();
 	enemy = new Enemy();
 	camera->SetTargetPosition(player->GetTransform().position);
 }

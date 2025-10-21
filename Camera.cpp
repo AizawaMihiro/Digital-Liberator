@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "ImGui/imgui.h"
 
 namespace {
 	const float CAMERA_DISTANCE = 50.0f;//ÉJÉÅÉâÇ∆íçéãì_ÇÃãóó£
@@ -8,6 +9,7 @@ namespace {
 Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
+	transform.rotation.y = 20.0f * DegToRad ;
 }
 
 Camera::~Camera()
@@ -34,6 +36,11 @@ void Camera::Update()
 		rot.x = -60.0f * DegToRad;
 	}
 
+	ImGui::Begin("Camera");
+	ImGui::InputFloat("RotX", &rot.x);
+	ImGui::InputFloat("RotY", &rot.y);
+	ImGui::InputFloat("RotZ", &rot.z);
+	ImGui::End();
 
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f)
 		* MGetRotX(rot.x)

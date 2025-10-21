@@ -4,6 +4,9 @@ class Camera :
     public Object3D
 {
 public:
+	/// <summary>
+	/// Playerクラスより早く生成される必要がある
+	/// </summary>
 	Camera();
 	~Camera();
 	void Update() override;
