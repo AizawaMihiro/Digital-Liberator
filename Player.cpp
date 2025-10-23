@@ -51,6 +51,8 @@ void Player::Update()
 	ImGui::InputFloat("PositionY", &transform.position.y);
 	ImGui::InputFloat("PositionZ", &transform.position.z);
 	ImGui::End();
+
+	camera->SetTargetPosition(transform.position);
 }
 
 void Player::Draw()
@@ -60,7 +62,7 @@ void Player::Draw()
 
 void Player::UpdateIdle()
 {
-	transform.position.z += 0.2f;
+	transform.position.z += 0.25f;
 }
 
 void Player::UpdateMove()

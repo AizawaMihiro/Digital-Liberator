@@ -2,8 +2,8 @@
 #include "ImGui/imgui.h"
 
 namespace {
-	const float CAMERA_DISTANCE = 50.0f;//カメラと注視点の距離
-	const float CAMERA_HEIGHT = 20.0f;//カメラの高さ
+	const float CAMERA_DISTANCE = 500.0f;//カメラと注視点の距離
+	const float CAMERA_HEIGHT = 200.0f;//カメラの高さ
 }
 
 Camera::Camera()
@@ -25,7 +25,7 @@ void Camera::Update()
 	prevX = mouseX;
 	prevY = mouseY;
 
-	VECTOR3 rot = transform.rotation;
+	VECTOR3& rot = transform.rotation;// 回転角度の"参照"
 	rot.y += moveX * 0.5f * DegToRad;
 	rot.x += moveY * 0.5f * DegToRad;
 	// 上下の回転を制限
@@ -36,19 +36,22 @@ void Camera::Update()
 		rot.x = -60.0f * DegToRad;
 	}
 
-	ImGui::Begin("Camera");
-	ImGui::InputFloat("RotX", &rot.x);
-	ImGui::InputFloat("RotY", &rot.y);
-	ImGui::InputFloat("RotZ", &rot.z);
-	ImGui::End();
-
-	VECTOR3 camPos = VECTOR3(0, 0, -500.0f)
+	VECTOR3 camPos = VECTOR3(0, 0, -CAMERA_DISTANCE)
 		* MGetRotX(rot.x)
 		* MGetRotY(rot.y);
 
 	SetCameraPositionAndTarget_UpVecY(
 		targetPosition + VECTOR3(0, 150, 0) + camPos,
-		targetPosition + VECTOR3(0, 200.0f, 0));
+		targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+
+	ImGui::Begin("Camera");
+	ImGui::InputFloat("RotX", &rot.x);
+	ImGui::InputFloat("RotY", &rot.y);
+	ImGui::InputFloat("RotZ", &rot.z);
+	ImGui::InputFloat("CameraPosX", &camPos.x);
+	ImGui::InputFloat("CameraPosY", &camPos.y);
+	ImGui::InputFloat("CameraPosZ", &camPos.z);
+	ImGui::End();
 }
 
 void Camera::Draw()
