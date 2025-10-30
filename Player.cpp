@@ -49,7 +49,8 @@ void Player::Update()
 	ImGui::InputFloat("PositionZ", &transform.position.z);
 	ImGui::End();
 
-	camera->SetTargetPosition(transform.position);
+	VECTOR3 lookPos = transform.position + VECTOR3(0.0f, 0.0f, 50.0f);
+	camera->SetTargetPosition(lookPos);
 }
 
 void Player::Draw()
@@ -60,7 +61,7 @@ void Player::Draw()
 
 void Player::UpdateIdle()
 {
-	transform.position.z += 0.25f;
+	//transform.position.z += 0.25f;
 }
 
 void Player::UpdateMove()

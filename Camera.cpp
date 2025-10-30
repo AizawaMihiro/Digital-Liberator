@@ -2,14 +2,20 @@
 #include "ImGui/imgui.h"
 
 namespace {
-	const float CAMERA_DISTANCE = 500.0f;//カメラと注視点の距離
-	const float CAMERA_HEIGHT = 200.0f;//カメラの高さ
+	const float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
+	const float CAMERA_HEIGHT = 50.0f;//カメラの高さ
+	const float UPPER_ANGLE = 50.0f;//カメラの上限角度
+	const float LOWER_ANGLE = 0.0f;//カメラの下限角度
+	const float RIGHT_ANGLE = 60.0f;//カメラの右限界角度
+	const float LEFT_ANGLE = -60.0f;//カメラの左限界角度
 }
 
 Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
 	transform.rotation.y = 20.0f * DegToRad ;
+	isThirdPerson = true;
+	InputTimer = 0;
 }
 
 Camera::~Camera()
@@ -29,20 +35,59 @@ void Camera::Update()
 	rot.y += moveX * 0.5f * DegToRad;
 	rot.x += moveY * 0.5f * DegToRad;
 	// 上下の回転を制限
-	if (rot.x > 80.0f * DegToRad) {
-		rot.x = 80.0f * DegToRad;
+	if (rot.x > UPPER_ANGLE * DegToRad) {
+		rot.x = UPPER_ANGLE * DegToRad;
 	}
-	if (rot.x < -60.0f * DegToRad) {
-		rot.x = -60.0f * DegToRad;
+	if (rot.x < LOWER_ANGLE * DegToRad) {
+		rot.x = LOWER_ANGLE * DegToRad;
+	}
+	// 左右の回転を制限
+	if (rot.y > RIGHT_ANGLE * DegToRad) {
+		rot.y = RIGHT_ANGLE * DegToRad;
+	}
+	if (rot.y < LEFT_ANGLE * DegToRad) {
+		rot.y = LEFT_ANGLE * DegToRad;
 	}
 
-	VECTOR3 camPos = VECTOR3(0, 0, -CAMERA_DISTANCE)
-		* MGetRotX(rot.x)
-		* MGetRotY(rot.y);
+	// カメラ視点切り替え
 
-	SetCameraPositionAndTarget_UpVecY(
-		targetPosition + VECTOR3(0, CAMERA_HEIGHT-50.0f, 0) + camPos,
-		targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+	if (CheckHitKey(KEY_INPUT_V))
+	{
+		if (InputTimer < 0)
+		{
+			isThirdPerson = !isThirdPerson;
+			InputTimer = 10;
+		}
+	}
+	else
+	{
+		InputTimer--;
+	}
+
+	VECTOR3 camPos;
+
+	if (isThirdPerson)
+	{
+		camPos = VECTOR3(0, 0, -CAMERA_DISTANCE)
+			* MGetRotX(rot.x)
+			* MGetRotY(rot.y);
+
+		SetCameraPositionAndTarget_UpVecY(
+			targetPosition + VECTOR3(0, CAMERA_HEIGHT - 50.0f, 0) + camPos,
+			targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+	}
+	else
+	{
+		// 一人称視点の処理
+		camPos = VECTOR3(0, 0, -10.0f)
+			* MGetRotX(rot.x)
+			* MGetRotY(rot.y);
+
+		SetCameraPositionAndTarget_UpVecY(
+			targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0) + camPos,
+			targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+	}
+
 
 	//確認用ImGui
 	VECTOR3 camPosOut = targetPosition + VECTOR3(0, CAMERA_HEIGHT - 50.0f, 0) + camPos;

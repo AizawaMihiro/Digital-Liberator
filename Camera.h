@@ -15,5 +15,7 @@ public:
 private:
 	VECTOR3 targetPosition;
 	int prevX, prevY;
+	bool isThirdPerson;
+	int InputTimer;
 };
 
