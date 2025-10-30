@@ -64,6 +64,36 @@ void Camera::Update()
 		InputTimer--;
 	}
 
+	// カメラ位置操作
+	// デバッグ用
+	static float camXmove = 0.0f;
+	static float camZmove = 0.0f;
+	if (CheckHitKey(KEY_INPUT_LEFT))
+	{
+		camXmove -= 1.0f;
+	}
+	if (CheckHitKey(KEY_INPUT_RIGHT))
+	{
+		camXmove += 1.0f;
+	}
+	if (CheckHitKey(KEY_INPUT_UP))
+	{
+		camZmove += 1.0f;
+	}
+	if (CheckHitKey(KEY_INPUT_DOWN))
+	{
+		camZmove -= 1.0f;
+	}
+	if (CheckHitKey(KEY_INPUT_0))
+	{
+		// リセット
+		camXmove = 0.0f;
+		camZmove = 0.0f;
+	}
+	targetPosition.x += camXmove;
+	targetPosition.z += camZmove;
+
+
 	VECTOR3 camPos;
 
 	if (isThirdPerson)

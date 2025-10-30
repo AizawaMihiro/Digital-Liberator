@@ -6,6 +6,7 @@ Player::Player()
 	:state(IDLE)
 {
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
+	assert(hModel != -1);
 	transform.position = VZero;
 	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;

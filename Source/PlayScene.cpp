@@ -8,7 +8,7 @@ PlayScene::PlayScene()
 {
 	camera = new Camera();
 	player = new Player();
-	//enemy = new Enemy();
+	enemy = new Enemy();
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p
 
 	camera->SetTargetPosition(player->GetTransform().position);

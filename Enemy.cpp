@@ -1,15 +1,15 @@
 #include "Enemy.h"
+#include "ImGui/imgui.h"
 
 Enemy::Enemy()
 	:state(PATROL)
 {
 	hModel = MV1LoadModel("Assets/model/enemy01.mv1");//Ç‹ÇæÉÇÉfÉãÇ™Ç»Ç¢ÇÃÇ≈âº
-	if (hModel == -1) {
-		// ÉÇÉfÉãÇÃì«Ç›çûÇ›Ç…é∏îs
-		printf("Enemy Model Load Error\n");
-	}
-	transform.position = VZero;
-	transform.scale = VZero;
+	assert(hModel != -1);
+	VECTOR3 defPos = { (0.0f),(0.0f),(50.0f) };
+	transform.position = defPos;
+	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
+	transform.scale = defScale;
 }
 
 Enemy::~Enemy()
@@ -35,11 +35,18 @@ void Enemy::Update()
 	default:
 		break;
 	}
+
+	ImGui::Begin("Enemy");
+	ImGui::InputFloat("PositionX", &transform.position.x);
+	ImGui::InputFloat("PositionY", &transform.position.y);
+	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::End();
 }
 
 void Enemy::Draw()
 {
 	Object3D::Draw();
+	MV1DrawModel(hModel);
 }
 
 void Enemy::UpdatePatrol()
