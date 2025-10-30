@@ -57,7 +57,10 @@ void Player::Update()
 void Player::Draw()
 {
 	Object3D::Draw();
-	MV1DrawModel(hModel);
+	if (camera->IsThirdPerson())
+	{
+		MV1DrawModel(hModel);
+	}
 }
 
 void Player::UpdateIdle()

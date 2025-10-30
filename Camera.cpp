@@ -109,13 +109,15 @@ void Camera::Update()
 	else
 	{
 		// 一人称視点の処理
-		camPos = VECTOR3(0, 0, -10.0f)
+		camPos = targetPosition + VECTOR3(0, CAMERA_HEIGHT, -100);
+
+		VECTOR3 lookAt = VECTOR3(0, 0, 1)
 			* MGetRotX(rot.x)
 			* MGetRotY(rot.y);
 
 		SetCameraPositionAndTarget_UpVecY(
-			targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0) + camPos,
-			targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+			camPos,
+			camPos + lookAt);//カメラの位置と注視点の設定
 	}
 
 

@@ -12,6 +12,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void SetTargetPosition(VECTOR3 pos) { targetPosition = pos; }
+	bool IsThirdPerson() const { return isThirdPerson; }
 private:
 	VECTOR3 targetPosition;
 	int prevX, prevY;
