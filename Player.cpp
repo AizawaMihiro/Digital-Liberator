@@ -5,13 +5,10 @@
 Player::Player()
 	:state(IDLE)
 {
-	hModel = MV1LoadModel("Assets/model/player01.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
-	if (hModel == -1) {
-		// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ‚É¸”s
-		printf("Player Model Load Error\n");
-	}
+	hModel = MV1LoadModel("Assets/model/cube.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	transform.position = VZero;
-	transform.scale = VZero;
+	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
+	transform.scale = defScale;
 	camera = FindGameObject<Camera>();
 }
 
@@ -58,6 +55,7 @@ void Player::Update()
 void Player::Draw()
 {
 	Object3D::Draw();
+	MV1DrawModel(hModel);
 }
 
 void Player::UpdateIdle()
