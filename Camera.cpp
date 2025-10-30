@@ -41,16 +41,19 @@ void Camera::Update()
 		* MGetRotY(rot.y);
 
 	SetCameraPositionAndTarget_UpVecY(
-		targetPosition + VECTOR3(0, 150, 0) + camPos,
+		targetPosition + VECTOR3(0, CAMERA_HEIGHT-50.0f, 0) + camPos,
 		targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0));//カメラの位置と注視点の設定
+
+	//確認用ImGui
+	VECTOR3 camPosOut = targetPosition + VECTOR3(0, CAMERA_HEIGHT - 50.0f, 0) + camPos;
 
 	ImGui::Begin("Camera");
 	ImGui::InputFloat("RotX", &rot.x);
 	ImGui::InputFloat("RotY", &rot.y);
 	ImGui::InputFloat("RotZ", &rot.z);
-	ImGui::InputFloat("CameraPosX", &camPos.x);
-	ImGui::InputFloat("CameraPosY", &camPos.y);
-	ImGui::InputFloat("CameraPosZ", &camPos.z);
+	ImGui::InputFloat("CameraPosX", &camPosOut.x);
+	ImGui::InputFloat("CameraPosY", &camPosOut.y);
+	ImGui::InputFloat("CameraPosZ", &camPosOut.z);
 	ImGui::End();
 }
 

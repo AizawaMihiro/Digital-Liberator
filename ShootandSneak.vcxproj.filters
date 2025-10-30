@@ -99,6 +99,7 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Axis.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -163,5 +164,6 @@
       <Filter>PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Axis.cpp" />
   </ItemGroup>
 </Project>
