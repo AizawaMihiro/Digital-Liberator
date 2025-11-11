@@ -100,6 +100,10 @@
     </ClInclude>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Axis.h" />
+    <ClInclude Include="Block.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -165,5 +169,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="Block.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp" />
   </ItemGroup>
 </Project>

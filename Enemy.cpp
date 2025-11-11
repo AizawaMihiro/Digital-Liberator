@@ -6,7 +6,7 @@ Enemy::Enemy()
 {
 	hModel = MV1LoadModel("Assets/model/enemy01.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	assert(hModel != -1);
-	VECTOR3 defPos = { (0.0f),(0.0f),(50.0f) };
+	VECTOR3 defPos = { (-30.0f),(0.0f),(50.0f) };
 	transform.position = defPos;
 	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
 	transform.scale = defScale;
@@ -14,6 +14,11 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	if (hModel != -1)
+	{
+		MV1DeleteModel(hModel);
+		hModel = -1;
+	}
 }
 
 void Enemy::Update()
@@ -51,11 +56,11 @@ void Enemy::Draw()
 
 void Enemy::UpdatePatrol()
 {
-	static float movex = 0.1f;
-	transform.position.x += movex;
-	if (transform.position.x > 50.0f || transform.position.x < -50.0f) {
-		movex = -movex;
-	}
+	//static float movex = 0.1f;
+	//transform.position.x += movex;
+	//if (transform.position.x > 50.0f || transform.position.x < -50.0f) {
+	//	movex = -movex;
+	//}
 }
 
 void Enemy::UpdateChase()
