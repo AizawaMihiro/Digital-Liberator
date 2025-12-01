@@ -1,8 +1,9 @@
 #pragma once
 #include "Block.h"
+#include "MinerMaze.h"
 
 namespace {
-	const int DEF_MAP_SIZE = 20;
+	const int DEF_MAP_SIZE = 15;
 	enum generator {
 		STICK,DIG,WALL
 	};
@@ -15,7 +16,10 @@ public:
 	Map(generator gen);
 	~Map();
 	void Instantinate();
+	void Draw();	
 private:
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };
+	MinerMaze* maze_;
+	std::vector<std::vector<int>> MapData;
 };
 

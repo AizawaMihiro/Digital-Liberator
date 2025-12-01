@@ -19,6 +19,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{8d0e5062-3eb0-432e-935d-15af32577935}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Maze">
+      <UniqueIdentifier>{774a795f-a974-47c4-86aa-4f51c979963f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">
@@ -104,6 +107,12 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Maze.h">
+      <Filter>Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="MinerMaze.h">
+      <Filter>Maze</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -173,5 +182,11 @@
       <Filter>PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Maze.cpp">
+      <Filter>Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="MinerMaze.cpp">
+      <Filter>Maze</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

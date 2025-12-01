@@ -7,6 +7,9 @@ public:
 	Block();
 	~Block();
 	void Draw() override;
+	void SetPosition(VECTOR3 position) {
+		transform.position = position;
+	}
 private:
 };
 

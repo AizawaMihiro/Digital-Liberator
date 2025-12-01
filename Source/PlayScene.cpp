@@ -3,14 +3,16 @@
 #include "../Enemy.h"
 #include "../Camera.h"
 #include "../Axis.h"
-#include "../Block.h"
+#include "../Map.h"
 
 PlayScene::PlayScene()
 {
 	camera = new Camera();
 	player = new Player();
 	enemy = new Enemy();
-	Block* block = new Block();
+	map = new Map();
+	map->Instantinate();
+	map->Draw();
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p
 
 	camera->SetTargetPosition(player->GetTransform().position);
