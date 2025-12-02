@@ -19,7 +19,6 @@ Map::Map(generator gen)
 	case DIG:
 		maze_ = new MinerMaze(DEF_MAP_SIZE, DEF_MAP_SIZE);
 		maze_->Instantiate();
-
 		break;
 	case WALL:
 		break;

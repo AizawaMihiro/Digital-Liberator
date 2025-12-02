@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "ImGui/imgui.h"
+#include "Input.h"
 
 Player::Player()
 	:state(IDLE)
@@ -49,6 +50,23 @@ void Player::Update()
 	ImGui::InputFloat("PositionY", &transform.position.y);
 	ImGui::InputFloat("PositionZ", &transform.position.z);
 	ImGui::End();
+
+	if (Input::IsKeyDown(DIK_RIGHT))
+	{
+		transform.position.x++;
+	}
+	if (Input::IsKeyDown(DIK_LEFT))
+	{
+		transform.position.x--;
+	}
+	if (Input::IsKeyDown(DIK_UP))
+	{
+		transform.position.z++;
+	}
+	if (Input::IsKeyDown(DIK_DOWN))
+	{
+		transform.position.z--;
+	}
 
 	VECTOR3 lookPos = transform.position + VECTOR3(0.0f, 0.0f, 50.0f);
 	camera->SetTargetPosition(lookPos);

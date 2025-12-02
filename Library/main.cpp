@@ -17,6 +17,7 @@
 #include "App.h"
 #include "../Source/Screen.h"
 #include "../ImGui/imgui_impl_dxlib.hpp"
+#include "../Input.h"
 
 #define CoGVersion "4.5"
 
@@ -62,13 +63,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	io.Fonts->AddFontFromFileTTF(u8"c:\\Windows\\Fonts\\meiryo.ttc", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());	ImGui_ImplDXlib_Init();
 #endif
 	AppInit();
+	Input::Initialize(hwnd);
 
 	while (true) {
 #if IMGUI
 		ImGui_ImplDXlib_NewFrame();
 		ImGui::NewFrame();
 #endif
-
+		Input::Update();
 		AppUpdate();
 
 		if (ProcessMessage() == -1 || AppIsExit())
