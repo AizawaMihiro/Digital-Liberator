@@ -42,10 +42,10 @@ void Map::Draw()
 	{
 		for (int c = 0; c < DEF_MAP_SIZE; c++)
 		{
-			if (MapData[r][c] == maze::LOAD)
+			if (MapData[r][c] == maze::WALL)
 			{
 				Block* block = new Block();
-				block->SetPosition(VECTOR3{ (float)(c * 50),(0.0f),(float)(r * 50) });
+				block->SetPosition(VECTOR3{ c * BLOCK::SIZE*2 ,0.0f,r * BLOCK::SIZE*2 });
 				block->Draw();
 			}
 		}

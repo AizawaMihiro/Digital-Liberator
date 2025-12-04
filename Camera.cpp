@@ -1,8 +1,9 @@
 #include "Camera.h"
 #include "ImGui/imgui.h"
+#include "Input.h"
 
 namespace {
-	const float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
+	float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
 	const float CAMERA_HEIGHT = 50.0f;//カメラの高さ
 	const float UPPER_ANGLE = 50.0f;//カメラの上限角度
 	const float LOWER_ANGLE = 0.0f;//カメラの下限角度
@@ -51,48 +52,46 @@ void Camera::Update()
 
 	// カメラ視点切り替え
 
-	if (CheckHitKey(KEY_INPUT_V))
+	if (Input::IsKeyDown(KEY_INPUT_V))
 	{
-		if (InputTimer < 0)
-		{
-			isThirdPerson = !isThirdPerson;
-			InputTimer = 10;
-		}
-	}
-	else
-	{
-		InputTimer--;
+		isThirdPerson = !isThirdPerson;
 	}
 
 	// カメラ位置操作
 	// デバッグ用
-	static float camXmove = 0.0f;
-	static float camZmove = 0.0f;
-	if (CheckHitKey(KEY_INPUT_LEFT))
-	{
-		camXmove -= 1.0f;
-	}
-	if (CheckHitKey(KEY_INPUT_RIGHT))
-	{
-		camXmove += 1.0f;
-	}
-	if (CheckHitKey(KEY_INPUT_UP))
-	{
-		camZmove += 1.0f;
-	}
-	if (CheckHitKey(KEY_INPUT_DOWN))
-	{
-		camZmove -= 1.0f;
-	}
-	if (CheckHitKey(KEY_INPUT_0))
-	{
-		// リセット
-		camXmove = 0.0f;
-		camZmove = 0.0f;
-	}
-	targetPosition.x += camXmove;
-	targetPosition.z += camZmove;
+	//static float camXmove = 0.0f;
+	//static float camZmove = 0.0f;
+	//if (CheckHitKey(KEY_INPUT_LEFT))
+	//{
+	//	camXmove -= 1.0f;
+	//}
+	//if (CheckHitKey(KEY_INPUT_RIGHT))
+	//{
+	//	camXmove += 1.0f;
+	//}
+	//if (CheckHitKey(KEY_INPUT_UP))
+	//{
+	//	camZmove += 1.0f;
+	//}
+	//if (CheckHitKey(KEY_INPUT_DOWN))
+	//{
+	//	camZmove -= 1.0f;
+	//}
+	//if (CheckHitKey(KEY_INPUT_0))
+	//{
+	//	// リセット
+	//	camXmove = 0.0f;
+	//	camZmove = 0.0f;
+	//}
+	//targetPosition.x += camXmove;
+	//targetPosition.z += camZmove;
 
+	//カメラの距離調整
+	int wheel = GetMouseWheelRotVol();
+	if (wheel!=0)
+	{
+		CAMERA_DISTANCE -= wheel*10;
+	}
 
 	VECTOR3 camPos;
 
