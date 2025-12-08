@@ -8,6 +8,7 @@ Player::Player()
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//まだモデルがないので仮
 	assert(hModel != -1);
 	transform.position = VZero;
+	transform.rotation = VZero;
 	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;
 	camera = FindGameObject<Camera>();
@@ -47,21 +48,32 @@ void Player::Update()
 
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		transform.position.x++;
+		transform.position.x += MOVE_SPEED;
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		transform.position.x--;
+		transform.position.x -= MOVE_SPEED;
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		transform.position.z++;
+		transform.position.z += MOVE_SPEED;
 	}
 	if (CheckHitKey(KEY_INPUT_S))
 	{
-		transform.position.z--;
+		transform.position.z -= MOVE_SPEED;
 	}
 
+	int mouseX, mouseY;
+	GetMousePoint(&mouseX, &mouseY);
+	int moveX = mouseX - prevX;
+	prevX = mouseX;
+	if (CheckHitKey(KEY_INPUT_LCONTROL))
+	{
+		transform.rotation.y += moveX * 0.5f * DegToRad;
+	}
+
+
+	// カメラの注視点をプレイヤーの前方に設定
 	VECTOR3 lookPos = transform.position + VECTOR3(0.0f, 0.0f, 50.0f);
 	camera->SetTargetPosition(lookPos);
 
@@ -70,6 +82,7 @@ void Player::Update()
 	ImGui::InputFloat("PositionX", &transform.position.x);
 	ImGui::InputFloat("PositionY", &transform.position.y);
 	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::InputFloat("RotationY", &transform.rotation.y);
 	ImGui::End();
 }
 

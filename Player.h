@@ -9,6 +9,11 @@ enum State
 	DEAD
 };
 
+namespace {
+	const float MOVE_SPEED = 2.0f;
+	static int prevX, prevY;
+}
+
 class Camera;
 
 class Player :

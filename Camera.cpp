@@ -14,7 +14,8 @@ namespace {
 Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
-	transform.rotation.y = 20.0f * DegToRad ;
+	transform.position = VECTOR3(0, 0, 0);
+	transform.rotation = VECTOR3(20.0f * DegToRad, 0, 0);
 	isThirdPerson = true;
 	InputTimer = 0;
 }
@@ -43,19 +44,12 @@ void Camera::Update()
 		rot.x = LOWER_ANGLE * DegToRad;
 	}
 	// 左右の回転を制限
-	if (rot.y > RIGHT_ANGLE * DegToRad) {
-		rot.y = RIGHT_ANGLE * DegToRad;
-	}
-	if (rot.y < LEFT_ANGLE * DegToRad) {
-		rot.y = LEFT_ANGLE * DegToRad;
-	}
-
-	// カメラ視点切り替え
-
-	if (Input::IsKeyDown(KEY_INPUT_V))
-	{
-		isThirdPerson = !isThirdPerson;
-	}
+	//if (rot.y > RIGHT_ANGLE * DegToRad) {
+	//	rot.y = RIGHT_ANGLE * DegToRad;
+	//}
+	//if (rot.y < LEFT_ANGLE * DegToRad) {
+	//	rot.y = LEFT_ANGLE * DegToRad;
+	//}
 
 	// カメラ位置操作
 	// デバッグ用
@@ -95,6 +89,11 @@ void Camera::Update()
 
 	VECTOR3 camPos;
 
+	// 三人称視点と一人称視点の切り替え
+	if (Input::IsKeyDown(KEY_INPUT_V))
+	{
+		isThirdPerson = !isThirdPerson;
+	}
 	if (isThirdPerson)
 	{
 		camPos = VECTOR3(0, 0, -CAMERA_DISTANCE)
