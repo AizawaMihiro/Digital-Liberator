@@ -5,8 +5,10 @@
 namespace {
 	float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
 	const float CAMERA_HEIGHT = 50.0f;//カメラの高さ
-	const float UPPER_ANGLE = 50.0f;//カメラの上限角度
-	const float LOWER_ANGLE = 0.0f;//カメラの下限角度
+	const float UPPER_ANGLE = 0.0f;//カメラの上限角度
+	const float LOWER_ANGLE = 50.0f;//カメラの下限角度
+	const float SINGLE_UPPER_ANGLE = -20.0f;//一人称視点の上限角度
+	const float SINGLE_LOWER_ANGLE = 50.0f;//一人称視点の下限角度
 	const float RIGHT_ANGLE = 60.0f;//カメラの右限界角度
 	const float LEFT_ANGLE = -60.0f;//カメラの左限界角度
 }
@@ -37,12 +39,25 @@ void Camera::Update()
 	rot.y += moveX * 0.5f * DegToRad;
 	rot.x += moveY * 0.5f * DegToRad;
 	// 上下の回転を制限
-	if (rot.x > UPPER_ANGLE * DegToRad) {
-		rot.x = UPPER_ANGLE * DegToRad;
+	if (isThirdPerson)
+	{
+		if (rot.x < UPPER_ANGLE * DegToRad) {
+			rot.x = UPPER_ANGLE * DegToRad;
+		}
+		if (rot.x > LOWER_ANGLE * DegToRad) {
+			rot.x = LOWER_ANGLE * DegToRad;
+		}
 	}
-	if (rot.x < LOWER_ANGLE * DegToRad) {
-		rot.x = LOWER_ANGLE * DegToRad;
+	else
+	{
+		if (rot.x < SINGLE_UPPER_ANGLE * DegToRad) {
+			rot.x = SINGLE_UPPER_ANGLE * DegToRad;
+		}
+		if (rot.x > SINGLE_LOWER_ANGLE * DegToRad) {
+			rot.x = SINGLE_LOWER_ANGLE * DegToRad;
+		}
 	}
+
 	// 左右の回転を制限
 	//if (rot.y > RIGHT_ANGLE * DegToRad) {
 	//	rot.y = RIGHT_ANGLE * DegToRad;
@@ -90,10 +105,10 @@ void Camera::Update()
 	VECTOR3 camPos;
 
 	// 三人称視点と一人称視点の切り替え
-	if (Input::IsKeyDown(KEY_INPUT_V))
-	{
-		isThirdPerson = !isThirdPerson;
-	}
+	//if (Input::IsKeyDown(KEY_INPUT_V))
+	//{
+	//	isThirdPerson = !isThirdPerson;
+	//}
 	if (isThirdPerson)
 	{
 		camPos = VECTOR3(0, 0, -CAMERA_DISTANCE)

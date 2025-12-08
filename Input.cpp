@@ -65,4 +65,31 @@ namespace Input
 		return false;
 	}
 
+	bool IsMouseButton(int btnCode)
+	{
+		if (mouseState.rgbButtons[btnCode] & 0x80)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool IsMouseButtonDown(int btnCode)
+	{
+		if (mouseState.rgbButtons[btnCode] & 0x80 && ~prevMouseState.rgbButtons[btnCode] & 0x80)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool IsMouseButtonUp(int btnCode)
+	{
+		if (~mouseState.rgbButtons[btnCode] & 0x80 && prevMouseState.rgbButtons[btnCode] & 0x80)
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
