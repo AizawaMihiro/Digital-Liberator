@@ -36,6 +36,12 @@ namespace Input
 
 		pKeyDevice->Acquire();
 		pKeyDevice->GetDeviceState(sizeof(keyState), &keyState);
+
+		//マウスの更新
+		memcpy(&prevMouseState, &mouseState, sizeof(DIMOUSESTATE));
+		pMouseDevice->Acquire();
+		pMouseDevice->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+		//マウスの座標データが相対座標で取得されるので注意
 	}
 
 	bool IsKey(int keyCode)
@@ -90,6 +96,16 @@ namespace Input
 			return true;
 		}
 		return false;
+	}
+
+	long GetMouseMoveX()
+	{
+		return mouseState.lX;
+	}
+
+	long GetMouseMoveY()
+	{
+		return mouseState.lY;
 	}
 
 }

@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "ImGui/imgui.h"
 #include "Input.h"
+#include "global.h"
 
 namespace {
 	float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
@@ -28,12 +29,8 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	int mouseX, mouseY;
-	GetMousePoint(&mouseX, &mouseY);
-	int moveX = mouseX - prevX;
-	int moveY = mouseY - prevY;
-	prevX = mouseX;
-	prevY = mouseY;
+	int moveX = Input::GetMouseMoveX();
+	int moveY = Input::GetMouseMoveY();
 
 	VECTOR3& rot = transform.rotation;// 回転角度の"参照"
 	rot.y += moveX * 0.5f * DegToRad;
@@ -145,8 +142,4 @@ void Camera::Update()
 	ImGui::InputFloat("CameraPosY", &camPosOut.y);
 	ImGui::InputFloat("CameraPosZ", &camPosOut.z);
 	ImGui::End();
-}
-
-void Camera::Draw()
-{
 }

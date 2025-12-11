@@ -114,6 +114,8 @@
       <Filter>Maze</Filter>
     </ClInclude>
     <ClInclude Include="Input.h" />
+    <ClInclude Include="namespace.h" />
+    <ClInclude Include="global.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">

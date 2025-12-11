@@ -12,9 +12,7 @@ enum State
 namespace {
 	const float MOVE_SPEED = 2.0f;
 	const float HIDE_SPEED = 1.0f;
-	int mouseX, mouseY;
 	int moveX, moveY;
-	static int prevX, prevY;
 }
 
 class Camera;

@@ -23,6 +23,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MinerMaze.h" />
+    <ClInclude Include="namespace.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Source\BootScene.h" />

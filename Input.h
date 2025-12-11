@@ -15,5 +15,7 @@ namespace Input
 	bool IsMouseButton(int btnCode);
 	bool IsMouseButtonDown(int btnCode);
 	bool IsMouseButtonUp(int btnCode);
+	long GetMouseMoveX();
+	long GetMouseMoveY();
 }
 

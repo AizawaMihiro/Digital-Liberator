@@ -18,6 +18,8 @@
 #include "../Source/Screen.h"
 #include "../ImGui/imgui_impl_dxlib.hpp"
 #include "../Input.h"
+#include <time.h>
+#include "../global.h"
 
 #define CoGVersion "4.5"
 
@@ -66,6 +68,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Input::Initialize(hwnd);
 
 	while (true) {
+		float currentTime = static_cast<float>(GetNowCount()) / 1000.0f;
+		deltaTime = currentTime - prevTime;
+		prevTime = currentTime;
 #if IMGUI
 		ImGui_ImplDXlib_NewFrame();
 		ImGui::NewFrame();

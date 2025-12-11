@@ -138,22 +138,7 @@ void Player::UpdateHide()
 
 void Player::UpdateAttack()
 {
-	if (CheckHitKey(KEY_INPUT_D))
-	{
-		transform.position.x += MOVE_SPEED;
-	}
-	if (CheckHitKey(KEY_INPUT_A))
-	{
-		transform.position.x -= MOVE_SPEED;
-	}
-	if (CheckHitKey(KEY_INPUT_W))
-	{
-		transform.position.z += MOVE_SPEED;
-	}
-	if (CheckHitKey(KEY_INPUT_S))
-	{
-		transform.position.z -= MOVE_SPEED;
-	}
+	UpdateMove();
 	if (camera->IsThirdPerson())
 	{
 		camera->ChangeViewMode();
@@ -162,6 +147,7 @@ void Player::UpdateAttack()
 
 void Player::UpdateDead()
 {
+	// 死亡処理
 }
 
 void Player::ChangeState(State newState)
@@ -171,11 +157,13 @@ void Player::ChangeState(State newState)
 
 void Player::MouseInput()
 {
-	GetMousePoint(&mouseX, &mouseY);
-	moveX = mouseX - prevX;
-	moveY = mouseY - prevY;
-	prevX = mouseX;
-	prevY = mouseY;
+	moveX = (int)Input::GetMouseMoveX();
+	moveY = (int)Input::GetMouseMoveY();
+
+	//ImGui::Begin("MouseInput");
+	//ImGui::InputInt("PositionZ", &moveX);
+	//ImGui::InputInt("RotationY", &moveY);
+	//ImGui::End();
 }
 
 bool Player::IsCheckMoveInput()
@@ -192,10 +180,7 @@ bool Player::IsCheckMoveInput()
 
 void Player::CameraControl()
 {
-	if (CheckHitKey(KEY_INPUT_LCONTROL))
-	{
-		transform.rotation.y += moveX * 0.5f * DegToRad;
-	}
+	transform.rotation.y += moveX * 0.5f * DegToRad;
 
 	// カメラの注視点をプレイヤーの前方に設定
 	VECTOR3 lookPos = transform.position;
