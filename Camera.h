@@ -19,5 +19,10 @@ private:
 	int prevX, prevY;
 	bool isThirdPerson;
 	int InputTimer;
+	VECTOR3 camPos;//ImGui出力用
+	VECTOR3 viewPos;//ImGui出力用
+
+	void CameraSetup(VECTOR3 rot,bool viewMode);
+	void DebugImGui(VECTOR3 rot);
 };
 

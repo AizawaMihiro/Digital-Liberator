@@ -7,14 +7,18 @@
 namespace {
 	float CAMERA_DISTANCE = 250.0f;//カメラと注視点の距離
 	const float CAMERA_HEIGHT = 50.0f;//カメラの高さ
+
 	const float UPPER_ANGLE = 0.0f;//カメラの上限角度
 	const float LOWER_ANGLE = 50.0f;//カメラの下限角度
 	const float SINGLE_UPPER_ANGLE = -20.0f;//一人称視点の上限角度
 	const float SINGLE_LOWER_ANGLE = 50.0f;//一人称視点の下限角度
 	const float RIGHT_ANGLE = 60.0f;//カメラの右限界角度
 	const float LEFT_ANGLE = -60.0f;//カメラの左限界角度
+
 	static float transitionTimer = 0.0f;//視点切り替えタイマー
-	const float chengedistance = 0.5f;//視点切り替えの距離
+	static bool prevIsThirdPerson = isThirdPerson;//前回の視点モード兼切り替え完了フラグ
+	const float CHENGE_DISTANCE = 0.5f;//視点切り替えの距離
+	const float SWITCH_SPEED = 2.0f;//切り替えの速さ
 }
 
 Camera::Camera()
@@ -73,14 +77,15 @@ void Camera::Update()
 		CAMERA_DISTANCE -= wheel*10;
 	}
 
-	VECTOR3 camPos;//ImGui出力用
-	VECTOR3 tarPos;
+	CameraSetup(rot,isThirdPerson);
 
+	DebugImGui(rot);
+}
+
+void Camera::CameraSetup(VECTOR3 rot, bool viewMode)
+{
 	// 三人称視点と一人称視点の切り替え
 	//三人称と一人称の位置を常に更新しておき、切り替え時にスムーズに移動させる
-
-	static bool prevIsThirdPerson = isThirdPerson;//前回の視点モード兼切り替え完了フラグ
-	float switchSpeed = 2.0f;//切り替えの速さ
 
 	//三人称視点の情報
 	VECTOR3 ThirdPersonCamPos = targetPosition + VECTOR3(0, CAMERA_HEIGHT - 50.0f, 0) +
@@ -88,7 +93,7 @@ void Camera::Update()
 	VECTOR3 ThirdPersonLookAt = targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0);
 
 	//一人称視点の情報
-	VECTOR3 SinglePersonCamPos = targetPosition + 
+	VECTOR3 SinglePersonCamPos = targetPosition +
 		VECTOR3(0, CAMERA_HEIGHT, -100.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 	VECTOR3 SinglePersonLookAt = SinglePersonCamPos +
 		VECTOR3(0, 0.20f, 1.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
@@ -100,15 +105,15 @@ void Camera::Update()
 		if (isThirdPerson)
 		{
 			//三人称視点へ切り替え
-			SinglePersonCamPos += (ThirdPersonCamPos - SinglePersonCamPos) * switchSpeed * transitionTimer;
-			SinglePersonLookAt += (ThirdPersonLookAt - SinglePersonLookAt) * switchSpeed * transitionTimer;
+			SinglePersonCamPos += (ThirdPersonCamPos - SinglePersonCamPos) * SWITCH_SPEED * transitionTimer;
+			SinglePersonLookAt += (ThirdPersonLookAt - SinglePersonLookAt) * SWITCH_SPEED * transitionTimer;
 			float distance = std::sqrtf(
 				(std::pow(SinglePersonCamPos.x - ThirdPersonCamPos.x, 2)) +
 				(std::pow(SinglePersonCamPos.y - ThirdPersonCamPos.y, 2)) +
 				(std::pow(SinglePersonCamPos.z - ThirdPersonCamPos.z, 2))
 			);
 			//一定距離まで近づいたら完全に切り替え
-			if (distance < chengedistance)
+			if (distance < CHENGE_DISTANCE)
 			{
 				prevIsThirdPerson = isThirdPerson;
 				transitionTimer = 0.0f;
@@ -117,15 +122,15 @@ void Camera::Update()
 		else
 		{
 			//一人称視点へ切り替え
-			ThirdPersonCamPos += (SinglePersonCamPos - ThirdPersonCamPos) * switchSpeed * transitionTimer;
-			ThirdPersonLookAt += (SinglePersonLookAt - ThirdPersonLookAt) * switchSpeed * transitionTimer;
+			ThirdPersonCamPos += (SinglePersonCamPos - ThirdPersonCamPos) * SWITCH_SPEED * transitionTimer;
+			ThirdPersonLookAt += (SinglePersonLookAt - ThirdPersonLookAt) * SWITCH_SPEED * transitionTimer;
 			float distance = std::sqrtf(
 				(std::pow(ThirdPersonCamPos.x - SinglePersonCamPos.x, 2)) +
 				(std::pow(ThirdPersonCamPos.y - SinglePersonCamPos.y, 2)) +
 				(std::pow(ThirdPersonCamPos.z - SinglePersonCamPos.z, 2))
 			);
 			//一定距離まで近づいたら完全に切り替え
-			if (distance < chengedistance)
+			if (distance < CHENGE_DISTANCE)
 			{
 				prevIsThirdPerson = isThirdPerson;
 				transitionTimer = 0.0f;
@@ -133,24 +138,26 @@ void Camera::Update()
 		}
 	}
 
-	//カメラの位置と注視点の設定
+	//カメラ位置と注視点の設定
 	if (prevIsThirdPerson)
 	{
 		// 三人称視点の処理
 		camPos = ThirdPersonCamPos;
-		tarPos = ThirdPersonLookAt;
+		viewPos = ThirdPersonLookAt;
 	}
 	else
 	{
 		// 一人称視点の処理
 		camPos = SinglePersonCamPos;
-		tarPos = SinglePersonLookAt;
+		viewPos = SinglePersonLookAt;
 	}
 	SetCameraPositionAndTarget_UpVecY(
 		camPos,
-		tarPos);//カメラの位置と注視点の設定
+		viewPos);
+}
 
-
+void Camera::DebugImGui(VECTOR3 rot)
+{
 	//確認用ImGui
 	ImGui::Begin("Camera");
 	ImGui::InputFloat("RotX", &rot.x);
@@ -159,8 +166,8 @@ void Camera::Update()
 	ImGui::InputFloat("CameraPosX", &camPos.x);
 	ImGui::InputFloat("CameraPosY", &camPos.y);
 	ImGui::InputFloat("CameraPosZ", &camPos.z);
-	ImGui::InputFloat("TargetPosX", &tarPos.x);
-	ImGui::InputFloat("TargetPosY", &tarPos.y);
-	ImGui::InputFloat("TargetPosZ", &tarPos.z);
+	ImGui::InputFloat("TargetPosX", &viewPos.x);
+	ImGui::InputFloat("TargetPosY", &viewPos.y);
+	ImGui::InputFloat("TargetPosZ", &viewPos.z);
 	ImGui::End();
 }
