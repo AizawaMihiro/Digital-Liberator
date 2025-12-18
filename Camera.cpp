@@ -14,6 +14,7 @@ namespace {
 	const float RIGHT_ANGLE = 60.0f;//カメラの右限界角度
 	const float LEFT_ANGLE = -60.0f;//カメラの左限界角度
 	static float transitionTimer = 0.0f;//視点切り替えタイマー
+	const float chengedistance = 0.5f;//視点切り替えの距離
 }
 
 Camera::Camera()
@@ -73,6 +74,7 @@ void Camera::Update()
 	}
 
 	VECTOR3 camPos;//ImGui出力用
+	VECTOR3 tarPos;
 
 	// 三人称視点と一人称視点の切り替え
 	//三人称と一人称の位置を常に更新しておき、切り替え時にスムーズに移動させる
@@ -86,9 +88,10 @@ void Camera::Update()
 	VECTOR3 ThirdPersonLookAt = targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0);
 
 	//一人称視点の情報
-	VECTOR3 SinglePersonCamPos = targetPosition + VECTOR3(0, CAMERA_HEIGHT, -100);
+	VECTOR3 SinglePersonCamPos = targetPosition + 
+		VECTOR3(0, CAMERA_HEIGHT, -100.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 	VECTOR3 SinglePersonLookAt = SinglePersonCamPos +
-		VECTOR3(0, 0, 1) * MGetRotX(rot.x) * MGetRotY(rot.y);
+		VECTOR3(0, 0.20f, 1.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
 	//スムーズに切り替える処理
 	if (prevIsThirdPerson != isThirdPerson)
@@ -105,7 +108,7 @@ void Camera::Update()
 				(std::pow(SinglePersonCamPos.z - ThirdPersonCamPos.z, 2))
 			);
 			//一定距離まで近づいたら完全に切り替え
-			if (distance < 1.0f)
+			if (distance < chengedistance)
 			{
 				prevIsThirdPerson = isThirdPerson;
 				transitionTimer = 0.0f;
@@ -122,7 +125,7 @@ void Camera::Update()
 				(std::pow(ThirdPersonCamPos.z - SinglePersonCamPos.z, 2))
 			);
 			//一定距離まで近づいたら完全に切り替え
-			if (distance < 1.0f)
+			if (distance < chengedistance)
 			{
 				prevIsThirdPerson = isThirdPerson;
 				transitionTimer = 0.0f;
@@ -135,29 +138,29 @@ void Camera::Update()
 	{
 		// 三人称視点の処理
 		camPos = ThirdPersonCamPos;
-		SetCameraPositionAndTarget_UpVecY(
-			camPos,
-			ThirdPersonLookAt);//カメラの位置と注視点の設定
+		tarPos = ThirdPersonLookAt;
 	}
 	else
 	{
 		// 一人称視点の処理
 		camPos = SinglePersonCamPos;
-		SetCameraPositionAndTarget_UpVecY(
-			camPos,
-			SinglePersonLookAt);//カメラの位置と注視点の設定
+		tarPos = SinglePersonLookAt;
 	}
+	SetCameraPositionAndTarget_UpVecY(
+		camPos,
+		tarPos);//カメラの位置と注視点の設定
 
 
 	//確認用ImGui
-	VECTOR3 camPosOut = targetPosition + VECTOR3(0, CAMERA_HEIGHT - 50.0f, 0) + camPos;
-
 	ImGui::Begin("Camera");
 	ImGui::InputFloat("RotX", &rot.x);
 	ImGui::InputFloat("RotY", &rot.y);
 	ImGui::InputFloat("RotZ", &rot.z);
-	ImGui::InputFloat("CameraPosX", &camPosOut.x);
-	ImGui::InputFloat("CameraPosY", &camPosOut.y);
-	ImGui::InputFloat("CameraPosZ", &camPosOut.z);
+	ImGui::InputFloat("CameraPosX", &camPos.x);
+	ImGui::InputFloat("CameraPosY", &camPos.y);
+	ImGui::InputFloat("CameraPosZ", &camPos.z);
+	ImGui::InputFloat("TargetPosX", &tarPos.x);
+	ImGui::InputFloat("TargetPosY", &tarPos.y);
+	ImGui::InputFloat("TargetPosZ", &tarPos.z);
 	ImGui::End();
 }

@@ -13,6 +13,7 @@ public:
 	void SetTargetPosition(VECTOR3 pos) { targetPosition = pos; }
 	bool IsThirdPerson() const { return isThirdPerson; }
 	bool ChangeViewMode() { isThirdPerson = !isThirdPerson; return isThirdPerson; }
+	bool ChangeViewMode(bool mode) { isThirdPerson = mode; return isThirdPerson; }
 private:
 	VECTOR3 targetPosition;
 	int prevX, prevY;

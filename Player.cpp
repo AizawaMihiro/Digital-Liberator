@@ -4,7 +4,7 @@
 #include "Input.h"
 
 Player::Player()
-	:state(IDLE)
+	:state(IDLE), cameraMode(THIRD_PERSON)
 {
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	assert(hModel != -1);
@@ -67,9 +67,10 @@ void Player::Update()
 		break;
 	}
 
-	if (state != ATTACK && !camera->IsThirdPerson())
+	if (cameraMode == FIRST_PERSON && state != ATTACK)
 	{
-		camera->ChangeViewMode();
+		camera->ChangeViewMode(true);
+		cameraMode = THIRD_PERSON;
 	}
 
 	CameraControl();
@@ -139,9 +140,10 @@ void Player::UpdateHide()
 void Player::UpdateAttack()
 {
 	UpdateMove();
-	if (camera->IsThirdPerson())
+	if (cameraMode == THIRD_PERSON)
 	{
-		camera->ChangeViewMode();
+		camera->ChangeViewMode(false);
+		cameraMode = FIRST_PERSON;
 	}
 }
 

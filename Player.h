@@ -9,6 +9,12 @@ enum State
 	DEAD
 };
 
+enum CameraMode
+{
+	THIRD_PERSON,
+	FIRST_PERSON
+};
+
 namespace {
 	const float MOVE_SPEED = 2.0f;
 	const float HIDE_SPEED = 1.0f;
@@ -32,6 +38,7 @@ public:
 
 private:
 	State state;
+	CameraMode cameraMode;
 	void UpdateIdle();
 	void UpdateMove();
 	void UpdateHide();
