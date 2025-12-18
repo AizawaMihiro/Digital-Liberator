@@ -16,7 +16,7 @@ namespace {
 	const float LEFT_ANGLE = -60.0f;//カメラの左限界角度
 
 	static float transitionTimer = 0.0f;//視点切り替えタイマー
-	static bool prevIsThirdPerson = isThirdPerson;//前回の視点モード兼切り替え完了フラグ
+	static bool prevIsThirdPerson = true;//前回の視点モード兼切り替え完了フラグ
 	const float CHENGE_DISTANCE = 0.5f;//視点切り替えの距離
 	const float SWITCH_SPEED = 2.0f;//切り替えの速さ
 }

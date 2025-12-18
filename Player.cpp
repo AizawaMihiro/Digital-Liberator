@@ -101,19 +101,19 @@ void Player::UpdateMove()
 {
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		transform.position.x += MOVE_SPEED;
+		transform.position = transform.position + VECTOR3(MOVE_SPEED, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		transform.position.x -= MOVE_SPEED;
+		transform.position = transform.position + VECTOR3(-MOVE_SPEED, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		transform.position.z += MOVE_SPEED;
+		transform.position = transform.position + VECTOR3(0.0f, 0.0f, MOVE_SPEED) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_S))
 	{
-		transform.position.z -= MOVE_SPEED;
+		transform.position = transform.position + VECTOR3(0.0f, 0.0f, -MOVE_SPEED) * MGetRotY(transform.rotation.y);
 	}
 }
 

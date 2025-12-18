@@ -10,9 +10,9 @@ PlayScene::PlayScene()
 	camera = new Camera();
 	player = new Player();
 	enemy = new Enemy();
-	//map = new Map();
-	//map->Instantinate();
-	//map->Draw();
+	map = new Map();
+	map->Instantinate();
+	map->Draw();
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p
 
 	camera->SetTargetPosition(player->GetTransform().position);
