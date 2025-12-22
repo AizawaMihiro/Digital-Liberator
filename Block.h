@@ -11,6 +11,7 @@ class Block :
 {
 public:
 	Block();
+	Block(int handle);
 	~Block();
 	void Draw() override;
 	void SetPosition(VECTOR3 position) {

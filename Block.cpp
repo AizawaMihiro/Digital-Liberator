@@ -12,6 +12,16 @@ Block::Block()
 	transform.scale = defScale;
 }
 
+Block::Block(int handle)
+{
+	hModel = handle;
+	assert(hModel != -1);
+	VECTOR3 defPos = { (50.0f),(0.0f),(50.0f) };
+	transform.position = defPos;
+	VECTOR3 defScale = { BLOCK::SIZE,BLOCK::SIZE,BLOCK::SIZE };
+	transform.scale = defScale;
+}
+
 Block::~Block()
 {
 	if (hModel != -1)

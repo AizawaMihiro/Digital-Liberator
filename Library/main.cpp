@@ -44,6 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetAlwaysRunFlag(TRUE);
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
+	SetUseLighting(TRUE);
 
     HWND hwnd = GetMainWindowHandle(); // ウィンドウハンドルを取得する関数
 	SetWindowTextA(hwnd, "Digital Liberator");// ウィンドウタイトルを変更する
@@ -111,6 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //次やること
 //ライティングの実装
 //迷路の生成の改良
+// √２走法の改善
 //プレイヤーのアニメーション
 //敵のAI
 //敵のアニメーション

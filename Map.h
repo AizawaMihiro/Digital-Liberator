@@ -19,6 +19,7 @@ public:
 	void Draw();	
 private:
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };
+	int hBlockModel;
 	MinerMaze* maze_;
 	std::vector<std::vector<int>> MapData;
 };

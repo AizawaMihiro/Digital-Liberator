@@ -8,6 +8,7 @@
 Map::Map()
 	:Map(DIG)
 {
+	hBlockModel = MV1LoadModel("Assets/model/Blockcolord.mv1");
 }
 
 Map::Map(generator gen)
@@ -29,6 +30,7 @@ Map::Map(generator gen)
 
 Map::~Map()
 {
+	delete maze_;
 }
 
 void Map::Instantinate()
@@ -44,7 +46,7 @@ void Map::Draw()
 		{
 			if (MapData[r][c] == maze::WALL)
 			{
-				Block* block = new Block();
+				Block* block = new Block(hBlockModel);
 				block->SetPosition(VECTOR3{ c * BLOCK::SIZE*2 ,0.0f,r * BLOCK::SIZE*2 });
 				block->Draw();
 			}
