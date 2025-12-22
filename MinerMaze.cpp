@@ -92,15 +92,15 @@ void MinerMaze::DigSystem(int r, int c)
 		int dc = randDir[i][1];//direction column
 		int nr = r + dr;// new row
 		int nc = c + dc;// new column
-		int tr = r + dr * 2;// two row
-		int tc = c + dc * 2;// two column
+		int sr = r + dr * 2;// second row
+		int sc = c + dc * 2;// second column
 		
 		// 掘削可能かチェック
-		if (tr<1 || tr >=height_)//上下
+		if (sr<1 || sr >=height_)//上下
 		{
 			continue;
 		}
-		if (tc<1 || tc >=width_)//左右
+		if (sc<1 || sc >=width_)//左右
 		{
 			continue;
 		}
@@ -108,15 +108,15 @@ void MinerMaze::DigSystem(int r, int c)
 		{
 			continue;
 		}
-		if (grid_[tr][tc] == maze::LOAD)// 2マス先が掘られている
+		if (grid_[sr][sc] == maze::LOAD)// 2マス先が掘られている
 		{
 			continue;
 		}
 		// 掘削実行
 		grid_[nr][nc] = maze::LOAD;
-		grid_[tr][tc] = maze::LOAD;// 2マス先も掘る 見栄えが良くなる
+		grid_[sr][sc] = maze::LOAD;// 2マス先も掘る 見栄えが良くなる
 		// 再起処理
-		DigSystem(tr, c + dc * 2);
+		DigSystem(sr, c + dc * 2);
 	}
 
 }
