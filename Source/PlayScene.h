@@ -5,6 +5,7 @@ class Player;
 class Camera;
 class Enemy;
 class Map;
+class Light;
 
 /// <summary>
 /// ゲームプレイのシーンを制御する
@@ -22,4 +23,5 @@ private:
 	Camera* camera;
 	Enemy* enemy;
 	Map* map;
+	Light* light;
 };

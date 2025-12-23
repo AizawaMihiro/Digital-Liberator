@@ -115,6 +115,7 @@
     </ClInclude>
     <ClInclude Include="Input.h" />
     <ClInclude Include="namespace.h" />
+    <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -191,5 +192,6 @@
       <Filter>Maze</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
   </ItemGroup>
 </Project>

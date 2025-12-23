@@ -4,6 +4,7 @@
 #include "../Camera.h"
 #include "../Axis.h"
 #include "../Map.h"
+#include "../Light.h"
 
 PlayScene::PlayScene()
 {
@@ -14,6 +15,9 @@ PlayScene::PlayScene()
 	map->Instantinate();
 	map->Draw();
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p
+
+	light = new Light();
+	light->ChangeLight(DX_LIGHTTYPE_D3DLIGHT_POINT);
 
 	camera->SetTargetPosition(player->GetTransform().position);
 }
@@ -27,6 +31,7 @@ void PlayScene::Update()
 	if (CheckHitKey(KEY_INPUT_T)) {
 		SceneManager::ChangeScene("TITLE");
 	}
+	light->Update();
 }
 
 void PlayScene::Draw()
