@@ -111,6 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 //次やること
 //ライティングの実装
+// →標準ライト以外のライトの実装
 //迷路の生成の改良
 // √２走法の改善
 //プレイヤーのアニメーション

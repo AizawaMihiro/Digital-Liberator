@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 
+/// ライト管理クラス Playerクラスの情報を参照する
 class Light
 {
 public:
@@ -13,6 +14,9 @@ public:
 	void ChangeLight(int type);
 	int DefaultLight(bool flag);
 	void Update();
+	void CreateAddLight(int type);
 private:
-	int hLight;
+	int lightType;
+	int hAddLight;
+	int addLightType;
 };

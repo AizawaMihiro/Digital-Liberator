@@ -17,7 +17,8 @@ PlayScene::PlayScene()
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p
 
 	light = new Light();
-	light->ChangeLight(DX_LIGHTTYPE_D3DLIGHT_POINT);
+	light->ChangeLight(DX_LIGHTTYPE_DIRECTIONAL);
+	light->CreateAddLight(DX_LIGHTTYPE_POINT);
 
 	camera->SetTargetPosition(player->GetTransform().position);
 }

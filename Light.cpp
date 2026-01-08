@@ -3,7 +3,7 @@
 
 Light::Light()
 {
-	hLight = GetLightType();
+	lightType = GetLightType();
 }
 
 Light::~Light()
@@ -12,7 +12,7 @@ Light::~Light()
 
 void Light::ChangeLight(int type)
 {
-	if (hLight == type)
+	if (lightType == type)
 	{
 		return;
 	}
@@ -35,6 +35,7 @@ void Light::ChangeLight(int type)
 		if (obj != nullptr)
 		{
 			VECTOR LightPos = obj->GetTransform().position;
+			LightPos.y += 100.0f;
 			ChangeLightTypePoint(LightPos, 2000.0f, 0.0f, 0.006f, 0.0f);
 		}
 		else
@@ -48,7 +49,7 @@ void Light::ChangeLight(int type)
 	default:
 		break;
 	}
-	hLight = type;
+	lightType = type;
 }
 
 int Light::DefaultLight(bool flag)
@@ -61,19 +62,76 @@ void Light::Update()
 	Player* obj = ObjectManager::FindGameObject<Player>();
 	if (obj != nullptr)
 	{
-		switch (hLight)
+		switch (lightType)
 		{
 		case DX_LIGHTTYPE_DIRECTIONAL:
 			//Playerの向きをライトの向きにする
 			VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
-			ChangeLightTypeDir(LightDir);
+			SetLightDirection(LightDir);
 			break;
 		case DX_LIGHTTYPE_POINT:
 			VECTOR LightPos = obj->GetTransform().position;
-			ChangeLightTypePoint(LightPos, 2000.0f, 0.0f, 0.006f, 0.0f);
+			LightPos.y += 100.0f;
+			SetLightPosition(LightPos);
 			break;
 		default:
 			break;
 		}
+		if (hAddLight >= -1)
+		{
+			switch (addLightType)
+			{
+			case DX_LIGHTTYPE_DIRECTIONAL:
+				//Playerの向きをライトの向きにする
+				VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+				SetLightDirectionHandle(hAddLight,LightDir);
+				break;
+			case DX_LIGHTTYPE_POINT:
+				VECTOR LightPos = obj->GetTransform().position;
+				LightPos.y += 100.0f;
+				SetLightPositionHandle(hAddLight, LightPos);
+				break;
+			default:
+				break;
+			}
+		}
 	}
+}
+
+void Light::CreateAddLight(int type)
+{
+	Player* obj = ObjectManager::FindGameObject<Player>();
+	switch (type)
+	{
+	case DX_LIGHTTYPE_DIRECTIONAL:
+		if (obj != nullptr)
+		{
+			//Playerの向きをライトの向きにする
+			VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+			hAddLight = CreateDirLightHandle(LightDir);
+		}
+		else
+		{
+			hAddLight = CreateDirLightHandle(VGet(0.0f, 1.0f, 0.0f));
+		}
+		break;
+	case DX_LIGHTTYPE_POINT:
+		if (obj != nullptr)
+		{
+			VECTOR LightPos = obj->GetTransform().position;
+			LightPos.y += 100.0f;
+			hAddLight = CreatePointLightHandle(LightPos, 2000.0f, 0.0f, 0.006f, 0.0f);
+		}
+		else
+		{
+			hAddLight = CreatePointLightHandle(VGet(0.0f, 0.0f, 0.0f), 2000.0f, 0.0f, 0.006f, 0.0f);
+		}
+		break;
+		//case DX_LIGHTTYPE_SPOT:
+		//	ChangeLightTypeSpot();
+		//	break;
+	default:
+		break;
+	}
+	addLightType = type;
 }
