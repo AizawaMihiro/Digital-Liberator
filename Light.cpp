@@ -1,7 +1,20 @@
 #include "Light.h"
 #include "Player.h"
 
+namespace 
+{
+	const VECTOR DIRECTIONAL_LIGHT_VEC = VGet(0.0f, 0.0f, 1.0f);
+	const VECTOR POINT_LIGHT_POS = VGet(0.0f, 0.0f, 0.0f);
+	const float POINT_LIGHT_HEIGHT = 100.0f;
+	const float POINT_LIGHT_RANGE = 2000.0f;
+	const float POINT_LIGHT_ATTENUATION0 = 0.0f;
+	const float POINT_LIGHT_ATTENUATION1 = 0.006f;
+	const float POINT_LIGHT_ATTENUATION2 = 0.0f;
+}
+
 Light::Light()
+	: hAddLight(-1),
+	addLightType(DX_LIGHTTYPE_DIRECTIONAL)
 {
 	lightType = GetLightType();
 }
@@ -23,24 +36,26 @@ void Light::ChangeLight(int type)
 		if (obj != nullptr)
 		{
 			//Playerの向きをライトの向きにする
-			VECTOR LightDir =VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+			VECTOR LightDir =VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
 			ChangeLightTypeDir(LightDir);
 		}
 		else
 		{
-			ChangeLightTypeDir(VGet(0.0f, 1.0f, 0.0f));
+			ChangeLightTypeDir(DIRECTIONAL_LIGHT_VEC);
 		}
 		break;
 	case DX_LIGHTTYPE_POINT:
 		if (obj != nullptr)
 		{
 			VECTOR LightPos = obj->GetTransform().position;
-			LightPos.y += 100.0f;
-			ChangeLightTypePoint(LightPos, 2000.0f, 0.0f, 0.006f, 0.0f);
+			LightPos.y += POINT_LIGHT_HEIGHT;
+			ChangeLightTypePoint(LightPos, POINT_LIGHT_RANGE, 
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
 		}
 		else
 		{
-			ChangeLightTypePoint(VGet(0.0f, 0.0f, 0.0f), 2000.0f, 0.0f, 0.006f, 0.0f);
+			ChangeLightTypePoint(POINT_LIGHT_POS, POINT_LIGHT_RANGE, 
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
 		}
 		break;
 	//case DX_LIGHTTYPE_SPOT:
@@ -66,12 +81,12 @@ void Light::Update()
 		{
 		case DX_LIGHTTYPE_DIRECTIONAL:
 			//Playerの向きをライトの向きにする
-			VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+			VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
 			SetLightDirection(LightDir);
 			break;
 		case DX_LIGHTTYPE_POINT:
 			VECTOR LightPos = obj->GetTransform().position;
-			LightPos.y += 100.0f;
+			LightPos.y += POINT_LIGHT_HEIGHT;
 			SetLightPosition(LightPos);
 			break;
 		default:
@@ -83,12 +98,12 @@ void Light::Update()
 			{
 			case DX_LIGHTTYPE_DIRECTIONAL:
 				//Playerの向きをライトの向きにする
-				VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+				VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
 				SetLightDirectionHandle(hAddLight,LightDir);
 				break;
 			case DX_LIGHTTYPE_POINT:
 				VECTOR LightPos = obj->GetTransform().position;
-				LightPos.y += 100.0f;
+				LightPos.y += POINT_LIGHT_HEIGHT;
 				SetLightPositionHandle(hAddLight, LightPos);
 				break;
 			default:
@@ -107,7 +122,7 @@ void Light::CreateAddLight(int type)
 		if (obj != nullptr)
 		{
 			//Playerの向きをライトの向きにする
-			VECTOR LightDir = VTransform(VGet(0.0f, 0.0f, 1.0f), obj->GetTransform().GetRotationMatrix());
+			VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
 			hAddLight = CreateDirLightHandle(LightDir);
 		}
 		else
@@ -119,12 +134,14 @@ void Light::CreateAddLight(int type)
 		if (obj != nullptr)
 		{
 			VECTOR LightPos = obj->GetTransform().position;
-			LightPos.y += 100.0f;
-			hAddLight = CreatePointLightHandle(LightPos, 2000.0f, 0.0f, 0.006f, 0.0f);
+			LightPos.y += POINT_LIGHT_HEIGHT;
+			hAddLight = CreatePointLightHandle(LightPos, POINT_LIGHT_RANGE, 
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
 		}
 		else
 		{
-			hAddLight = CreatePointLightHandle(VGet(0.0f, 0.0f, 0.0f), 2000.0f, 0.0f, 0.006f, 0.0f);
+			hAddLight = CreatePointLightHandle(POINT_LIGHT_POS, POINT_LIGHT_RANGE, 
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
 		}
 		break;
 		//case DX_LIGHTTYPE_SPOT:
