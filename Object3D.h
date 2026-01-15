@@ -18,6 +18,13 @@ public:
 	const Transform& GetTransform() { return transform; }
 
 	/// <summary>
+	/// Transformデータを設定する
+	/// </summary>
+	/// <param name="_transform">設定する値</param>
+	/// <returns></returns>
+	const void SetTransform(const Transform& _transform) { transform = _transform; }
+
+	/// <summary>
 	/// 親オブジェクトを設定する
 	/// </summary>
 	/// <param name="_parent">親オブジェクト</param>

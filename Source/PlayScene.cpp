@@ -33,6 +33,7 @@ void PlayScene::Update()
 		SceneManager::ChangeScene("TITLE");
 	}
 	light->Update();
+	map->Update();
 }
 
 void PlayScene::Draw()

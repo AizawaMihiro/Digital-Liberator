@@ -5,7 +5,7 @@ namespace
 {
 	const VECTOR DIRECTIONAL_LIGHT_VEC = VGet(0.0f, 0.0f, 1.0f);
 	const VECTOR POINT_LIGHT_POS = VGet(0.0f, 0.0f, 0.0f);
-	const float POINT_LIGHT_HEIGHT = 100.0f;
+	const float POINT_LIGHT_HEIGHT = 70.0f;
 	const float POINT_LIGHT_RANGE = 2000.0f;
 	const float POINT_LIGHT_ATTENUATION0 = 0.0f;
 	const float POINT_LIGHT_ATTENUATION1 = 0.006f;

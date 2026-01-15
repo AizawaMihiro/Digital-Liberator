@@ -1,6 +1,7 @@
 #pragma once
 #include "Block.h"
 #include "MinerMaze.h"
+#include <vector>
 
 namespace {
 	const int DEF_MAP_SIZE = 15;
@@ -16,11 +17,14 @@ public:
 	Map(generator gen);
 	~Map();
 	void Instantinate();
+	void Update();
 	void Draw();	
 private:
+	bool CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale);
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };
 	int hBlockModel;
 	MinerMaze* maze_;
 	std::vector<std::vector<int>> MapData;
+	std::vector<Block*> blocks_;
 };
 

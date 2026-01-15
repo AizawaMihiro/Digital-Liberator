@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Player.h"
 
 /// <summary>
 /// ステージである迷路を生成するクラス
@@ -38,18 +39,91 @@ void Map::Instantinate()
 	MapData = maze_->GetGrid();
 }
 
-void Map::Draw()
+void Map::Update()
 {
-	for (int r = 0; r < DEF_MAP_SIZE; r++)
+	//当たり判定
+	Player* player = ObjectManager::FindGameObject<Player>();
+	if (player != nullptr)
 	{
-		for (int c = 0; c < DEF_MAP_SIZE; c++)
+		for (Block* block : blocks_)
 		{
-			if (MapData[r][c] == maze::WALL)
+			VECTOR3 playerPos = player->GetTransform().position;
+			VECTOR3 blockPos = block->GetTransform().position;
+			VECTOR3 playerScale = player->GetTransform().scale;
+			if (CheckHitBlock(playerPos,blockPos,playerScale))
 			{
-				Block* block = new Block(hBlockModel);
-				block->SetPosition(VECTOR3{ c * BLOCK::SIZE*2 ,0.0f,r * BLOCK::SIZE*2 });
-				block->Draw();
+				float distX = abs(playerPos.x - blockPos.x);
+				float distZ = abs(playerPos.z - blockPos.z);
+				float limitX = playerScale.x + BLOCK::SIZE;
+				float limitZ = playerScale.z + BLOCK::SIZE;
+				float overlapX = limitX - distX;
+				float overlapZ = limitZ - distZ;
+				Transform playerTransform = player->GetTransform();
+				if (overlapX < overlapZ)
+				{
+					if (playerPos.x < blockPos.x)
+					{
+						playerTransform.position.x -= overlapX;
+					}
+					else
+					{
+						playerTransform.position.x += overlapX;
+					}
+				}
+				else
+				{
+					if (playerPos.z < blockPos.z)
+					{
+						playerTransform.position.z -= overlapZ;
+					}
+					else
+					{
+						playerTransform.position.z += overlapZ;
+					}
+				}
+				player->SetTransform(playerTransform);
 			}
 		}
 	}
+}
+
+void Map::Draw()
+{
+	if (blocks_.size() < 1)
+	{
+		for (int r = 0; r < DEF_MAP_SIZE; r++)
+		{
+			for (int c = 0; c < DEF_MAP_SIZE; c++)
+			{
+				if (MapData[r][c] == maze::WALL)
+				{
+					Block* block = new Block(hBlockModel);
+					block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+					block->Draw();
+					blocks_.push_back(block);
+				}
+			}
+		}
+	}
+	else
+	{
+		for (Block* block : blocks_)
+		{
+			block->Draw();
+		}
+	}
+	
+}
+
+bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale)
+{
+	float distX = abs(playerPos.x - blockPos.x);
+	float distZ = abs(playerPos.z - blockPos.z);
+	float limitX = playerScale.x  + BLOCK::SIZE;
+	float limitZ = playerScale.z  + BLOCK::SIZE;
+	if (distX < limitX && distZ < limitZ)
+	{
+		return true;
+	}
+	return false;
 }
