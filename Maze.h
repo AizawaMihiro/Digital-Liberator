@@ -6,6 +6,7 @@ namespace maze
 {
 	const int LOAD = 0;
 	const int WALL = 1;
+	const int START = 2;
 }
 
 namespace {

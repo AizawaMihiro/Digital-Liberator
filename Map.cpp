@@ -37,6 +37,42 @@ Map::~Map()
 void Map::Instantinate()
 {
 	MapData = maze_->GetGrid();
+	//壁の傍にプレイヤーを生成する位置を決定する処理
+	//道でありかつ外壁と隣接しているマスを探し、スタート地点とする
+	bool setStart = false;
+	for (int i = 0; i < MapData[0].size(); i++)
+	{
+		if (MapData[1][i] == 0)
+		{
+			MapData[1][i] = maze::START;
+			setStart = true;
+			break;
+		}
+		if (MapData[DEF_MAP_SIZE -2][i] == 0)
+		{
+			MapData[DEF_MAP_SIZE - 2][i] = maze::START;
+			setStart = true;
+			break;
+		}
+	}
+	if (!setStart)//生成バグ対策
+	{
+		for (int i = 0; i < MapData.size(); i++)
+		{
+			if (MapData[i][1] == 0)
+			{
+				MapData[i][1] = maze::START;
+				setStart = true;
+				break;
+			}
+			if (MapData[i][DEF_MAP_SIZE - 2] == 0)
+			{
+				MapData[i][DEF_MAP_SIZE - 2] = maze::START;
+				setStart = true;
+				break;
+			}
+		}
+	}
 }
 
 void Map::Update()
@@ -101,6 +137,16 @@ void Map::Draw()
 					block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
 					block->Draw();
 					blocks_.push_back(block);
+				}
+				if (MapData[r][c] == maze::START)
+				{
+					Object3D* player = ObjectManager::FindGameObject<Player>();
+					if (player != nullptr)
+					{
+						Transform playerTransform = player->GetTransform();
+						playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 - BLOCK::SIZE * 2 };
+						player->SetTransform(playerTransform);
+					}
 				}
 			}
 		}
