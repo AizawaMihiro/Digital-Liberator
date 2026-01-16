@@ -16,8 +16,8 @@ enum CameraMode
 };
 
 namespace {
-	const float MOVE_SPEED = 2.0f;
-	const float HIDE_SPEED = 1.0f;
+	const float MOVE_SPEED = 4.0f;
+	const float HIDE_SPEED = 2.0f;
 	int moveX, moveY;
 }
 
@@ -48,5 +48,6 @@ private:
 	void MouseInput();
 	bool IsCheckMoveInput();
 	void CameraControl();
+	float flameTime;	//Žg—pŽž‚É*100‚·‚é
 };
 

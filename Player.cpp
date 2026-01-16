@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "ImGui/imgui.h"
 #include "Input.h"
+#include "Time.h"
 
 Player::Player()
 	:state(IDLE), cameraMode(THIRD_PERSON)
@@ -13,6 +14,7 @@ Player::Player()
 	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;
 	camera = FindGameObject<Camera>();
+	flameTime = Time::DeltaTime();
 }
 
 Player::~Player()
@@ -26,6 +28,7 @@ Player::~Player()
 
 void Player::Update()
 {
+	flameTime = Time::DeltaTime();
 	MouseInput();
 
 	if (IsCheckMoveInput())
@@ -99,21 +102,22 @@ void Player::UpdateIdle()
 
 void Player::UpdateMove()
 {
+	float moveRange = MOVE_SPEED * flameTime * 100;
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		transform.position = transform.position + VECTOR3(MOVE_SPEED, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
+		transform.position = transform.position + VECTOR3(moveRange, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		transform.position = transform.position + VECTOR3(-MOVE_SPEED, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
+		transform.position = transform.position + VECTOR3(-moveRange, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		transform.position = transform.position + VECTOR3(0.0f, 0.0f, MOVE_SPEED) * MGetRotY(transform.rotation.y);
+		transform.position = transform.position + VECTOR3(0.0f, 0.0f, moveRange) * MGetRotY(transform.rotation.y);
 	}
 	if (CheckHitKey(KEY_INPUT_S))
 	{
-		transform.position = transform.position + VECTOR3(0.0f, 0.0f, -MOVE_SPEED) * MGetRotY(transform.rotation.y);
+		transform.position = transform.position + VECTOR3(0.0f, 0.0f, -moveRange) * MGetRotY(transform.rotation.y);
 	}
 }
 
