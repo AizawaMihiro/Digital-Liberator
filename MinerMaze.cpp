@@ -84,7 +84,7 @@ void MinerMaze::DigSystem(int r, int c)
 		randDir[i][0] = dir[randIndex][0];
 		randDir[i][1] = dir[randIndex][1];
 	}
-
+	bool makeloop = false;
 	// 4方向に対して掘削を試みる
 	for (int i = 0;i < 4;i++)
 	{
@@ -96,11 +96,11 @@ void MinerMaze::DigSystem(int r, int c)
 		int sc = c + dc * 2;// second column
 		
 		// 掘削可能かチェック
-		if (sr<1 || sr >=height_)//上下
+		if (sr<1 || sr >=height_-1)//上下
 		{
 			continue;
 		}
-		if (sc<1 || sc >=width_)//左右
+		if (sc<1 || sc >=width_-1)//左右
 		{
 			continue;
 		}
@@ -110,13 +110,43 @@ void MinerMaze::DigSystem(int r, int c)
 		}
 		if (grid_[sr][sc] == maze::LOAD)// 2マス先が掘られている
 		{
+			makeloop = true;
 			continue;
 		}
 		// 掘削実行
 		grid_[nr][nc] = maze::LOAD;
-		grid_[sr][sc] = maze::LOAD;// 2マス先も掘る 見栄えが良くなる
+		grid_[sr][sc] = maze::LOAD;
 		// 再起処理
 		DigSystem(sr, c + dc * 2);
+	}
+
+	if (makeloop)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			int dr = randDir[i][0];//direction row
+			int dc = randDir[i][1];//direction column
+			int nr = r + dr;// new row
+			int nc = c + dc;// new column
+			int tr = r + dr * 3;// third row
+			int tc = c + dc * 3;// third column
+
+			// 掘削可能かチェック
+			if (tr < 1 || tr >= height_-1)//上下
+			{
+				continue;
+			}
+			if (tc < 1 || tc >= width_-1)//左右
+			{
+				continue;
+			}
+			if (grid_[nr][nc] == maze::LOAD)// すでに掘られている
+			{
+				continue;
+			}
+			// 掘削実行
+			grid_[tr][tc] = maze::LOAD;
+		}
 	}
 
 }
