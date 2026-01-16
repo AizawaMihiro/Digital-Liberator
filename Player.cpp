@@ -97,53 +97,58 @@ void Player::Draw()
 
 void Player::UpdateIdle()
 {
-	//transform.position.z += 0.25f;
+	//アニメーションを行う基本的なUpdate
 }
 
 void Player::UpdateMove()
 {
-	float moveRange = MOVE_SPEED * flameTime * 100;
+	float flameMoveDist = MOVE_SPEED * flameTime * 100;
+	VECTOR3 moveVec = { 0.0f,0.0f,0.0f };
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		transform.position = transform.position + VECTOR3(moveRange, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
+		moveVec.x += 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		transform.position = transform.position + VECTOR3(-moveRange, 0.0f, 0.0f) * MGetRotY(transform.rotation.y);
+		moveVec.x -= 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		transform.position = transform.position + VECTOR3(0.0f, 0.0f, moveRange) * MGetRotY(transform.rotation.y);
+		moveVec.z += 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_S))
 	{
-		transform.position = transform.position + VECTOR3(0.0f, 0.0f, -moveRange) * MGetRotY(transform.rotation.y);
+		moveVec.z -= 1.0f;
 	}
+	transform.position += moveVec.Normalize()* flameMoveDist * MGetRotY(transform.rotation.y);
 }
 
 void Player::UpdateHide()
 {
+	float flameMoveDist = HIDE_SPEED * flameTime * 100;
+	VECTOR3 moveVec = { 0.0f,0.0f,0.0f };
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		transform.position.x += HIDE_SPEED;
+		moveVec.x += 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		transform.position.x -= HIDE_SPEED;
+		moveVec.x -= 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		transform.position.z += HIDE_SPEED;
+		moveVec.z += 1.0f;
 	}
 	if (CheckHitKey(KEY_INPUT_S))
 	{
-		transform.position.z -= HIDE_SPEED;
+		moveVec.z -= 1.0f;
 	}
+	transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 }
 
 void Player::UpdateAttack()
 {
-	UpdateMove();
+	UpdateHide();
 	if (cameraMode == THIRD_PERSON)
 	{
 		camera->ChangeViewMode(false);

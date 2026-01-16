@@ -111,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 //次やること
 //迷路の生成の改良
-// √２走法の改善
+//ゲームループの完成
 //プレイヤーのアニメーション
 //敵のAI
 //敵のアニメーション
