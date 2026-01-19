@@ -21,7 +21,6 @@ public:
 private:
 	Player* player;
 	Camera* camera;
-	Enemy* enemy;
 	Map* map;
 	Light* light;
 };

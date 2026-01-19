@@ -95,7 +95,7 @@ void Map::Instantinate()
 						// 範囲内かチェック
 						if (checkY >= 0 && checkY < DEF_MAP_SIZE && checkX >= 0 && checkX < DEF_MAP_SIZE)
 						{
-							if (MapData[checkY][checkX] == maze::LOAD)
+							if (MapData[checkY][checkX] == maze::ROAD)
 							{
 								pathCount++;
 							}
@@ -115,7 +115,7 @@ void Map::Instantinate()
 							}
 							int checkY = r + y;
 							int checkX = c + x;
-							MapData[checkY][checkX] == maze::PATH;
+							MapData[checkY][checkX] = maze::PATH;
 						}
 					}
 				}
@@ -189,7 +189,7 @@ void Map::Draw()
 			{
 				switch (MapData[r][c])
 				{
-				case maze::LOAD:
+				case maze::ROAD:
 					break;
 				case maze::WALL:
 					block = new Block(hBlockModel);
@@ -201,7 +201,7 @@ void Map::Draw()
 					if (player != nullptr)
 					{
 						Transform playerTransform = player->GetTransform();
-						playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 - BLOCK::SIZE * 2 };
+						playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 };
 						player->SetTransform(playerTransform);
 					}
 					break;

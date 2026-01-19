@@ -4,7 +4,7 @@
 
 enum maze
 {
-	LOAD = 0, 
+	ROAD = 0, 
 	WALL = 1, 
 	START = 2, 
 	GOAL = 3, 

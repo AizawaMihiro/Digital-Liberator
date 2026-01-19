@@ -46,7 +46,7 @@ void MinerMaze::Instantiate()
 			c -= 2;
 		}
 	}
-	grid_[r][c] = maze::LOAD;
+	grid_[r][c] = maze::ROAD;
 
 	// 穴掘り法処理を実装した関数で再起処理を行う
 	DigSystem(r, c);
@@ -65,7 +65,7 @@ void MinerMaze::Draw()
 	{
 		for (int c = 0; c < width_; c++)
 		{
-			if (grid_[r][c] == maze::LOAD)
+			if (grid_[r][c] == maze::ROAD)
 			{
 				DrawBox(c * TILE_SIZE, r * TILE_SIZE, (c + 1) * TILE_SIZE, (r + 1) * TILE_SIZE, GetColor(255, 255, 255), TRUE);
 			}
@@ -105,18 +105,18 @@ void MinerMaze::DigSystem(int r, int c)
 		{
 			continue;
 		}
-		if (grid_[nr][nc] == maze::LOAD)// すでに掘られている
+		if (grid_[nr][nc] == maze::ROAD)// すでに掘られている
 		{
 			continue;
 		}
-		if (grid_[sr][sc] == maze::LOAD)// 2マス先が掘られている
+		if (grid_[sr][sc] == maze::ROAD)// 2マス先が掘られている
 		{
 			makeloop = true;
 			continue;
 		}
 		// 掘削実行
-		grid_[nr][nc] = maze::LOAD;
-		grid_[sr][sc] = maze::LOAD;
+		grid_[nr][nc] = maze::ROAD;
+		grid_[sr][sc] = maze::ROAD;
 		// 再起処理
 		DigSystem(sr, c + dc * 2);
 	}
@@ -141,12 +141,12 @@ void MinerMaze::DigSystem(int r, int c)
 			{
 				continue;
 			}
-			if (grid_[nr][nc] == maze::LOAD)// すでに掘られている
+			if (grid_[nr][nc] == maze::ROAD)// すでに掘られている
 			{
 				continue;
 			}
 			// 掘削実行
-			grid_[tr][tc] = maze::LOAD;
+			grid_[tr][tc] = maze::ROAD;
 		}
 	}
 

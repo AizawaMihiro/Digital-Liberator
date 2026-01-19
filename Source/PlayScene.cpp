@@ -10,11 +10,10 @@ PlayScene::PlayScene()
 {
 	camera = new Camera();
 	player = new Player();
-	enemy = new Enemy();
 	map = new Map();
 	map->Instantinate();
 	map->Draw();
-	Axis* axis = new Axis(); // 座標軸表示用
+	Axis* axis = new Axis(); // 座標軸表示用 完成後に削除予定
 
 	light = new Light();
 	light->ChangeLight(DX_LIGHTTYPE_DIRECTIONAL);
@@ -25,6 +24,26 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
+	if (player != nullptr)
+	{
+		player->DestroyMe();
+		player = nullptr;
+	}
+	if (camera != nullptr)
+	{
+		camera->DestroyMe();
+		camera = nullptr;
+	}
+	if (map != nullptr)
+	{
+		delete map;
+		map = nullptr;
+	}
+	if (light != nullptr)
+	{
+		delete light;
+		light = nullptr;
+	}
 }
 
 void PlayScene::Update()

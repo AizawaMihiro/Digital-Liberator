@@ -52,6 +52,32 @@ void Enemy::Draw()
 {
 	Object3D::Draw();
 	MV1DrawModel(hModel);
+	//å¸Ç´ï\é¶ópÇÃç¿ïWé≤ï`âÊ
+	unsigned int red = GetColor(255, 0, 0);
+	float hight = 40.0f;
+	DrawLine3D(transform.position + VECTOR3(0, hight, -50) * MGetRotY(transform.rotation.y),
+		transform.position + VECTOR3(0, hight, 50) * MGetRotY(transform.rotation.y), red);
+	DrawCone3D(transform.position + VECTOR3(0, hight, 50) * MGetRotY(transform.rotation.y),
+		transform.position + VECTOR3(0, hight, 40) * MGetRotY(transform.rotation.y), 5, 10, red, red, 1);
+}
+
+void Enemy::SetPosition(VECTOR3 pos)
+{
+	transform.position = pos;
+	homePosition = VECTOR3(transform.position.x, transform.position.y, transform.position.z + BLOCK::SIZE * 2);
+	for (int z = -1; z <= 1; z++)
+	{
+		for (int x = -1; x <= 1; x++)
+		{
+			if (z == 0 && x == 0) {
+				continue;
+			}
+			patrolPoints.push_back(VECTOR3(homePosition.x + x * BLOCK::SIZE * 2, homePosition.y, homePosition.z + z * BLOCK::SIZE * 2));
+		}
+	}
+	currentPatrolIndex = 0;
+	transform.position = patrolPoints[currentPatrolIndex];
+	transform.rotation.y = 90.0f * DegToRad;
 }
 
 void Enemy::UpdatePatrol()
