@@ -1,5 +1,6 @@
 #pragma once
 #include "Block.h"
+#include "Enemy.h"
 #include "MinerMaze.h"
 #include <vector>
 
@@ -26,5 +27,6 @@ private:
 	MinerMaze* maze_;
 	std::vector<std::vector<int>> MapData;
 	std::vector<Block*> blocks_;
+	std::vector<Enemy*> enemies_;
 };
 

@@ -2,12 +2,15 @@
 #include <vector>
 #include <list>
 
-namespace maze
+enum maze
 {
-	const int LOAD = 0;
-	const int WALL = 1;
-	const int START = 2;
-}
+	LOAD = 0, 
+	WALL = 1, 
+	START = 2, 
+	GOAL = 3, 
+	PILLAR = 4,
+	PATH = 5
+};
 
 namespace {
 	const int TILE_SIZE = 32;

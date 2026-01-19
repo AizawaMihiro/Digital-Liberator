@@ -100,7 +100,8 @@ void MinerMaze::DigSystem(int r, int c)
 		{
 			continue;
 		}
-		if (sc<1 || sc >=width_-1)//ç∂âE
+		if (sc<1 || sc >=width_-1
+			)//ç∂âE
 		{
 			continue;
 		}

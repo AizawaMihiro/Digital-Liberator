@@ -8,6 +8,9 @@ public:
 	~Enemy();
 	void Update() override;
 	void Draw() override;
+	void SetPosition(VECTOR3 pos) {
+		transform.position = pos;
+	}
 private:
 	enum State
 	{

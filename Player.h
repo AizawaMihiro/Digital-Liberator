@@ -34,7 +34,6 @@ public:
 	~Player();
 	void Update() override;
 	void Draw() override;
-	void ChangeState(State newState);
 
 private:
 	State state;
@@ -44,6 +43,7 @@ private:
 	void UpdateHide();
 	void UpdateAttack();
 	void UpdateDead();
+	void ChangeState(State newState);
 	Camera* camera;
 	void MouseInput();
 	bool IsCheckMoveInput();

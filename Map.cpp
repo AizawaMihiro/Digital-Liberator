@@ -16,14 +16,14 @@ Map::Map(generator gen)
 {
 	switch (gen)
 	{
-	case STICK:
-		break;
-	case DIG:
+	//case generator::STICK:
+	//	break;
+	case generator::DIG:
 		maze_ = new MinerMaze(DEF_MAP_SIZE, DEF_MAP_SIZE);
 		maze_->Instantiate();
 		break;
-	case WALL:
-		break;
+	//case generator::WALL:
+	//	break;
 	default:
 		break;
 	}
@@ -70,6 +70,55 @@ void Map::Instantinate()
 				MapData[i][DEF_MAP_SIZE - 2] = maze::START;
 				setStart = true;
 				break;
+			}
+		}
+	}
+	//独立した壁（柱）が生成された所の周囲にEnemyが移動する道を生成する処理
+	for (int r = 0; r < MapData.size(); r++)
+	{
+		for (int c = 0; c < MapData[r].size(); c++)
+		{
+			//柱を探す
+			if (MapData[r][c] == maze::WALL)
+			{
+				int pathCount = 0;
+				//周囲8方向を調べる
+				for (int y = -1; y <= 1; y++)
+				{
+					for (int x = -1; x <= 1; x++)
+					{
+						if (y == 0 && x == 0) {
+							continue; // 自分自身はスキップ
+						}
+						int checkY = r + y;
+						int checkX = c + x;
+						// 範囲内かチェック
+						if (checkY >= 0 && checkY < DEF_MAP_SIZE && checkX >= 0 && checkX < DEF_MAP_SIZE)
+						{
+							if (MapData[checkY][checkX] == maze::LOAD)
+							{
+								pathCount++;
+							}
+						}
+					}
+				}
+				//周囲に壁が無い(柱である)場合、道を生成する
+				if (pathCount==8)
+				{
+					for (int y = -1; y <= 1; y++)
+					{
+						for (int x = -1; x <= 1; x++)
+						{
+							if (y == 0 && x == 0) {
+								MapData[r][c] = maze::PILLAR;//柱としてマーク
+								continue;
+							}
+							int checkY = r + y;
+							int checkX = c + x;
+							MapData[checkY][checkX] == maze::PATH;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -125,28 +174,52 @@ void Map::Update()
 
 void Map::Draw()
 {
-	if (blocks_.size() < 1)
+	if (blocks_.size() < 1)//最初の一回だけ迷路の情報から生成する
 	{
+		//コンパイルエラーC2360回避のために一時的に変数を用意
+		//nullptrのものは使用時に初期化する
+		Block* block = nullptr;
+		Block* pillar = nullptr;
+		Enemy* enemy = nullptr;
+		Player* player = ObjectManager::FindGameObject<Player>();
+
 		for (int r = 0; r < DEF_MAP_SIZE; r++)
 		{
 			for (int c = 0; c < DEF_MAP_SIZE; c++)
 			{
-				if (MapData[r][c] == maze::WALL)
+				switch (MapData[r][c])
 				{
-					Block* block = new Block(hBlockModel);
+				case maze::LOAD:
+					break;
+				case maze::WALL:
+					block = new Block(hBlockModel);
 					block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
 					block->Draw();
 					blocks_.push_back(block);
-				}
-				if (MapData[r][c] == maze::START)
-				{
-					Object3D* player = ObjectManager::FindGameObject<Player>();
+					break;
+				case maze::START:
 					if (player != nullptr)
 					{
 						Transform playerTransform = player->GetTransform();
 						playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 - BLOCK::SIZE * 2 };
 						player->SetTransform(playerTransform);
 					}
+					break;
+				case maze::GOAL:
+					break;
+				case maze::PILLAR:
+					pillar = new Block(hBlockModel);
+					pillar->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+					pillar->Draw();
+					blocks_.push_back(pillar);
+					enemy = new Enemy();
+					enemy->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 });
+					enemies_.push_back(enemy);
+					break;
+				case maze::PATH:
+					break;
+				default:
+					break;
 				}
 			}
 		}
