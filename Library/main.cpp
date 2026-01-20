@@ -110,7 +110,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 //次やること
-//タイトル画面とプレイ画面を行き来するとライトがバグるのを修正
 //ゲームループの完成
 //プレイヤーのアニメーション
 //敵のAI

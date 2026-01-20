@@ -7,13 +7,13 @@ class Light
 public:
 	Light();
 	~Light();
+	void Update();
 	/// <summary>
 	/// ライトの種類を変更する
 	/// </summary>
 	/// <param name="type">DX_LIGHTTYPE_~で表記する</param>
 	void ChangeLight(int type);
 	int DefaultLight(bool flag);
-	void Update();
 	void CreateAddLight(int type);
 private:
 	int lightType;

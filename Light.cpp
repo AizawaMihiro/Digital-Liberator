@@ -1,5 +1,6 @@
 #include "Light.h"
 #include "Player.h"
+#include "ImGui/imgui.h"
 
 namespace 
 {
@@ -21,55 +22,11 @@ Light::Light()
 
 Light::~Light()
 {
-}
-
-void Light::ChangeLight(int type)
-{
-	if (lightType == type)
+	if (hAddLight != -1)
 	{
-		return;
+		DeleteLightHandle(hAddLight);
+		hAddLight = -1;
 	}
-	Player* obj = ObjectManager::FindGameObject<Player>();
-	switch (type)
-	{
-	case DX_LIGHTTYPE_DIRECTIONAL:
-		if (obj != nullptr)
-		{
-			//Playerの向きをライトの向きにする
-			VECTOR LightDir =VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
-			ChangeLightTypeDir(LightDir);
-		}
-		else
-		{
-			ChangeLightTypeDir(DIRECTIONAL_LIGHT_VEC);
-		}
-		break;
-	case DX_LIGHTTYPE_POINT:
-		if (obj != nullptr)
-		{
-			VECTOR LightPos = obj->GetTransform().position;
-			LightPos.y += POINT_LIGHT_HEIGHT;
-			ChangeLightTypePoint(LightPos, POINT_LIGHT_RANGE, 
-				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
-		}
-		else
-		{
-			ChangeLightTypePoint(POINT_LIGHT_POS, POINT_LIGHT_RANGE, 
-				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
-		}
-		break;
-	//case DX_LIGHTTYPE_SPOT:
-	//	ChangeLightTypeSpot();
-	//	break;
-	default:
-		break;
-	}
-	lightType = type;
-}
-
-int Light::DefaultLight(bool flag)
-{
-	return SetLightEnable(flag);
 }
 
 void Light::Update()
@@ -111,6 +68,62 @@ void Light::Update()
 			}
 		}
 	}
+
+	VECTOR LightPos = obj->GetTransform().position;
+	ImGui::Begin("Light");
+	ImGui::InputFloat("PositionX", &LightPos.x);
+	ImGui::InputFloat("PositionY", &LightPos.y);
+	ImGui::InputFloat("PositionZ", &LightPos.z);
+	ImGui::End();
+}
+
+void Light::ChangeLight(int type)
+{
+	if (lightType == type)
+	{
+		return;
+	}
+	Player* obj = ObjectManager::FindGameObject<Player>();
+	switch (type)
+	{
+	case DX_LIGHTTYPE_DIRECTIONAL:
+		if (obj != nullptr)
+		{
+			//Playerの向きをライトの向きにする
+			VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
+			ChangeLightTypeDir(LightDir);
+		}
+		else
+		{
+			ChangeLightTypeDir(DIRECTIONAL_LIGHT_VEC);
+		}
+		break;
+	case DX_LIGHTTYPE_POINT:
+		if (obj != nullptr)
+		{
+			VECTOR LightPos = obj->GetTransform().position;
+			LightPos.y += POINT_LIGHT_HEIGHT;
+			ChangeLightTypePoint(LightPos, POINT_LIGHT_RANGE,
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
+		}
+		else
+		{
+			ChangeLightTypePoint(POINT_LIGHT_POS, POINT_LIGHT_RANGE,
+				POINT_LIGHT_ATTENUATION0, POINT_LIGHT_ATTENUATION1, POINT_LIGHT_ATTENUATION2);
+		}
+		break;
+		//case DX_LIGHTTYPE_SPOT:
+		//	ChangeLightTypeSpot();
+		//	break;
+	default:
+		break;
+	}
+	lightType = type;
+}
+
+int Light::DefaultLight(bool flag)
+{
+	return SetLightEnable(flag);
 }
 
 void Light::CreateAddLight(int type)

@@ -41,11 +41,11 @@ void Enemy::Update()
 		break;
 	}
 
-	ImGui::Begin("Enemy");
-	ImGui::InputFloat("PositionX", &transform.position.x);
-	ImGui::InputFloat("PositionY", &transform.position.y);
-	ImGui::InputFloat("PositionZ", &transform.position.z);
-	ImGui::End();
+	//ImGui::Begin("Enemy");
+	//ImGui::InputFloat("PositionX", &transform.position.x);
+	//ImGui::InputFloat("PositionY", &transform.position.y);
+	//ImGui::InputFloat("PositionZ", &transform.position.z);
+	//ImGui::End();
 }
 
 void Enemy::Draw()
