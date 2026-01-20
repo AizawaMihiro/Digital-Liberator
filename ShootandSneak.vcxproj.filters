@@ -116,6 +116,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="namespace.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="TextMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -193,5 +194,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="TextMap.cpp" />
   </ItemGroup>
 </Project>

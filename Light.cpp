@@ -69,12 +69,12 @@ void Light::Update()
 		}
 	}
 
-	VECTOR LightPos = obj->GetTransform().position;
-	ImGui::Begin("Light");
-	ImGui::InputFloat("PositionX", &LightPos.x);
-	ImGui::InputFloat("PositionY", &LightPos.y);
-	ImGui::InputFloat("PositionZ", &LightPos.z);
-	ImGui::End();
+	//VECTOR LightPos = obj->GetTransform().position;
+	//ImGui::Begin("Light");
+	//ImGui::InputFloat("PositionX", &LightPos.x);
+	//ImGui::InputFloat("PositionY", &LightPos.y);
+	//ImGui::InputFloat("PositionZ", &LightPos.z);
+	//ImGui::End();
 }
 
 void Light::ChangeLight(int type)

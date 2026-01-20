@@ -1,5 +1,7 @@
 #include "Map.h"
 #include "Player.h"
+#include "TextMap.h"
+#include <assert.h>
 
 /// <summary>
 /// ステージである迷路を生成するクラス
@@ -9,7 +11,6 @@
 Map::Map()
 	:Map(DIG)
 {
-	hBlockModel = MV1LoadModel("Assets/model/Blockcolord.mv1");
 }
 
 Map::Map(generator gen)
@@ -27,6 +28,8 @@ Map::Map(generator gen)
 	default:
 		break;
 	}
+	hBlockModel = MV1LoadModel("Assets/model/Blockcolord.mv1");
+	assert(hBlockModel != -1);
 }
 
 Map::~Map()
@@ -122,6 +125,8 @@ void Map::Instantinate()
 			}
 		}
 	}
+
+	textMap_ = new TextMap(MapData);
 }
 
 void Map::Update()
@@ -231,7 +236,6 @@ void Map::Draw()
 			block->Draw();
 		}
 	}
-	
 }
 
 bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale)

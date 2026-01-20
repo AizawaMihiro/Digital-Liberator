@@ -11,6 +11,8 @@ namespace {
 	};
 }
 
+class TextMap;
+
 class Map
 {
 public:
@@ -25,6 +27,7 @@ private:
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };
 	int hBlockModel;
 	MinerMaze* maze_;
+	TextMap* textMap_ = nullptr;
 	std::vector<std::vector<int>> MapData;
 	std::vector<Block*> blocks_;
 	std::vector<Enemy*> enemies_;
