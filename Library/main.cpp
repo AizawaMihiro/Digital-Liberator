@@ -18,6 +18,7 @@
 #include "../Source/Screen.h"
 #include "../ImGui/imgui_impl_dxlib.hpp"
 #include "../Input.h"
+#include "../global.h"
 #include <time.h>
 
 #define CoGVersion "4.5"
@@ -66,6 +67,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	AppInit();
 	Input::Initialize(hwnd);
+	BOOL ret = GetClientRect(hwnd, Global::ClientRect);
+	if (ret == 0)
+	{
+		OutputDebugString(std::to_string(GetLastError()).c_str());
+	}
+	
 
 	while (true) {
 #if IMGUI
