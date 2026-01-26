@@ -8,7 +8,7 @@ class Enemy;
 
 class TextMap : public  GameObject
 {
-	public:
+public:
 	TextMap();
 	TextMap(std::vector<std::vector<int>> mapData);
 	~TextMap();
@@ -17,6 +17,8 @@ class TextMap : public  GameObject
 private:
 	std::vector<std::vector<int>> MapData;
 	Player* player_;
+	std::pair<int, int> playerPos_;
 	std::list<Enemy*> enemies_;
+	std::vector<std::pair<int, int>> enemyPos_;
 };
 

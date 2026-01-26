@@ -13,7 +13,9 @@ namespace Text
 	int FontWidth = 8;
 }
 
+//必ずマップデータを渡して生成すること
 TextMap::TextMap()
+	: TextMap(std::vector<std::vector<int>>())
 {
 }
 
@@ -23,6 +25,7 @@ TextMap::TextMap(std::vector<std::vector<int>> mapData)
 	player_ = FindGameObject<Player>();
 	std::list<Enemy*> tempEnemies = ObjectManager::FindGameObjects<Enemy>();
 	enemies_.assign(tempEnemies.begin(), tempEnemies.end());
+	playerPos_ = std::pair<int, int>(-1, -1);
 }
 
 TextMap::~TextMap()
@@ -31,7 +34,25 @@ TextMap::~TextMap()
 
 void TextMap::Update()
 {
-	//あとで移動するプレイヤーなどをここで更新する
+	//プレイヤーの位置をマップ上の座標に変換して保存する
+	if (player_ != nullptr)
+	{
+		Transform playerTransform = player_->GetTransform();
+		int playerMapX = static_cast<int>((playerTransform.position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int playerMapY = static_cast<int>((playerTransform.position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		playerPos_ = std::pair<int, int>(playerMapX, playerMapY);
+	}
+	//敵の位置も同様に取得しておく
+	if (enemies_.size() != 0) 
+	{
+		enemyPos_.clear();
+		for (auto enemy : enemies_) {
+			Transform enemyTransform = enemy->GetTransform();
+			int enemyMapX = static_cast<int>((enemyTransform.position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+			int enemyMapY = static_cast<int>((enemyTransform.position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+			enemyPos_.push_back(std::pair<int, int>(enemyMapX, enemyMapY));
+		}
+	}
 }
 
 void TextMap::Draw()
@@ -75,24 +96,33 @@ void TextMap::Draw()
 	//プレイヤーの位置を反映
 	if (player_ != nullptr)
 	{
-		Transform playerTransform = player_->GetTransform();
-		int playerMapX = static_cast<int>(playerTransform.position.x / (BLOCK::SIZE * 2));
-		int playerMapY = static_cast<int>(playerTransform.position.z / (BLOCK::SIZE * 2));
-		//範囲内チェック
-		if (playerMapY >= 0 && playerMapY < line.size() &&
-			playerMapX >= 0 && playerMapX < line[playerMapY].size())
+		int px = playerPos_.first;
+		int py = playerPos_.second;
+		if (py >= 0 && py < line.size() && px >= 0 && px < line[py].size())
 		{
-			line[playerMapY][playerMapX] = "P";
+			line[py][px] = "P";
+		}
+	}
+	//敵の位置を反映
+	if (enemies_.size() != 0)
+	{
+		for (auto ePos : enemyPos_) {
+			int ex = ePos.first;
+			int ey = ePos.second;
+			if (ey >= 0 && ey < line.size() && ex >= 0 && ex < line[ey].size())
+			{
+				line[ey][ex] = "E";
+			}
 		}
 	}
 	
 	//テキスト描画
-	std::pair<int, int> screenSize = Global::WindowSize();
-	//std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
+	//std::pair<int, int> screenSize = std::pair<int, int>(Global::ClientRect->right, Global::ClientRect->bottom);
+	std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
 	for (int y = 0; y < MapData.size(); y++)
 	{
 		for (int x = 0; x < MapData[y].size(); x++) {
-			DrawString(screenSize.first+(-x * Text::FontWidth), 20 + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
+			DrawString(screenSize.first-(x * Text::FontWidth), 20 + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
 		}
 	}
 }
