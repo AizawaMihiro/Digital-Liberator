@@ -126,6 +126,55 @@ void Map::Instantinate()
 		}
 	}
 
+	//迷路データから実際のオブジェクトを生成する処理
+	//コンパイルエラーC2360回避のために一時的に変数を用意
+		//nullptrのものは使用時に初期化する
+	Block* block = nullptr;
+	Block* pillar = nullptr;
+	Enemy* enemy = nullptr;
+	Player* player = ObjectManager::FindGameObject<Player>();
+
+	for (int r = 0; r < DEF_MAP_SIZE; r++)
+	{
+		for (int c = 0; c < DEF_MAP_SIZE; c++)
+		{
+			switch (MapData[r][c])
+			{
+			case maze::ROAD:
+				break;
+			case maze::WALL:
+				block = new Block(hBlockModel);
+				block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+				block->Draw();
+				blocks_.push_back(block);
+				break;
+			case maze::START:
+				if (player != nullptr)
+				{
+					Transform playerTransform = player->GetTransform();
+					playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 };
+					player->SetTransform(playerTransform);
+				}
+				break;
+			case maze::GOAL:
+				break;
+			case maze::PILLAR:
+				pillar = new Block(hBlockModel);
+				pillar->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+				pillar->Draw();
+				blocks_.push_back(pillar);
+				enemy = new Enemy();
+				enemy->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 });
+				enemies_.push_back(enemy);
+				break;
+			case maze::PATH:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
 	textMap_ = new TextMap(MapData);
 }
 
@@ -179,62 +228,9 @@ void Map::Update()
 
 void Map::Draw()
 {
-	if (blocks_.size() < 1)//最初の一回だけ迷路の情報から生成する
+	for (Block* block : blocks_)
 	{
-		//コンパイルエラーC2360回避のために一時的に変数を用意
-		//nullptrのものは使用時に初期化する
-		Block* block = nullptr;
-		Block* pillar = nullptr;
-		Enemy* enemy = nullptr;
-		Player* player = ObjectManager::FindGameObject<Player>();
-
-		for (int r = 0; r < DEF_MAP_SIZE; r++)
-		{
-			for (int c = 0; c < DEF_MAP_SIZE; c++)
-			{
-				switch (MapData[r][c])
-				{
-				case maze::ROAD:
-					break;
-				case maze::WALL:
-					block = new Block(hBlockModel);
-					block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
-					block->Draw();
-					blocks_.push_back(block);
-					break;
-				case maze::START:
-					if (player != nullptr)
-					{
-						Transform playerTransform = player->GetTransform();
-						playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 };
-						player->SetTransform(playerTransform);
-					}
-					break;
-				case maze::GOAL:
-					break;
-				case maze::PILLAR:
-					pillar = new Block(hBlockModel);
-					pillar->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
-					pillar->Draw();
-					blocks_.push_back(pillar);
-					enemy = new Enemy();
-					enemy->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 });
-					enemies_.push_back(enemy);
-					break;
-				case maze::PATH:
-					break;
-				default:
-					break;
-				}
-			}
-		}
-	}
-	else
-	{
-		for (Block* block : blocks_)
-		{
-			block->Draw();
-		}
+		block->Draw();
 	}
 }
 
