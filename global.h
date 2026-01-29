@@ -4,5 +4,10 @@
 
 namespace Global
 {
-	static LPRECT ClientRect = new RECT();
+	static int ScreenWidth;
+	static int ScreenHeight;
+	inline void SetScreenSize(int width, int hight) {
+		ScreenWidth = width;
+		ScreenHeight = hight;
+	}
 }

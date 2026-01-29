@@ -67,12 +67,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	AppInit();
 	Input::Initialize(hwnd);
-	BOOL ret = GetClientRect(hwnd, Global::ClientRect);
-	if (ret == 0)
-	{
-		OutputDebugString(std::to_string(GetLastError()).c_str());
-	}
 	
+	int width, height;
+	int ColorBit;
+	int sucsessflag;
+	sucsessflag = GetScreenState(&width, &height, &ColorBit);
+	Global::SetScreenSize(width, height);
+	if (sucsessflag == -1)
+	{
+		OutputDebugString("GetScreenState failed\n");
+	}
 
 	while (true) {
 #if IMGUI

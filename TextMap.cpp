@@ -6,6 +6,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include "ImGui/imgui.h"
 
 namespace Text
 {
@@ -117,12 +118,21 @@ void TextMap::Draw()
 	}
 	
 	//テキスト描画
-	//std::pair<int, int> screenSize = std::pair<int, int>(Global::ClientRect->right, Global::ClientRect->bottom);
-	std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
+	std::pair<int, int> screenSize = std::pair<int, int>(Global::ScreenWidth, Global::ScreenHeight);
+	//std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
 	for (int y = 0; y < MapData.size(); y++)
 	{
 		for (int x = 0; x < MapData[y].size(); x++) {
 			DrawString(screenSize.first-(x * Text::FontWidth), 20 + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
 		}
 	}
+
+	//デバッグ用にグローバル変数を表示
+	int Width = Global::ScreenWidth;
+	int Height = Global::ScreenHeight;
+
+	ImGui::Begin("Global");
+	ImGui::Text("ScreenWidth: %d", Width);
+	ImGui::Text("ScreenHeight: %d", Height);
+	ImGui::End();
 }
