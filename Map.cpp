@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "TextMap.h"
 #include <assert.h>
+#include <queue>
 
 /// <summary>
 /// ステージである迷路を生成するクラス
@@ -126,6 +127,30 @@ void Map::Instantinate()
 		}
 	}
 
+	//ゴール地点の設定
+	//スタート地点から最も遠い経路のマスをゴール地点とする
+	int startX = -1;
+	int startY = -1;
+	for (int r = 0; r < DEF_MAP_SIZE; r++)
+	{
+		for (int c = 0; c < DEF_MAP_SIZE; c++)
+		{
+			if (MapData[r][c] == maze::START)
+			{
+				startX = c;
+				startY = r;
+				break;
+			}
+		}
+		if (startX != -1 && startY != -1)
+		{
+			break;
+		}
+	}
+	std::pair<int, int> goalPos = FindMoredistantPoint(startX, startY);
+	MapData[goalPos.first][goalPos.second] = maze::GOAL;
+
+
 	//迷路データから実際のオブジェクトを生成する処理
 	//コンパイルエラーC2360回避のために一時的に変数を用意
 		//nullptrのものは使用時に初期化する
@@ -245,4 +270,45 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 		return true;
 	}
 	return false;
+}
+
+std::pair<int, int> Map::FindMoredistantPoint(int startX, int startY)
+{
+	//DFSで全マスを探索し、距離を計測する
+	std::pair<int, int> moreDistPoint;
+	int maxDist = -1;
+	std::vector<std::vector<bool>> visited(DEF_MAP_SIZE, std::vector<bool>(DEF_MAP_SIZE, false));
+	std::queue<std::pair<std::pair<int, int>, int>> q;
+	q.push({ {startY, startX}, 0 });
+	visited[startY][startX] = true;
+	while (!q.empty())
+	{
+		auto current = q.front();
+		q.pop();
+		int currY = current.first.first;
+		int currX = current.first.second;
+		int currDist = current.second;
+		// 現在の距離が最大距離を更新した場合、座標を保存
+		if (currDist > maxDist)
+		{
+			maxDist = currDist;
+			moreDistPoint = { currY, currX };
+		}
+		// 4方向に移動
+		for (int i = 0; i < 4; i++)
+		{
+			int newY = currY + maze_->dir[i][0];
+			int newX = currX + maze_->dir[i][1];
+			// 範囲内かつ道であり、未訪問の場合
+			if (newY >= 0 && newY < DEF_MAP_SIZE && newX >= 0 && newX < DEF_MAP_SIZE)
+			{
+				if ((MapData[newY][newX] == maze::ROAD || MapData[newY][newX] == maze::PATH) && !visited[newY][newX])
+				{
+					visited[newY][newX] = true;
+					q.push({ {newY, newX}, currDist + 1 });
+				}
+			}
+		}
+	}
+	return moreDistPoint;
 }

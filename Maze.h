@@ -24,8 +24,8 @@ public:
 	virtual void Instantiate() =0;
 	virtual void Update() =0;
 	virtual void Draw() =0;
-protected:
 	int dir[4][2] = { { -1,0 },{ 1,0 },{ 0,-1 },{ 0,1 } };// è„â∫ç∂âE
+protected:
 	int width_;
 	int height_;
 	std::vector<std::vector<int>> grid_;	

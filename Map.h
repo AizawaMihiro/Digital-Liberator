@@ -31,5 +31,10 @@ private:
 	std::vector<std::vector<int>> MapData;
 	std::vector<Block*> blocks_;
 	std::vector<Enemy*> enemies_;
+	/// <summary>
+	/// w’è’n“_‚©‚çÅ‚à‰“‚¢êŠ‚ğ’T‚·ŠÖ”
+	/// </summary>
+	/// <returns>std::pair first=Y second=X</returns>
+	std::pair<int, int> FindMoredistantPoint(int startX, int startY);
 };
 

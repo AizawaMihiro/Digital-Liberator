@@ -118,8 +118,8 @@ void TextMap::Draw()
 	}
 	
 	//テキスト描画
-	std::pair<int, int> screenSize = std::pair<int, int>(Global::ScreenWidth, Global::ScreenHeight);
-	//std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
+	//std::pair<int, int> screenSize = std::pair<int, int>(Global::ScreenWidth, Global::ScreenHeight);
+	std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
 	for (int y = 0; y < MapData.size(); y++)
 	{
 		for (int x = 0; x < MapData[y].size(); x++) {
