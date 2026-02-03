@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "Player.h"
+#include "Goalpost.h"
 #include "TextMap.h"
 #include <assert.h>
 #include <queue>
@@ -41,6 +42,12 @@ Map::~Map()
 void Map::Instantinate()
 {
 	MapData = maze_->GetGrid();
+	while (!CheckErrorMaze())
+	{
+		maze_->Instantiate();
+		maze_->GetGrid();
+	}
+
 	//壁の傍にプレイヤーを生成する位置を決定する処理
 	//道でありかつ外壁と隣接しているマスを探し、スタート地点とする
 	bool setStart = false;
@@ -147,7 +154,7 @@ void Map::Instantinate()
 			break;
 		}
 	}
-	std::pair<int, int> goalPos = FindMoredistantPoint(startX, startY);
+	std::pair<int, int> goalPos = FindMoreDistantPoint(startX, startY);
 	MapData[goalPos.first][goalPos.second] = maze::GOAL;
 
 
@@ -158,6 +165,7 @@ void Map::Instantinate()
 	Block* pillar = nullptr;
 	Enemy* enemy = nullptr;
 	Player* player = ObjectManager::FindGameObject<Player>();
+	Goalpost* goalpost = nullptr;
 
 	for (int r = 0; r < DEF_MAP_SIZE; r++)
 	{
@@ -182,6 +190,9 @@ void Map::Instantinate()
 				}
 				break;
 			case maze::GOAL:
+				goalpost = new Goalpost();
+				goalpost->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,size*2,r * BLOCK::SIZE * 2 });
+				goalpost->Draw();
 				break;
 			case maze::PILLAR:
 				pillar = new Block(hBlockModel);
@@ -272,7 +283,7 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 	return false;
 }
 
-std::pair<int, int> Map::FindMoredistantPoint(int startX, int startY)
+std::pair<int, int> Map::FindMoreDistantPoint(int startX, int startY)
 {
 	//DFSで全マスを探索し、距離を計測する
 	std::pair<int, int> moreDistPoint;
@@ -311,4 +322,33 @@ std::pair<int, int> Map::FindMoredistantPoint(int startX, int startY)
 		}
 	}
 	return moreDistPoint;
+}
+
+//	MapDataのマップが生成バグで極小だった場合falseを返す
+bool Map::CheckErrorMaze()
+{
+	int countLoad = 0;
+	for (int r = 0; r < DEF_MAP_SIZE; r++)
+	{
+		for (int c = 0; c < DEF_MAP_SIZE; c++)
+		{
+			switch (MapData[r][c])
+			{
+			case maze::ROAD:
+				countLoad++;
+				break;
+			case maze::WALL:
+				break;
+			}
+		}
+		if (countLoad > 10)
+		{
+			break;
+		}
+	}
+	if (countLoad < 10)
+	{
+		return false;
+	}
+	return true;
 }

@@ -35,6 +35,7 @@ private:
 	/// w’è’n“_‚©‚çÅ‚à‰“‚¢êŠ‚ğ’T‚·ŠÖ”
 	/// </summary>
 	/// <returns>std::pair first=Y second=X</returns>
-	std::pair<int, int> FindMoredistantPoint(int startX, int startY);
+	std::pair<int, int> FindMoreDistantPoint(int startX, int startY);
+	bool CheckErrorMaze();
 };
 
