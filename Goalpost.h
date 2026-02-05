@@ -1,7 +1,7 @@
 #pragma once
 #include "Object3D.h"
 
-namespace {
+namespace GOALPOST{
 	const int size = 20.0f;
 }
 
@@ -15,5 +15,11 @@ public:
 	void SetPosition(VECTOR3 position) {
 		transform.position = position;
 	}
+	bool GetGoaled() {
+		return TouchGoal;
+	}
+private:
+	bool CheckHitPlayer(VECTOR3 pPos,VECTOR3 pSca);
+	bool TouchGoal;
 };
 

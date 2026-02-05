@@ -53,6 +53,10 @@ void PlayScene::Update()
 	}
 	light->Update();
 	map->Update();
+	if (map->GetGameEndFlag())
+	{
+		SceneManager::ChangeScene("TITLE");
+	}
 }
 
 void PlayScene::Draw()

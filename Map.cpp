@@ -191,7 +191,7 @@ void Map::Instantinate()
 				break;
 			case maze::GOAL:
 				goalpost = new Goalpost();
-				goalpost->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,size*2,r * BLOCK::SIZE * 2 });
+				goalpost->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,GOALPOST::size * 2,r * BLOCK::SIZE * 2 });
 				goalpost->Draw();
 				break;
 			case maze::PILLAR:
@@ -283,6 +283,10 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 	return false;
 }
 
+/// <summary>
+/// 指定地点から最も遠い場所を探す関数
+/// </summary>
+/// <returns>std::pair first=Y second=X</returns>
 std::pair<int, int> Map::FindMoreDistantPoint(int startX, int startY)
 {
 	//DFSで全マスを探索し、距離を計測する
@@ -351,4 +355,15 @@ bool Map::CheckErrorMaze()
 		return false;
 	}
 	return true;
+}
+
+//ゴールにプレイヤーが触れたかを返す関数
+bool Map::GetGameEndFlag()
+{
+	Goalpost* goal = ObjectManager::FindGameObject<Goalpost>();
+	if (goal)
+	{
+		return goal->GetGoaled();
+	}
+	return false;
 }
