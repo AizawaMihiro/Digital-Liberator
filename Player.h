@@ -38,7 +38,6 @@ public:
 private:
 	State state;
 	CameraMode cameraMode;
-	void UpdateIdle();
 	void UpdateMove();
 	void UpdateHide();
 	void UpdateAttack();

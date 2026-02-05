@@ -121,7 +121,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 //次やること
-//ゲームループの完成
 //プレイヤーのアニメーション
 //敵のAI
 //敵のアニメーション

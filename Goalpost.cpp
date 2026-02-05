@@ -1,7 +1,6 @@
 #include "Goalpost.h"
 #include <assert.h>
 #include "Player.h"
-#include "ImGui/imgui.h"
 
 Goalpost::Goalpost()
 {
@@ -39,12 +38,6 @@ void Goalpost::Update()
 			TouchGoal = true;
 		}
 	}
-
-	ImGui::Begin("Goal");
-	ImGui::InputFloat("PositionX", &transform.position.x);
-	ImGui::InputFloat("PositionY", &transform.position.y);
-	ImGui::InputFloat("PositionZ", &transform.position.z);
-	ImGui::End();
 }
 
 void Goalpost::Draw()

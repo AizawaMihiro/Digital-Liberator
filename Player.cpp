@@ -51,9 +51,6 @@ void Player::Update()
 
 	switch (state)
 	{
-	case IDLE:
-		UpdateIdle();
-		break;
 	case MOVE:
 		UpdateMove();
 		break;
@@ -93,11 +90,6 @@ void Player::Draw()
 	{
 		MV1DrawModel(hModel);
 	}
-}
-
-void Player::UpdateIdle()
-{
-	//アニメーションを行う基本的なUpdate
 }
 
 void Player::UpdateMove()
@@ -170,11 +162,6 @@ void Player::MouseInput()
 {
 	moveX = (int)Input::GetMouseMoveX();
 	moveY = (int)Input::GetMouseMoveY();
-
-	//ImGui::Begin("MouseInput");
-	//ImGui::InputInt("PositionZ", &moveX);
-	//ImGui::InputInt("RotationY", &moveY);
-	//ImGui::End();
 }
 
 bool Player::IsCheckMoveInput()
