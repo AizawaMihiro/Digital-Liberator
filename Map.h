@@ -25,6 +25,7 @@ public:
 	bool GetGameEndFlag();
 private:
 	bool CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale);
+	bool CheckHitBlock(VECTOR3 cameraPos, VECTOR3 blockPos);
 	std::pair<int, int> FindMoreDistantPoint(int startX, int startY);
 	bool CheckErrorMaze();
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };

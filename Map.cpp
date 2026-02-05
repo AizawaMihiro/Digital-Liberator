@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Goalpost.h"
 #include "TextMap.h"
+#include "Camera.h"
 #include <assert.h>
 #include <queue>
 
@@ -218,7 +219,7 @@ void Map::Update()
 {
 	//“–‚½‚è”»’è
 	Player* player = ObjectManager::FindGameObject<Player>();
-	if (player != nullptr)
+	if (player)
 	{
 		for (Block* block : blocks_)
 		{
@@ -260,6 +261,21 @@ void Map::Update()
 			}
 		}
 	}
+	Camera* camera = ObjectManager::FindGameObject<Camera>();
+	if (camera)
+	{
+		for (Block* block : blocks_)
+		{
+			VECTOR3 cameraPos = player->GetTransform().position;
+			VECTOR3 blockPos = block->GetTransform().position;
+			if (CheckHitBlock(cameraPos, blockPos))
+			{
+				float distX = abs(cameraPos.x - blockPos.x);
+				float distZ = abs(cameraPos.z - blockPos.z);
+				camera->SetCameraPosition({ cameraPos.x - distX, cameraPos.y, cameraPos.z - distZ });
+			}
+		}
+	}
 }
 
 void Map::Draw()
@@ -279,6 +295,19 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 	if (distX < limitX && distZ < limitZ)
 	{
 		return true;
+	}
+	return false;
+}
+
+bool Map::CheckHitBlock(VECTOR3 cameraPos, VECTOR3 blockPos)
+{
+	//“_‚ÆŽlŠp‚Ì“–‚½‚è”»’è
+	if (blockPos.x <= cameraPos.x && cameraPos.x <= blockPos.x + BLOCK::SIZE)
+	{
+		if (blockPos.z <= cameraPos.z && cameraPos.z <= blockPos.z + BLOCK::SIZE)
+		{
+			return true;
+		}
 	}
 	return false;
 }

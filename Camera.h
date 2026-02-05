@@ -11,6 +11,8 @@ public:
 	~Camera();
 	void Update() override;
 	void SetTargetPosition(VECTOR3 pos) { targetPosition = pos; }
+	void SetCameraPosition(VECTOR3 pos) { camPos = pos; }
+	VECTOR3 GetCameraPos() { return camPos; }
 	bool IsThirdPerson() const { return isThirdPerson; }
 	bool ChangeViewMode() { isThirdPerson = !isThirdPerson; return isThirdPerson; }
 	bool ChangeViewMode(bool mode) { isThirdPerson = mode; return isThirdPerson; }
