@@ -55,7 +55,7 @@ void PlayScene::Update()
 	map->Update();
 	if (map->GetGameEndFlag())
 	{
-		SceneManager::ChangeScene("TITLE");
+		SceneManager::ChangeScene("CLEAR");
 	}
 }
 
