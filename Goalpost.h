@@ -19,7 +19,7 @@ public:
 		return TouchGoal;
 	}
 private:
-	bool CheckHitPlayer(VECTOR3 pPos,VECTOR3 pSca);
+	void CheckHitPlayer(VECTOR3 pPos,VECTOR3 pSca);
 	bool TouchGoal;
 };
 

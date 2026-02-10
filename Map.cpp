@@ -37,7 +37,7 @@ Map::Map(generator gen)
 
 Map::~Map()
 {
-	delete maze_;
+	delete maze_;//ここ足りない
 }
 
 void Map::Instantinate()
@@ -276,6 +276,16 @@ void Map::Update()
 			}
 		}
 	}
+
+	//EnemyとPlayerの当たり判定
+	gameOverFlag = false;
+	for (Enemy* enemy : enemies_) 
+	{
+		if (!gameOverFlag)
+		{
+			gameOverFlag = enemy->CheckHitPlayer(player->GetTransform().position, player->GetTransform().scale);
+		}
+	}
 }
 
 void Map::Draw()
@@ -387,7 +397,7 @@ bool Map::CheckErrorMaze()
 }
 
 //ゴールにプレイヤーが触れたかを返す関数
-bool Map::GetGameEndFlag()
+bool Map::GetGameClearFlag()
 {
 	Goalpost* goal = ObjectManager::FindGameObject<Goalpost>();
 	if (goal)
@@ -395,4 +405,9 @@ bool Map::GetGameEndFlag()
 		return goal->GetGoaled();
 	}
 	return false;
+}
+
+bool Map::GetGameOverFlag()
+{
+	return gameOverFlag;
 }

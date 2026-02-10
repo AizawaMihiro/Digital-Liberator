@@ -12,10 +12,11 @@ public:
 	void Update() override;
 	void Draw() override;
 	void SetPosition(VECTOR3 pos);
+	bool CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca);
 private:
 	enum State
 	{
-		PATROL, CHASE, ATTACK, STUN, MAX_STATE
+		PATROL, CHASE, STUN, MAX_STATE
 	};
 	State state;
 	VECTOR3 homePosition;
@@ -23,7 +24,6 @@ private:
 	int currentPatrolIndex;
 	void UpdatePatrol();
 	void UpdateChase();
-	void UpdateAttack();
 	void UpdateStun();
 	void ChangeState(State newState);
 };

@@ -33,10 +33,7 @@ void Goalpost::Update()
 	{
 		VECTOR3 playerPos = player->GetTransform().position;
 		VECTOR3 playerScale = player->GetTransform().scale;
-		if (CheckHitPlayer(playerPos, playerScale))
-		{
-			TouchGoal = true;
-		}
+		CheckHitPlayer(playerPos, playerScale);
 	}
 }
 
@@ -46,7 +43,7 @@ void Goalpost::Draw()
 	MV1DrawModel(hModel);
 }
 
-bool Goalpost::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
+void Goalpost::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 {
 	float distX = abs(pPos.x - this->GetTransform().position.x);
 	float distZ = abs(pPos.z - this->GetTransform().position.z);
@@ -54,7 +51,9 @@ bool Goalpost::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 	float limitZ = pSca.z + GOALPOST::size;
 	if (distX < limitX && distZ < limitZ)
 	{
-		return true;
+		TouchGoal = true;
+		return;
 	}
-	return false;
+	TouchGoal = false;
+	return;
 }

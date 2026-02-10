@@ -22,6 +22,9 @@
     <Filter Include="Maze">
       <UniqueIdentifier>{774a795f-a974-47c4-86aa-4f51c979963f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OverScene">
+      <UniqueIdentifier>{0ee4f70a-87e3-4b84-9359-19f97153d8f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">
@@ -119,6 +122,10 @@
     <ClInclude Include="TextMap.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Goalpost.h" />
+    <ClInclude Include="Source\ClearScene.h" />
+    <ClInclude Include="Source\GameOverScene.h">
+      <Filter>OverScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -198,5 +205,9 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="TextMap.cpp" />
     <ClCompile Include="Goalpost.cpp" />
+    <ClCompile Include="Source\ClearScene.cpp" />
+    <ClCompile Include="Source\GameOverScene.cpp">
+      <Filter>OverScene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,9 +31,6 @@ void Enemy::Update()
 	case CHASE:
 		UpdateChase();
 		break;
-	case ATTACK:
-		UpdateAttack();
-		break;
 	case STUN:
 		UpdateStun();
 		break;
@@ -80,6 +77,24 @@ void Enemy::SetPosition(VECTOR3 pos)
 	transform.rotation.y = 90.0f * DegToRad;
 }
 
+/// <summary>
+/// Enemy‚ÆPlayer‚ª‚Ô‚Â‚©‚Á‚½‚©‚ð•Ô‚·
+/// </summary>
+/// <param name="pPos">PlayerPosition</param>
+/// <param name="pSca">PlayerScale</param>
+bool Enemy::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
+{
+	float distX = abs(pPos.x - this->transform.position.x);
+	float distZ = abs(pPos.z - this->transform.position.z);
+	float limitX = pSca.x + this->transform.scale.x;
+	float limitZ = pSca.z + this->transform.scale.z;
+	if (distX < limitX && distZ < limitZ)
+	{
+		return true;
+	}
+	return false;
+}
+
 void Enemy::UpdatePatrol()
 {
 	//static float movex = 0.1f;
@@ -93,10 +108,6 @@ void Enemy::UpdateChase()
 {
 }
 
-void Enemy::UpdateAttack()
-{
-}
-
 void Enemy::UpdateStun()
 {
 }
@@ -105,3 +116,4 @@ void Enemy::ChangeState(State newState)
 {
 	state = newState;
 }
+

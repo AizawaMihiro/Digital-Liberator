@@ -53,9 +53,13 @@ void PlayScene::Update()
 	}
 	light->Update();
 	map->Update();
-	if (map->GetGameEndFlag())
+	if (map->GetGameClearFlag())
 	{
 		SceneManager::ChangeScene("CLEAR");
+	}
+	if (map->GetGameOverFlag())
+	{
+		SceneManager::ChangeScene("OVER");
 	}
 }
 

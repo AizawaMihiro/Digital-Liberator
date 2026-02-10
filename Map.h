@@ -22,7 +22,8 @@ public:
 	void Instantinate();
 	void Update();
 	void Draw();
-	bool GetGameEndFlag();
+	bool GetGameClearFlag();
+	bool GetGameOverFlag();
 private:
 	bool CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale);
 	bool CheckHitBlock(VECTOR3 cameraPos, VECTOR3 blockPos);
@@ -35,5 +36,6 @@ private:
 	std::vector<std::vector<int>> MapData;
 	std::vector<Block*> blocks_;
 	std::vector<Enemy*> enemies_;
+	bool gameOverFlag;
 };
 
