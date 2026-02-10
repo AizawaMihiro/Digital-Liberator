@@ -407,6 +407,7 @@ bool Map::GetGameClearFlag()
 	return false;
 }
 
+//本来は接触ではなくアニメーションを挟んで遷移する
 bool Map::GetGameOverFlag()
 {
 	return gameOverFlag;

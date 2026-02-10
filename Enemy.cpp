@@ -97,19 +97,19 @@ bool Enemy::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 
 void Enemy::UpdatePatrol()
 {
-	//static float movex = 0.1f;
-	//transform.position.x += movex;
-	//if (transform.position.x > 50.0f || transform.position.x < -50.0f) {
-	//	movex = -movex;
-	//}
+	//Mapから情報をもらい、自分の位置と比較してPathを回る
+	//優先順位はL,R,U,D
 }
 
 void Enemy::UpdateChase()
 {
+	//プレイヤーが近くにいる場合、位置（マス）を受け取り向かう
 }
 
 void Enemy::UpdateStun()
 {
+	//プレイヤーに攻撃されたときに停止する
+	//時間経過で回復
 }
 
 void Enemy::ChangeState(State newState)

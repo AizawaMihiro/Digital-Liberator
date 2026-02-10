@@ -117,6 +117,8 @@ void Player::UpdateMove()
 
 void Player::UpdateHide()
 {
+	//‚µ‚á‚ª‚İˆÚ“®‚ğs‚¤
+	//‚â‚â’x‚­‚È‚é
 	float flameMoveDist = HIDE_SPEED * flameTime * 100;
 	VECTOR3 moveVec = { 0.0f,0.0f,0.0f };
 	if (CheckHitKey(KEY_INPUT_D))
@@ -140,6 +142,7 @@ void Player::UpdateHide()
 
 void Player::UpdateAttack()
 {
+	//•Ší\‚¦ó‘Ô
 	UpdateHide();
 	if (cameraMode == THIRD_PERSON)
 	{
