@@ -126,6 +126,7 @@
     <ClInclude Include="Source\GameOverScene.h">
       <Filter>OverScene</Filter>
     </ClInclude>
+    <ClInclude Include="Object2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -209,5 +210,6 @@
     <ClCompile Include="Source\GameOverScene.cpp">
       <Filter>OverScene</Filter>
     </ClCompile>
+    <ClCompile Include="Object2D.cpp" />
   </ItemGroup>
 </Project>
