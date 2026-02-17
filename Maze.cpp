@@ -11,7 +11,7 @@ Maze::Maze(int w, int h)
 		grid_[i].resize(width_);
 	}
 
-	srand((unsigned int)time(NULL));
+	srand((unsigned int)LimitTime(NULL));
 }
 
 Maze::~Maze()

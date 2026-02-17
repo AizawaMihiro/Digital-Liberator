@@ -22,6 +22,7 @@
     <ClInclude Include="Axis.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Goalpost.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Goalpost.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />

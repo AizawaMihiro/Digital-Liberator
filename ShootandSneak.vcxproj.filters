@@ -127,6 +127,7 @@
       <Filter>OverScene</Filter>
     </ClInclude>
     <ClInclude Include="Object2D.h" />
+    <ClInclude Include="Effect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -211,5 +212,6 @@
       <Filter>OverScene</Filter>
     </ClCompile>
     <ClCompile Include="Object2D.cpp" />
+    <ClCompile Include="Effect.cpp" />
   </ItemGroup>
 </Project>
