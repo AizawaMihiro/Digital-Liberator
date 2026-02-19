@@ -4,8 +4,8 @@
 #include <vector>
 namespace ENEMY
 {
-	const float MOVE_SPEED = 0.1f;
-	const float CHASE_SPEED = 0.15f;
+	const float MOVE_SPEED = 0.15f;
+	const float CHASE_SPEED = 0.2f;
 	const float STUN_DURATION = 3.0f;
 }
 

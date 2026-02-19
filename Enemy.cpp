@@ -66,16 +66,18 @@ void Enemy::SetPosition(VECTOR3 pos)
 {
 	transform.position = pos;
 	homePosition = VECTOR3(transform.position.x, transform.position.y, transform.position.z + BLOCK::SIZE * 2);
-	for (int z = -1; z <= 1; z++)
-	{
-		for (int x = -1; x <= 1; x++)
-		{
-			if (z == 0 && x == 0) {
-				continue;
-			}
-			patrolPoints.push_back(VECTOR3(homePosition.x + x * BLOCK::SIZE * 2, homePosition.y, homePosition.z + z * BLOCK::SIZE * 2));
-		}
-	}
+	//homePositionを中心に、周囲8マスの座標をpatrolPointsに追加する
+	//左下から逆時計回りに追加する
+	int offset = BLOCK::SIZE * 2;
+	patrolPoints.push_back(homePosition + VECTOR3(-offset, 0, offset));
+	patrolPoints.push_back(homePosition + VECTOR3(0, 0, offset));
+	patrolPoints.push_back(homePosition + VECTOR3(offset, 0, offset));
+	patrolPoints.push_back(homePosition + VECTOR3(offset, 0, 0));
+	patrolPoints.push_back(homePosition + VECTOR3(offset, 0, -offset));
+	patrolPoints.push_back(homePosition + VECTOR3(0, 0, -offset));
+	patrolPoints.push_back(homePosition + VECTOR3(-offset, 0, -offset));
+	patrolPoints.push_back(homePosition + VECTOR3(-offset, 0, 0));
+
 	currentPatrolIndex = 0;
 	transform.position = patrolPoints[currentPatrolIndex];
 }
@@ -91,6 +93,7 @@ bool Enemy::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 	float distZ = abs(pPos.z - this->transform.position.z);
 	float limitX = pSca.x + this->transform.scale.x;
 	float limitZ = pSca.z + this->transform.scale.z;
+	//モデルのサイズの都合で当たり判定が乱れ中
 	if (distX < limitX && distZ < limitZ)
 	{
 		return true;
