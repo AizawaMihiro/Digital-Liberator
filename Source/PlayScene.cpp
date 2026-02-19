@@ -12,7 +12,6 @@ PlayScene::PlayScene()
 	player = new Player();
 	map = new Map();
 	map->Instantinate();
-	map->Draw();
 	Axis* axis = new Axis(); // À•WŽ²•\Ž¦—p Š®¬Œã‚Éíœ—\’è
 
 	light = new Light();
@@ -36,7 +35,7 @@ PlayScene::~PlayScene()
 	}
 	if (map != nullptr)
 	{
-		delete map;
+		map->DestroyMe();
 		map = nullptr;
 	}
 	if (light != nullptr)
@@ -52,7 +51,6 @@ void PlayScene::Update()
 		SceneManager::ChangeScene("TITLE");
 	}
 	light->Update();
-	map->Update();
 	if (map->GetGameClearFlag())
 	{
 		SceneManager::ChangeScene("CLEAR");

@@ -1,5 +1,7 @@
 #include "Enemy.h"
 #include "ImGui/imgui.h"
+#include "Map.h"
+#include "Time.h"
 
 Enemy::Enemy()
 	:state(PATROL)
@@ -10,6 +12,7 @@ Enemy::Enemy()
 	transform.position = defPos;
 	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
 	transform.scale = defScale;
+	//transform.rotation.y = 90.0f * DegToRad;
 }
 
 Enemy::~Enemy()
@@ -23,6 +26,7 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
+	flameTime = Time::DeltaTime();
 	switch (state)
 	{
 	case PATROL:
@@ -74,7 +78,6 @@ void Enemy::SetPosition(VECTOR3 pos)
 	}
 	currentPatrolIndex = 0;
 	transform.position = patrolPoints[currentPatrolIndex];
-	transform.rotation.y = 90.0f * DegToRad;
 }
 
 /// <summary>
@@ -98,7 +101,36 @@ bool Enemy::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 void Enemy::UpdatePatrol()
 {
 	//Mapから情報をもらい、自分の位置と比較してPathを回る
-	//優先順位はL,R,U,D
+	//patrolPointsを順番に回るようにする
+	Map* map = ObjectManager::FindGameObject<Map>();
+	if (map != nullptr)
+	{
+		std::vector<std::vector<int>> MapData = map->GetMapData();
+		//自分の位置をマップ上の座標に変換して保存する
+		int myMapX = static_cast<int>((this->GetTransform().position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int myMapY = static_cast<int>((this->GetTransform().position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		//マップ上の座標とpatrolPointsを比較して、次のpatrolPointを決める
+		int targetMapX = static_cast<int>((patrolPoints[currentPatrolIndex].x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int targetMapY = static_cast<int>((patrolPoints[currentPatrolIndex].z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		if (myMapX == targetMapX && myMapY == targetMapY)
+		{
+			currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.size();
+		}
+		else
+		{
+			//次のpatrolPointに向かう
+			VECTOR3 direction = patrolPoints[currentPatrolIndex] - this->GetTransform().position;
+			float length = sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
+			if (length > 0.1f)
+			{
+				direction /= length; //正規化
+				float flameMoveDist = ENEMY::MOVE_SPEED * flameTime * 100;
+				VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
+				transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
+				transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
+			}
+		}
+	}
 }
 
 void Enemy::UpdateChase()

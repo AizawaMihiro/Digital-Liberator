@@ -2,6 +2,12 @@
 #include "Object3D.h"
 #include "Block.h"
 #include <vector>
+namespace ENEMY
+{
+	const float MOVE_SPEED = 0.1f;
+	const float CHASE_SPEED = 0.15f;
+	const float STUN_DURATION = 3.0f;
+}
 
 class Enemy :
     public Object3D
@@ -26,5 +32,6 @@ private:
 	void UpdateChase();
 	void UpdateStun();
 	void ChangeState(State newState);
+	float flameTime;	//Žg—pŽž‚É*100‚·‚é
 };
 

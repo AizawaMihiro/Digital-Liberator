@@ -1,4 +1,5 @@
 #pragma once
+#include "Library/GameObject.h"
 #include "Block.h"
 #include "Enemy.h"
 #include "MinerMaze.h"
@@ -13,7 +14,8 @@ namespace {
 
 class TextMap;
 
-class Map
+class Map :
+	public GameObject
 {
 public:
 	Map();
@@ -24,6 +26,7 @@ public:
 	void Draw();
 	bool GetGameClearFlag();
 	bool GetGameOverFlag();
+	std::vector<std::vector<int>> GetMapData() { return MapData; }
 private:
 	bool CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale);
 	bool CheckHitBlock(VECTOR3 cameraPos, VECTOR3 blockPos);
