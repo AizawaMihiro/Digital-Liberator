@@ -33,7 +33,8 @@ private:
 	std::pair<int, int> FindMoreDistantPoint(int startX, int startY);
 	bool CheckErrorMaze();
 	int map[DEF_MAP_SIZE][DEF_MAP_SIZE] = { 0 };
-	int hBlockModel;
+	int hBlockModel_;
+	int hPillarModel_;
 	MinerMaze* maze_;
 	TextMap* textMap_ = nullptr;
 	std::vector<std::vector<int>> MapData;

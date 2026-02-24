@@ -4,7 +4,7 @@
 Block::Block()
 	:Object3D()
 {
-	hModel = MV1LoadModel("Assets/model/Blockcolord.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
+	hModel = MV1LoadModel("Assets/model/shape-cube.mv1");
 	assert(hModel != -1);
 	VECTOR3 defPos = { (50.0f),(0.0f),(50.0f) };
 	transform.position = defPos;

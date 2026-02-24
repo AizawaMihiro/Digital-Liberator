@@ -31,13 +31,23 @@ Map::Map(generator gen)
 	default:
 		break;
 	}
-	hBlockModel = MV1LoadModel("Assets/model/Blockcolord.mv1");
-	assert(hBlockModel != -1);
+	hBlockModel_ = MV1LoadModel("Assets/model/shape-cube.mv1");
+	assert(hBlockModel_ != -1);
+	hPillarModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
+	assert(hPillarModel_ != -1);
 }
 
 Map::~Map()
 {
 	delete maze_;//‚±‚±‘«‚è‚È‚¢
+	for (int i = 0; i < blocks_.size(); i++)
+	{
+		blocks_[i] = nullptr;
+	}
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		enemies_[i] = nullptr;
+	}
 }
 
 void Map::Instantinate()
@@ -177,7 +187,7 @@ void Map::Instantinate()
 			case maze::ROAD:
 				break;
 			case maze::WALL:
-				block = new Block(hBlockModel);
+				block = new Block(hBlockModel_);
 				block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
 				block->Draw();
 				blocks_.push_back(block);
@@ -196,7 +206,7 @@ void Map::Instantinate()
 				goalpost->Draw();
 				break;
 			case maze::PILLAR:
-				pillar = new Block(hBlockModel);
+				pillar = new Block(hPillarModel_);
 				pillar->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
 				pillar->Draw();
 				blocks_.push_back(pillar);
