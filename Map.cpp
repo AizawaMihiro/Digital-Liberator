@@ -31,8 +31,10 @@ Map::Map(generator gen)
 	default:
 		break;
 	}
-	hBlockModel_ = MV1LoadModel("Assets/model/shape-cube.mv1");
+	//hBlockModel_ = MV1LoadModel("Assets/model/shape-cube.mv1");
+	hBlockModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
 	assert(hBlockModel_ != -1);
+	//hPillarModel_ = MV1LoadModel("Assets/model/shape-cylinder.mv1");
 	hPillarModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
 	assert(hPillarModel_ != -1);
 }
@@ -188,7 +190,7 @@ void Map::Instantinate()
 				break;
 			case maze::WALL:
 				block = new Block(hBlockModel_);
-				block->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+				block->SetPosition(VECTOR3{ c * BLOCK::HIT_SIZE * 2 ,0.0f,r * BLOCK::HIT_SIZE * 2 });
 				block->Draw();
 				blocks_.push_back(block);
 				break;
@@ -196,22 +198,22 @@ void Map::Instantinate()
 				if (player != nullptr)
 				{
 					Transform playerTransform = player->GetTransform();
-					playerTransform.position = VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 };
+					playerTransform.position = VECTOR3{ c * BLOCK::HIT_SIZE * 2 ,0.0f,(r - 1) * BLOCK::HIT_SIZE * 2 };
 					player->SetTransform(playerTransform);
 				}
 				break;
 			case maze::GOAL:
 				goalpost = new Goalpost();
-				goalpost->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,GOALPOST::size * 2,r * BLOCK::SIZE * 2 });
+				goalpost->SetPosition(VECTOR3{ c * BLOCK::HIT_SIZE * 2 ,GOALPOST::size * 2,r * BLOCK::HIT_SIZE * 2 });
 				goalpost->Draw();
 				break;
 			case maze::PILLAR:
 				pillar = new Block(hPillarModel_);
-				pillar->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,r * BLOCK::SIZE * 2 });
+				pillar->SetPosition(VECTOR3{ c * BLOCK::HIT_SIZE * 2 ,0.0f,r * BLOCK::HIT_SIZE * 2 });
 				pillar->Draw();
 				blocks_.push_back(pillar);
 				enemy = new Enemy();
-				enemy->SetPosition(VECTOR3{ c * BLOCK::SIZE * 2 ,0.0f,(r - 1) * BLOCK::SIZE * 2 });
+				enemy->SetPosition(VECTOR3{ c * BLOCK::HIT_SIZE * 2 ,0.0f,(r - 1) * BLOCK::HIT_SIZE * 2 });
 				enemies_.push_back(enemy);
 				break;
 			case maze::PATH:
@@ -240,8 +242,8 @@ void Map::Update()
 			{
 				float distX = abs(playerPos.x - blockPos.x);
 				float distZ = abs(playerPos.z - blockPos.z);
-				float limitX = playerScale.x + BLOCK::SIZE;
-				float limitZ = playerScale.z + BLOCK::SIZE;
+				float limitX = playerScale.x + BLOCK::HIT_SIZE;
+				float limitZ = playerScale.z + BLOCK::HIT_SIZE;
 				float overlapX = limitX - distX;
 				float overlapZ = limitZ - distZ;
 				Transform playerTransform = player->GetTransform();
@@ -310,8 +312,8 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 {
 	float distX = abs(playerPos.x - blockPos.x);
 	float distZ = abs(playerPos.z - blockPos.z);
-	float limitX = playerScale.x  + BLOCK::SIZE;
-	float limitZ = playerScale.z  + BLOCK::SIZE;
+	float limitX = playerScale.x  + BLOCK::HIT_SIZE;
+	float limitZ = playerScale.z  + BLOCK::HIT_SIZE;
 	if (distX < limitX && distZ < limitZ)
 	{
 		return true;
@@ -322,9 +324,9 @@ bool Map::CheckHitBlock(VECTOR3 playerPos, VECTOR3 blockPos, VECTOR3 playerScale
 bool Map::CheckHitBlock(VECTOR3 cameraPos, VECTOR3 blockPos)
 {
 	//“_‚ÆŽlŠp‚Ì“–‚½‚è”»’è
-	if (blockPos.x <= cameraPos.x && cameraPos.x <= blockPos.x + BLOCK::SIZE)
+	if (blockPos.x <= cameraPos.x && cameraPos.x <= blockPos.x + BLOCK::HIT_SIZE)
 	{
-		if (blockPos.z <= cameraPos.z && cameraPos.z <= blockPos.z + BLOCK::SIZE)
+		if (blockPos.z <= cameraPos.z && cameraPos.z <= blockPos.z + BLOCK::HIT_SIZE)
 		{
 			return true;
 		}

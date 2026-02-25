@@ -8,7 +8,8 @@ Block::Block()
 	assert(hModel != -1);
 	VECTOR3 defPos = { (50.0f),(0.0f),(50.0f) };
 	transform.position = defPos;
-	VECTOR3 defScale = { BLOCK::SIZE,BLOCK::SIZE,BLOCK::SIZE };
+	//VECTOR3 defScale = { BLOCK::VISUAL_SIZE,BLOCK::VISUAL_SIZE,BLOCK::VISUAL_SIZE };
+	VECTOR3 defScale = { BLOCK::HIT_SIZE,BLOCK::HIT_SIZE,BLOCK::HIT_SIZE };
 	transform.scale = defScale;
 }
 
@@ -18,7 +19,8 @@ Block::Block(int handle)
 	assert(hModel != -1);
 	VECTOR3 defPos = { (50.0f),(0.0f),(50.0f) };
 	transform.position = defPos;
-	VECTOR3 defScale = { BLOCK::SIZE,BLOCK::SIZE,BLOCK::SIZE };
+	//VECTOR3 defScale = { BLOCK::VISUAL_SIZE,BLOCK::VISUAL_SIZE,BLOCK::VISUAL_SIZE };
+	VECTOR3 defScale = { BLOCK::HIT_SIZE,BLOCK::HIT_SIZE,BLOCK::HIT_SIZE };
 	transform.scale = defScale;
 }
 

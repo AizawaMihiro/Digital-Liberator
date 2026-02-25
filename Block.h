@@ -3,7 +3,8 @@
 
 namespace BLOCK
 {
-	const float SIZE = 50.0f;
+	const float HIT_SIZE = 50.0f;//Blockcolordサイズ
+	const float VISUAL_SIZE = 1.0f;//shape-cubeサイズ
 }
 
 class Block :

@@ -65,10 +65,10 @@ void Enemy::Draw()
 void Enemy::SetPosition(VECTOR3 pos)
 {
 	transform.position = pos;
-	homePosition = VECTOR3(transform.position.x, transform.position.y, transform.position.z + BLOCK::SIZE * 2);
+	homePosition = VECTOR3(transform.position.x, transform.position.y, transform.position.z + BLOCK::HIT_SIZE * 2);
 	//homePositionを中心に、周囲8マスの座標をpatrolPointsに追加する
 	//左下から逆時計回りに追加する
-	int offset = BLOCK::SIZE * 2;
+	int offset = BLOCK::HIT_SIZE * 2;
 	patrolPoints.push_back(homePosition + VECTOR3(-offset, 0, offset));
 	patrolPoints.push_back(homePosition + VECTOR3(0, 0, offset));
 	patrolPoints.push_back(homePosition + VECTOR3(offset, 0, offset));
@@ -110,11 +110,11 @@ void Enemy::UpdatePatrol()
 	{
 		std::vector<std::vector<int>> MapData = map->GetMapData();
 		//自分の位置をマップ上の座標に変換して保存する
-		int myMapX = static_cast<int>((this->GetTransform().position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
-		int myMapY = static_cast<int>((this->GetTransform().position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int myMapX = static_cast<int>((this->GetTransform().position.x + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
+		int myMapY = static_cast<int>((this->GetTransform().position.z + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
 		//マップ上の座標とpatrolPointsを比較して、次のpatrolPointを決める
-		int targetMapX = static_cast<int>((patrolPoints[currentPatrolIndex].x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
-		int targetMapY = static_cast<int>((patrolPoints[currentPatrolIndex].z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int targetMapX = static_cast<int>((patrolPoints[currentPatrolIndex].x + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
+		int targetMapY = static_cast<int>((patrolPoints[currentPatrolIndex].z + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
 		if (myMapX == targetMapX && myMapY == targetMapY)
 		{
 			currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.size();

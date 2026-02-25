@@ -39,8 +39,8 @@ void TextMap::Update()
 	if (player_ != nullptr)
 	{
 		Transform playerTransform = player_->GetTransform();
-		int playerMapX = static_cast<int>((playerTransform.position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
-		int playerMapY = static_cast<int>((playerTransform.position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+		int playerMapX = static_cast<int>((playerTransform.position.x + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
+		int playerMapY = static_cast<int>((playerTransform.position.z + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
 		playerPos_ = std::pair<int, int>(playerMapX, playerMapY);
 	}
 	//“G‚ÌˆÊ’u‚à“¯—l‚ÉŽæ“¾‚µ‚Ä‚¨‚­
@@ -49,8 +49,8 @@ void TextMap::Update()
 		enemyPos_.clear();
 		for (auto enemy : enemies_) {
 			Transform enemyTransform = enemy->GetTransform();
-			int enemyMapX = static_cast<int>((enemyTransform.position.x + BLOCK::SIZE) / (BLOCK::SIZE * 2));
-			int enemyMapY = static_cast<int>((enemyTransform.position.z + BLOCK::SIZE) / (BLOCK::SIZE * 2));
+			int enemyMapX = static_cast<int>((enemyTransform.position.x + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
+			int enemyMapY = static_cast<int>((enemyTransform.position.z + BLOCK::HIT_SIZE) / (BLOCK::HIT_SIZE * 2));
 			enemyPos_.push_back(std::pair<int, int>(enemyMapX, enemyMapY));
 		}
 	}
