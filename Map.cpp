@@ -288,6 +288,49 @@ void Map::Update()
 			}
 		}
 	}
+	//Enemy‚ÆBlock‚Ì“–‚½‚è”»’è
+	for (Enemy* enemy : enemies_)
+	{
+		for (Block* block : blocks_)
+		{
+			VECTOR3 enemyPos = enemy->GetTransform().position;
+			VECTOR3 blockPos = block->GetTransform().position;
+			VECTOR3 enemyScale = enemy->GetTransform().scale;
+			if (CheckHitBlock(enemyPos, blockPos, enemyScale))
+			{
+				float distX = abs(enemyPos.x - blockPos.x);
+				float distZ = abs(enemyPos.z - blockPos.z);
+				float limitX = enemyScale.x + BLOCK::HIT_SIZE;
+				float limitZ = enemyScale.z + BLOCK::HIT_SIZE;
+				float overlapX = limitX - distX;
+				float overlapZ = limitZ - distZ;
+				Transform enemyTransform = enemy->GetTransform();
+				if (overlapX < overlapZ)
+				{
+					if (enemyPos.x < blockPos.x)
+					{
+						enemyTransform.position.x -= overlapX;
+					}
+					else
+					{
+						enemyTransform.position.x += overlapX;
+					}
+				}
+				else
+				{
+					if (enemyPos.z < blockPos.z)
+					{
+						enemyTransform.position.z -= overlapZ;
+					}
+					else
+					{
+						enemyTransform.position.z += overlapZ;
+					}
+				}
+				enemy->SetTransform(enemyTransform);
+			}
+		}
+	}
 
 	//Enemy‚ÆPlayer‚Ì“–‚½‚è”»’è
 	gameOverFlag = false;

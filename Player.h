@@ -34,9 +34,10 @@ public:
 	~Player();
 	void Update() override;
 	void Draw() override;
+	VECTOR3 GetPosition() { return transform.position; }
 
 private:
-	State state;
+	State state_;
 	CameraMode cameraMode;
 	void UpdateMove();
 	void UpdateHide();

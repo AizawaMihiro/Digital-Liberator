@@ -5,7 +5,7 @@
 #include "Time.h"
 
 Player::Player()
-	:state(IDLE), cameraMode(THIRD_PERSON)
+	:state_(IDLE), cameraMode(THIRD_PERSON)
 {
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//‚Ü‚¾ƒ‚ƒfƒ‹‚ª‚È‚¢‚Ì‚Å‰¼
 	assert(hModel != -1);
@@ -49,7 +49,7 @@ void Player::Update()
 		ChangeState(ATTACK);
 	}
 
-	switch (state)
+	switch (state_)
 	{
 	case MOVE:
 		UpdateMove();
@@ -67,7 +67,7 @@ void Player::Update()
 		break;
 	}
 
-	if (cameraMode == FIRST_PERSON && state != ATTACK)
+	if (cameraMode == FIRST_PERSON && state_ != ATTACK)
 	{
 		camera->ChangeViewMode(true);
 		cameraMode = THIRD_PERSON;
@@ -158,7 +158,7 @@ void Player::UpdateDead()
 
 void Player::ChangeState(State newState)
 {
-	state = newState;
+	state_ = newState;
 }
 
 void Player::MouseInput()
