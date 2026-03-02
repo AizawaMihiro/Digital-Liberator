@@ -23,3 +23,15 @@ void Object3D::Draw()
 		}
 	}
 }
+
+void Object3D::RayCast(Object3D object, RayCastData& data)
+{
+	Transform objTransform = object.GetTransform();
+	FLOAT3 target = {
+		data.origin.x + data.direction.x,
+		data.origin.y + data.direction.y,
+		data.origin.z + data.direction.z
+	};
+	MATRIX local = objTransform.MakeLocalMatrix();
+	MATRIX invLocal;
+}
