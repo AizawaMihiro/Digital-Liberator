@@ -4,10 +4,10 @@
 
 struct RayCastData {
 	VECTOR3 origin; // レイの始点
-	VECTOR3 direction; // レイの方向（正規化されていることが望ましい）
+	VECTOR3 dir; // レイの方向（正規化されていることが望ましい）
 	bool hit; // 当たったかどうか
-	VECTOR3 hitPoint; // 当たった位置
-	VECTOR3 hitNormal; // 当たった面の法線
+	VECTOR pos; //衝突した座標
+	VECTOR3 normal; // 当たった面の法線
 };
 
 /// <summary>

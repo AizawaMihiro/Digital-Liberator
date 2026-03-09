@@ -26,12 +26,28 @@ void Object3D::Draw()
 
 void Object3D::RayCast(Object3D object, RayCastData& data)
 {
-	Transform objTransform = object.GetTransform();
-	FLOAT3 target = {
-		data.origin.x + data.direction.x,
-		data.origin.y + data.direction.y,
-		data.origin.z + data.direction.z
-	};
-	MATRIX local = objTransform.MakeLocalMatrix();
-	MATRIX invLocal;
+	FLOAT3 target = { data.origin.x + data.dir.x, data.origin.y + data.dir.y, data.origin.z + data.dir.z };
+	MATRIX InvMat = MInverse(transform.GetLocalMatrix());
+	VECTOR3 localOrigin = VTransform(data.origin, InvMat);
+	VECTOR3 localTarget = VTransform(target, InvMat);
+	VECTOR3 localDir = VSub(localTarget, localOrigin);
+
+	// RayCastDataの更新
+	data.origin = localOrigin;
+	data.dir = localDir;
+	data.hit = false;
+
+	//objectの三角形とレイの当たり判定を行う
+	//三角形の頂点は仮置き
+
+	HITRESULT_LINE result =HitCheck_Line_Triangle(
+		data.origin, data.origin + data.dir, 
+		object.transform.position, object.transform.position + VECTOR3(0, 1, 0), object.transform.position + VECTOR3(1, 0, 0));
+
+	data.hit = result.HitFlag;
+	if (result.HitFlag)
+	{
+		data.pos = result.Position;
+	}
 }
+
