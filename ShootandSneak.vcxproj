@@ -24,6 +24,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Fbx.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Goalpost.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Fbx.cpp" />
     <ClCompile Include="Goalpost.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -152,6 +154,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -192,6 +202,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\cutle\DxLib_VC3_24f\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -210,6 +221,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\cutle\DxLib_VC3_24f\DxLib_VC\プロジェクトに追加すべきファイル_VC用;D:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

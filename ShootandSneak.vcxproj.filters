@@ -105,20 +105,16 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Axis.h" />
     <ClInclude Include="Block.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h" />
     <ClInclude Include="Maze.h">
       <Filter>Maze</Filter>
     </ClInclude>
     <ClInclude Include="MinerMaze.h">
       <Filter>Maze</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h" />
     <ClInclude Include="namespace.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="TextMap.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Goalpost.h" />
@@ -126,8 +122,23 @@
     <ClInclude Include="Source\GameOverScene.h">
       <Filter>OverScene</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Object2D.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Fbx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -192,26 +203,37 @@
       <Filter>PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Block.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Maze.cpp">
       <Filter>Maze</Filter>
     </ClCompile>
     <ClCompile Include="MinerMaze.cpp">
       <Filter>Maze</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="TextMap.cpp" />
     <ClCompile Include="Goalpost.cpp" />
     <ClCompile Include="Source\ClearScene.cpp" />
     <ClCompile Include="Source\GameOverScene.cpp">
       <Filter>OverScene</Filter>
     </ClCompile>
-    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Object2D.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Fbx.cpp" />
   </ItemGroup>
 </Project>
