@@ -38,11 +38,11 @@ void Object3D::RayCast(Object3D object, RayCastData& data)
 	data.hit = false;
 
 	//objectの三角形とレイの当たり判定を行う
-	//三角形の頂点は仮置き
-
-	HITRESULT_LINE result =HitCheck_Line_Triangle(
-		data.origin, data.origin + data.dir, 
-		object.transform.position, object.transform.position + VECTOR3(0, 1, 0), object.transform.position + VECTOR3(1, 0, 0));
+	HITRESULT_LINE result;
+	if (object.IsLoadedFbx())
+	{
+		object.pFbx->RayCast(&data);
+	}
 
 	data.hit = result.HitFlag;
 	if (result.HitFlag)

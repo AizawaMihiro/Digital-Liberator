@@ -1,21 +1,14 @@
 #pragma once
 #include "Library/GameObject.h"
 #include "Transform.h"
-
-struct RayCastData {
-	VECTOR3 origin; // レイの始点
-	VECTOR3 dir; // レイの方向（正規化されていることが望ましい）
-	bool hit; // 当たったかどうか
-	VECTOR pos; //衝突した座標
-	VECTOR3 normal; // 当たった面の法線
-};
+#include "Fbx.h"
 
 /// <summary>
 /// 3D機能を持った、GameObjectの基底クラス
 /// </summary>
 class Object3D : public GameObject {
 public:
-	Object3D() : hModel(-1), parent(nullptr) {}
+	Object3D() : hModel(-1), parent(nullptr),pFbx(nullptr) {}
 	virtual ~Object3D();
 	void Draw() override;
 
@@ -44,9 +37,19 @@ public:
 	/// <param name="object">対象</param>
 	/// <param name="data">レイキャストデータ</param>
 	void RayCast(Object3D object,RayCastData& data);
+
+	void LoadFbx(std::string filename) {
+		if (pFbx != nullptr) {
+			delete pFbx;
+			pFbx = nullptr;
+		}
+		pFbx = new Fbx(filename);
+	}
+	bool IsLoadedFbx() const { return pFbx != nullptr; }
 protected:
 	int hModel;
 	Transform transform;
 	Object3D* parent;
+	Fbx* pFbx;
 };
 
