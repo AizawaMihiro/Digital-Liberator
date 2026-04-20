@@ -38,13 +38,17 @@ void Light::Update()
 		{
 		case DX_LIGHTTYPE_DIRECTIONAL:
 			//Playerの向きをライトの向きにする
+		{
 			VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
 			SetLightDirection(LightDir);
+		}
 			break;
 		case DX_LIGHTTYPE_POINT:
+		{
 			VECTOR LightPos = obj->GetTransform().position;
 			LightPos.y += POINT_LIGHT_HEIGHT;
 			SetLightPosition(LightPos);
+		}
 			break;
 		default:
 			break;
@@ -55,13 +59,17 @@ void Light::Update()
 			{
 			case DX_LIGHTTYPE_DIRECTIONAL:
 				//Playerの向きをライトの向きにする
+			{
 				VECTOR LightDir = VTransform(DIRECTIONAL_LIGHT_VEC, obj->GetTransform().GetRotationMatrix());
-				SetLightDirectionHandle(hAddLight,LightDir);
+				SetLightDirectionHandle(hAddLight, LightDir);
+			}
 				break;
 			case DX_LIGHTTYPE_POINT:
+			{
 				VECTOR LightPos = obj->GetTransform().position;
 				LightPos.y += POINT_LIGHT_HEIGHT;
 				SetLightPositionHandle(hAddLight, LightPos);
+			}
 				break;
 			default:
 				break;
