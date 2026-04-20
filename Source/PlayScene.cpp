@@ -47,6 +47,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Update()
 {
+	//‚±‚±‚©‚çğŒ‚ğ–‚½‚·‚Ü‚ÅƒQ[ƒ€•”•ª‚ğƒ‹[ƒv‚Å‚«‚é‚æ‚¤‚É‚µ‚Ä‚¢‚­
 	if (CheckHitKey(KEY_INPUT_T)) {
 		SceneManager::ChangeScene("TITLE");
 	}
