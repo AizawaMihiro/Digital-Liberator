@@ -54,7 +54,7 @@ void PlayScene::Update()
 	light->Update();
 	if (map->GetGameClearFlag())
 	{
-		SceneManager::ChangeScene("CLEAR");
+		SceneManager::ChangeScene("LOAD");
 	}
 	if (map->GetGameOverFlag())
 	{
