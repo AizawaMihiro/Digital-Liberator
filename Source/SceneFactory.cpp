@@ -6,7 +6,6 @@
 #include "PlayScene.h"
 #include "ClearScene.h"
 #include "GameOverScene.h"
-#include "../LoadScene.h"
 
 SceneBase* SceneFactory::CreateFirst()
 {
@@ -30,10 +29,6 @@ SceneBase * SceneFactory::Create(const std::string & name)
 	if (name == "OVER")
 	{
 		return new GameOverScene();
-	}
-	if (name == "LOAD")
-	{
-		return new LoadScene();
 	}
 	MessageBox(NULL, ("éüÇÃÉVÅ[ÉìÇÕÇ†ÇËÇ‹ÇπÇÒ\n" + name).c_str(), "SceneFactory", MB_ICONERROR | MB_OK);
 	assert(false);
