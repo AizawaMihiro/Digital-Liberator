@@ -20,6 +20,7 @@
 #include "../Input.h"
 #include "../global.h"
 #include <time.h>
+#include "../StageCounter.h"
 
 #define CoGVersion "4.5"
 
@@ -77,6 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		OutputDebugString("GetScreenState failed\n");
 	}
+
+	StageCounter::StageCounter();
 
 	while (true) {
 #if IMGUI

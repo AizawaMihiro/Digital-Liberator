@@ -1,9 +1,11 @@
 #include "TitleScene.h"
 #include "Time.h"
+#include "../StageCounter.h"
 #include <iostream>
 
 TitleScene::TitleScene()
 {
+	StageCounter::Reset();
 }
 
 TitleScene::~TitleScene()

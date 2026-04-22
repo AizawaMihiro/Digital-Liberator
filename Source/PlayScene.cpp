@@ -5,6 +5,12 @@
 #include "../Axis.h"
 #include "../Map.h"
 #include "../Light.h"
+#include "../StageCounter.h"
+
+namespace
+{
+	const int CLEAR_STAGE_COUNT = 5;
+}
 
 PlayScene::PlayScene()
 {
@@ -54,7 +60,15 @@ void PlayScene::Update()
 	light->Update();
 	if (map->GetGameClearFlag())
 	{
-		SceneManager::ChangeScene("LOAD");
+		StageCounter::CountUp();
+		if (StageCounter::GetCount()>= CLEAR_STAGE_COUNT)
+		{
+			SceneManager::ChangeScene("CLEAR");
+		}
+		else
+		{
+			SceneManager::ChangeScene("LOAD");
+		}
 	}
 	if (map->GetGameOverFlag())
 	{
