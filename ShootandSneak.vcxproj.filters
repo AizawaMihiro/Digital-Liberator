@@ -123,7 +123,22 @@
       <Filter>OverScene</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="Object2D.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Axis.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Fbx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -204,6 +219,21 @@
       <Filter>OverScene</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="Object2D.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Axis.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Fbx.cpp" />
   </ItemGroup>
 </Project>
