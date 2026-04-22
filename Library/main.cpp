@@ -121,7 +121,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 //次やること
-// プレイシーンを周回できるようにする
 // プレイシーンを何回通ったかをカウントする
 //プレイヤーのアニメーション
 //敵のAI
