@@ -13,6 +13,14 @@ Player::Player()
 	transform.rotation = VZero;
 	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;
+
+	hViewModel = MV1LoadModel("Assets/model/3Dchara man.mv1");
+	viewModelTransform.position = VZero;
+	VECTOR3 viewDefRot = { (0.0f),(180.0f * DegToRad),(0.0f) };
+	viewModelTransform.rotation = viewDefRot;
+	VECTOR3 viewDefScale = { (0.2f),(0.2f),(0.2f) };
+	viewModelTransform.scale = viewDefScale;
+
 	camera = FindGameObject<Camera>();
 	flameTime = Time::DeltaTime();
 }
@@ -23,6 +31,11 @@ Player::~Player()
 	{
 		MV1DeleteModel(hModel);
 		hModel = -1;
+	}
+	if (hViewModel != -1)
+	{
+		MV1DeleteModel(hViewModel);
+		hViewModel = -1;
 	}
 }
 
@@ -67,6 +80,9 @@ void Player::Update()
 		break;
 	}
 
+	viewModelTransform.position = transform.position;
+	viewModelTransform.rotation = transform.rotation + VECTOR3(0.0f, 180.0f * DegToRad, 0.0f);
+
 	if (cameraMode == FIRST_PERSON && state_ != ATTACK)
 	{
 		camera->ChangeViewMode(true);
@@ -80,15 +96,32 @@ void Player::Update()
 	ImGui::InputFloat("PositionY", &transform.position.y);
 	ImGui::InputFloat("PositionZ", &transform.position.z);
 	ImGui::InputFloat("RotationY", &transform.rotation.y);
+	ImGui::InputFloat("ViewPosX", &viewModelTransform.position.x);
+	ImGui::InputFloat("ViewPosY", &viewModelTransform.position.y);
+	ImGui::InputFloat("ViewPosZ", &viewModelTransform.position.z);
+	ImGui::InputFloat("ViewRotY", &viewModelTransform.rotation.y);
 	ImGui::End();
 }
 
 void Player::Draw()
 {
-	Object3D::Draw();
+	// ƒrƒ…[ƒ‚ƒfƒ‹‚Ì•`‰æ
+	if (hViewModel != -1)
+	{
+		const MATRIX& local = viewModelTransform.MakeLocalMatrix();
+		if (parent != nullptr) {
+			const MATRIX& parentLocal = parent->GetTransform().GetLocalMatrix();
+			MATRIX world = local * parentLocal;
+			MV1SetMatrix(hViewModel, world);
+		}
+		else {
+			MV1SetMatrix(hViewModel, local);
+		}
+	}
+
 	if (camera->IsThirdPerson())
 	{
-		MV1DrawModel(hModel);
+		MV1DrawModel(hViewModel);
 	}
 }
 

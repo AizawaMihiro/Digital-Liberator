@@ -37,6 +37,8 @@ public:
 	VECTOR3 GetPosition() { return transform.position; }
 
 private:
+	int hViewModel;
+	Transform viewModelTransform;
 	State state_;
 	CameraMode cameraMode;
 	void UpdateMove();
