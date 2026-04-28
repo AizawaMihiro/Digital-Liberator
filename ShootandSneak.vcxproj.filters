@@ -25,6 +25,9 @@
     <Filter Include="OverScene">
       <UniqueIdentifier>{0ee4f70a-87e3-4b84-9359-19f97153d8f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LoadScene">
+      <UniqueIdentifier>{264c4e6f-308a-4717-a73d-a514909a4a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">
@@ -128,7 +131,10 @@
     </ClInclude>
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="StageCounter.h" />
+    <ClInclude Include="LoadScene.h">
+      <Filter>LoadScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -214,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="StageCounter.cpp" />
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>LoadScene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

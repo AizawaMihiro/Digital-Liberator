@@ -9,7 +9,7 @@
 
 namespace
 {
-	const int CLEAR_STAGE_COUNT = 5;
+	const int CLEAR_STAGE_COUNT = 3;
 }
 
 PlayScene::PlayScene()
