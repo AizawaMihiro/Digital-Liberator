@@ -80,7 +80,7 @@ void Camera::Update()
 
 	CameraSetup(rot,isThirdPerson);
 
-	DebugImGui(rot);
+	//DebugImGui(rot);
 }
 
 void Camera::CameraSetup(VECTOR3 rot, bool viewMode)

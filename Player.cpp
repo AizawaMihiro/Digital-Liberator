@@ -91,16 +91,16 @@ void Player::Update()
 
 	CameraControl();
 
-	ImGui::Begin("Player");
-	ImGui::InputFloat("PositionX", &transform.position.x);
-	ImGui::InputFloat("PositionY", &transform.position.y);
-	ImGui::InputFloat("PositionZ", &transform.position.z);
-	ImGui::InputFloat("RotationY", &transform.rotation.y);
-	ImGui::InputFloat("ViewPosX", &viewModelTransform.position.x);
-	ImGui::InputFloat("ViewPosY", &viewModelTransform.position.y);
-	ImGui::InputFloat("ViewPosZ", &viewModelTransform.position.z);
-	ImGui::InputFloat("ViewRotY", &viewModelTransform.rotation.y);
-	ImGui::End();
+	//ImGui::Begin("Player");
+	//ImGui::InputFloat("PositionX", &transform.position.x);
+	//ImGui::InputFloat("PositionY", &transform.position.y);
+	//ImGui::InputFloat("PositionZ", &transform.position.z);
+	//ImGui::InputFloat("RotationY", &transform.rotation.y);
+	//ImGui::InputFloat("ViewPosX", &viewModelTransform.position.x);
+	//ImGui::InputFloat("ViewPosY", &viewModelTransform.position.y);
+	//ImGui::InputFloat("ViewPosZ", &viewModelTransform.position.z);
+	//ImGui::InputFloat("ViewRotY", &viewModelTransform.rotation.y);
+	//ImGui::End();
 }
 
 void Player::Draw()

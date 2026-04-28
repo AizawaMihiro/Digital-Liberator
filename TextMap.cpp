@@ -131,8 +131,8 @@ void TextMap::Draw()
 	int Width = Global::ScreenWidth;
 	int Height = Global::ScreenHeight;
 
-	ImGui::Begin("Global");
-	ImGui::Text("ScreenWidth: %d", Width);
-	ImGui::Text("ScreenHeight: %d", Height);
-	ImGui::End();
+	//ImGui::Begin("Global");
+	//ImGui::Text("ScreenWidth: %d", Width);
+	//ImGui::Text("ScreenHeight: %d", Height);
+	//ImGui::End();
 }
