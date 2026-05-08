@@ -4,6 +4,13 @@
 #include "Input.h"
 #include "Time.h"
 
+namespace
+{
+	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
+	VECTOR3 viewDefRot = { (0.0f),(180.0f * DegToRad),(0.0f) };
+	VECTOR3 viewDefScale = { (0.2f),(0.2f),(0.2f) };
+}
+
 Player::Player()
 	:state_(IDLE), cameraMode(THIRD_PERSON)
 {
@@ -11,15 +18,17 @@ Player::Player()
 	assert(hModel != -1);
 	transform.position = VZero;
 	transform.rotation = VZero;
-	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;
 
-	hViewModel = MV1LoadModel("Assets/model/3Dchara man.mv1");
+	hViewModel_ = MV1LoadModel("Assets/model/3Dchara man.mv1");
 	viewModelTransform.position = VZero;
-	VECTOR3 viewDefRot = { (0.0f),(180.0f * DegToRad),(0.0f) };
 	viewModelTransform.rotation = viewDefRot;
-	VECTOR3 viewDefScale = { (0.2f),(0.2f),(0.2f) };
 	viewModelTransform.scale = viewDefScale;
+
+	hIdleAnim_ = MV1LoadModel("Assets/anime/Idle.mv1");
+	hMoveAnim_ = MV1LoadModel("Assets/anime/Run.mv1");
+	hViewModel_ = hIdleAnim_;
+	animFrame = MV1AttachAnim(hViewModel_, 0);
 
 	camera = FindGameObject<Camera>();
 	flameTime = Time::DeltaTime();
@@ -32,11 +41,13 @@ Player::~Player()
 		MV1DeleteModel(hModel);
 		hModel = -1;
 	}
-	if (hViewModel != -1)
+	if (hViewModel_ != -1)
 	{
-		MV1DeleteModel(hViewModel);
-		hViewModel = -1;
+		MV1DeleteModel(hViewModel_);
+		hViewModel_ = -1;
 	}
+	MV1DeleteModel(hIdleAnim_);
+	MV1DeleteModel(hMoveAnim_);
 }
 
 void Player::Update()
@@ -90,6 +101,7 @@ void Player::Update()
 	}
 
 	CameraControl();
+	UpdateViewModel();
 
 	//ImGui::Begin("Player");
 	//ImGui::InputFloat("PositionX", &transform.position.x);
@@ -106,22 +118,22 @@ void Player::Update()
 void Player::Draw()
 {
 	// ƒrƒ…[ƒ‚ƒfƒ‹‚Ì•`‰æ
-	if (hViewModel != -1)
+	if (hViewModel_ != -1)
 	{
 		const MATRIX& local = viewModelTransform.MakeLocalMatrix();
 		if (parent != nullptr) {
 			const MATRIX& parentLocal = parent->GetTransform().GetLocalMatrix();
 			MATRIX world = local * parentLocal;
-			MV1SetMatrix(hViewModel, world);
+			MV1SetMatrix(hViewModel_, world);
 		}
 		else {
-			MV1SetMatrix(hViewModel, local);
+			MV1SetMatrix(hViewModel_, local);
 		}
 	}
 
 	if (camera->IsThirdPerson())
 	{
-		MV1DrawModel(hViewModel);
+		MV1DrawModel(hViewModel_);
 	}
 }
 
@@ -191,7 +203,27 @@ void Player::UpdateDead()
 
 void Player::ChangeState(State newState)
 {
+	if (newState == State::MOVE && hViewModel_!= hMoveAnim_)
+	{
+		hViewModel_ = hMoveAnim_;
+		viewModelTransform.scale = viewDefScale;
+		animTimer = 0.0f;
+		animFrame = MV1AttachAnim(hViewModel_, 0);
+	}else if (newState == State::IDLE && hViewModel_ != hIdleAnim_)
+	{
+		hViewModel_ = hIdleAnim_;
+		viewModelTransform.scale = viewDefScale;
+		animTimer = 0.0f;
+		animFrame = MV1AttachAnim(hViewModel_, 0);
+	}
 	state_ = newState;
+}
+
+void Player::UpdateViewModel()
+{
+	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame);
+	animTimer = fmod(animTimer + flameTime * 60.0f, totalTime);
+	MV1SetAttachAnimTime(hViewModel_, animFrame, animTimer);
 }
 
 void Player::MouseInput()
