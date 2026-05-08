@@ -205,12 +205,14 @@ void Player::ChangeState(State newState)
 {
 	if (newState == State::MOVE && hViewModel_!= hMoveAnim_)
 	{
+		MV1DetachAnim(hViewModel_, 0);
 		hViewModel_ = hMoveAnim_;
 		viewModelTransform.scale = viewDefScale;
 		animTimer = 0.0f;
 		animFrame = MV1AttachAnim(hViewModel_, 0);
 	}else if (newState == State::IDLE && hViewModel_ != hIdleAnim_)
 	{
+		MV1DetachAnim(hViewModel_, 0);
 		hViewModel_ = hIdleAnim_;
 		viewModelTransform.scale = viewDefScale;
 		animTimer = 0.0f;
