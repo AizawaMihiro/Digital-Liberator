@@ -37,12 +37,11 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	int moveX = Input::GetMouseMoveX();
 	int moveY = Input::GetMouseMoveY();
 
 	VECTOR3& rot = transform.rotation;// ‰ñ“]Šp“x‚Ì"QÆ"
-	rot.y += moveX * 0.5f * DegToRad;
 	rot.x += moveY * 0.5f * DegToRad;
+
 	// ã‰º‚Ì‰ñ“]‚ğ§ŒÀ
 	if (isThirdPerson)
 	{

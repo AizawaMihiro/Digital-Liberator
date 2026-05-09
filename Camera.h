@@ -12,7 +12,9 @@ public:
 	void Update() override;
 	void SetTargetPosition(VECTOR3 pos) { targetPosition = pos; }
 	void SetCameraPosition(VECTOR3 pos) { camPos = pos; }
+	void SetCameraRotation(VECTOR3 rot) { transform.rotation = rot; }
 	VECTOR3 GetCameraPos() { return camPos; }
+	VECTOR3 GetCameraRot() { return transform.rotation; }	
 	bool IsThirdPerson() const { return isThirdPerson; }
 	bool ChangeViewMode() { isThirdPerson = !isThirdPerson; return isThirdPerson; }
 	bool ChangeViewMode(bool mode) { isThirdPerson = mode; return isThirdPerson; }

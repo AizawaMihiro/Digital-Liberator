@@ -16,8 +16,9 @@ enum CameraMode
 };
 
 namespace {
-	const float MOVE_SPEED = 4.0f;
+	const float MOVE_SPEED = 3.0f;
 	const float HIDE_SPEED = 2.0f;
+	const float ROT_SPEED = 2.0f;
 	int moveX, moveY;
 }
 
@@ -53,7 +54,7 @@ private:
 	void MouseInput();
 	bool IsCheckMoveInput();
 	void CameraControl();
-	float flameTime;	//使用時に*100する
+	float flameTime_;	//使用時に*100する
 	float animTimer;	//アニメーションの再生時間を管理する
 	int animFrame;		//アニメーションのフレームを管理する
 };

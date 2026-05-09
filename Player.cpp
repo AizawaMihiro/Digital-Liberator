@@ -31,7 +31,7 @@ Player::Player()
 	animFrame = MV1AttachAnim(hViewModel_, 0);
 
 	camera = FindGameObject<Camera>();
-	flameTime = Time::DeltaTime();
+	flameTime_ = Time::DeltaTime();
 }
 
 Player::~Player()
@@ -52,7 +52,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	flameTime = Time::DeltaTime();
+	flameTime_ = Time::DeltaTime();
 	MouseInput();
 
 	if (IsCheckMoveInput())
@@ -139,15 +139,16 @@ void Player::Draw()
 
 void Player::UpdateMove()
 {
-	float flameMoveDist = MOVE_SPEED * flameTime * 100;
+	float moveTime = flameTime_ * 100.0f;
+	float flameMoveDist = MOVE_SPEED * moveTime;
 	VECTOR3 moveVec = { 0.0f,0.0f,0.0f };
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		moveVec.x += 1.0f;
+		transform.rotation.y += ROT_SPEED * DegToRad * moveTime;
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		moveVec.x -= 1.0f;
+		transform.rotation.y -= ROT_SPEED * DegToRad * moveTime;
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
@@ -164,15 +165,16 @@ void Player::UpdateHide()
 {
 	//しゃがみ移動を行う
 	//やや遅くなる
-	float flameMoveDist = HIDE_SPEED * flameTime * 100;
+	float moveTime = flameTime_ * 100.0f;
+	float flameMoveDist = HIDE_SPEED * moveTime;
 	VECTOR3 moveVec = { 0.0f,0.0f,0.0f };
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		moveVec.x += 1.0f;
+		transform.rotation.y += ROT_SPEED * DegToRad * moveTime;
 	}
 	if (CheckHitKey(KEY_INPUT_A))
 	{
-		moveVec.x -= 1.0f;
+		transform.rotation.y -= ROT_SPEED * DegToRad * moveTime;
 	}
 	if (CheckHitKey(KEY_INPUT_W))
 	{
@@ -224,12 +226,14 @@ void Player::ChangeState(State newState)
 void Player::UpdateViewModel()
 {
 	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame);
-	animTimer = fmod(animTimer + flameTime * 60.0f, totalTime);
+	animTimer = fmod(animTimer + flameTime_ * 100.0f, totalTime);
 	MV1SetAttachAnimTime(hViewModel_, animFrame, animTimer);
 }
 
 void Player::MouseInput()
 {
+	// マウスの移動量を取得
+	// 照準操作に使用予定
 	moveX = (int)Input::GetMouseMoveX();
 	moveY = (int)Input::GetMouseMoveY();
 }
@@ -248,7 +252,10 @@ bool Player::IsCheckMoveInput()
 
 void Player::CameraControl()
 {
-	transform.rotation.y += moveX * 0.5f * DegToRad;
+	// カメラの向きをプレイヤーの向きに合わせる
+	VECTOR3 camRot = camera->GetCameraRot();
+	camRot.y = transform.rotation.y;
+	camera->SetCameraRotation(camRot);
 
 	// カメラの注視点をプレイヤーの前方に設定
 	VECTOR3 lookPos = transform.position;
