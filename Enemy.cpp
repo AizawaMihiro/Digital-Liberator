@@ -93,11 +93,7 @@ void Enemy::Update()
 		break;
 	}
 
-	//ImGui::Begin("Enemy");
-	//ImGui::InputFloat("PositionX", &transform.position.x);
-	//ImGui::InputFloat("PositionY", &transform.position.y);
-	//ImGui::InputFloat("PositionZ", &transform.position.z);
-	//ImGui::End();
+	//DebugImgui();
 }
 
 void Enemy::Draw()
@@ -261,5 +257,14 @@ void Enemy::ChangeState(State newState)
 		}
 		state_ = newState;
 	}
+}
+
+void Enemy::DebugImGui()
+{
+	ImGui::Begin("Enemy");
+	ImGui::InputFloat("PositionX", &transform.position.x);
+	ImGui::InputFloat("PositionY", &transform.position.y);
+	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::End();
 }
 

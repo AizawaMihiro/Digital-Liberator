@@ -39,5 +39,6 @@ private:
 	void UpdateReturn();
 	void UpdateStun();
 	void ChangeState(State newState);
+	void DebugImGui();
 };
 

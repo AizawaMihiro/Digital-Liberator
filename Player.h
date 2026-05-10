@@ -59,5 +59,6 @@ private:
 	void MouseInput();
 	bool IsCheckMoveInput();
 	void CameraControl();
+	void DebugImGui();
 };
 

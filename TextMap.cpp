@@ -127,12 +127,17 @@ void TextMap::Draw()
 		}
 	}
 
+	//DebugImGui();
+}
+
+void TextMap::DebugImGui()
+{
 	//デバッグ用にグローバル変数を表示
 	int Width = Global::ScreenWidth;
 	int Height = Global::ScreenHeight;
 
-	//ImGui::Begin("Global");
-	//ImGui::Text("ScreenWidth: %d", Width);
-	//ImGui::Text("ScreenHeight: %d", Height);
-	//ImGui::End();
+	ImGui::Begin("Global");
+	ImGui::Text("ScreenWidth: %d", Width);
+	ImGui::Text("ScreenHeight: %d", Height);
+	ImGui::End();
 }

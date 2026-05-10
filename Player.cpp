@@ -107,16 +107,7 @@ void Player::Update()
 	CameraControl();
 	UpdateViewModel();
 
-	//ImGui::Begin("Player");
-	//ImGui::InputFloat("PositionX", &transform.position.x);
-	//ImGui::InputFloat("PositionY", &transform.position.y);
-	//ImGui::InputFloat("PositionZ", &transform.position.z);
-	//ImGui::InputFloat("RotationY", &transform.rotation.y);
-	//ImGui::InputFloat("ViewPosX", &viewModelTransform.position.x);
-	//ImGui::InputFloat("ViewPosY", &viewModelTransform.position.y);
-	//ImGui::InputFloat("ViewPosZ", &viewModelTransform.position.z);
-	//ImGui::InputFloat("ViewRotY", &viewModelTransform.rotation.y);
-	//ImGui::End();
+	//DebugImGui();
 }
 
 void Player::Draw()
@@ -296,4 +287,18 @@ void Player::CameraControl()
 	// カメラの注視点をプレイヤーの前方に設定
 	VECTOR3 lookPos = transform.position;
 	camera->SetTargetPosition(lookPos);
+}
+
+void Player::DebugImGui()
+{
+	ImGui::Begin("Player");
+	ImGui::InputFloat("PositionX", &transform.position.x);
+	ImGui::InputFloat("PositionY", &transform.position.y);
+	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::InputFloat("RotationY", &transform.rotation.y);
+	ImGui::InputFloat("ViewPosX", &viewModelTransform.position.x);
+	ImGui::InputFloat("ViewPosY", &viewModelTransform.position.y);
+	ImGui::InputFloat("ViewPosZ", &viewModelTransform.position.z);
+	ImGui::InputFloat("ViewRotY", &viewModelTransform.rotation.y);
+	ImGui::End();
 }
