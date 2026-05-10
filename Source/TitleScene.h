@@ -16,5 +16,9 @@ public:
 
 private:
 	int hImage_;
-	float timer_;
+	float textTimer_;
+	float startTimer_;
+	bool PressStartKey_;
+	int hBGM_;
+	int hStartSound_;
 };

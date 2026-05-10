@@ -14,9 +14,11 @@ Enemy::Enemy()
 	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
 	transform.scale = defScale;
 	currentPatrolIndex = 0;
-	flameTime = 0.0f;
-	stunTimer = 0.0f;
-	returndFlag = false;
+	flameTime_ = 0.0f;
+	stunTimer_ = 0.0f;
+	returndFlag_ = false;
+
+	hCheckSound_ = LoadSoundMem("Assets/sound/se/Check.mp3");
 }
 
 Enemy::~Enemy()
@@ -26,11 +28,12 @@ Enemy::~Enemy()
 		MV1DeleteModel(hModel);
 		hModel = -1;
 	}
+	DeleteSoundMem(hCheckSound_);
 }
 
 void Enemy::Update()
 {
-	flameTime = Time::DeltaTime();
+	flameTime_ = Time::DeltaTime();
 	Player* player = ObjectManager::FindGameObject<Player>();
 	if (player)
 	{
@@ -61,11 +64,11 @@ void Enemy::Update()
 		{
 			ChangeState(CHASE);
 		}
-		else if ((state_ == State::CHASE || state_ == State::RETURN) && !returndFlag)
+		else if ((state_ == State::CHASE || state_ == State::RETURN) && !returndFlag_)
 		{
 			ChangeState(RETURN);
 		}
-		else if (state_ == State::PATROL || returndFlag)
+		else if (state_ == State::PATROL || returndFlag_)
 		{
 			ChangeState(PATROL);
 		}
@@ -154,7 +157,7 @@ void Enemy::SetStateStun()
 	//スタン状態になったときの処理
 	//スタン時間をリセットするなど
 	ChangeState(STUN);
-	stunTimer = ENEMY::STUN_TIME;
+	stunTimer_ = ENEMY::STUN_TIME;
 }
 
 void Enemy::UpdatePatrol()
@@ -183,7 +186,7 @@ void Enemy::UpdatePatrol()
 			if (length > 0.1f)
 			{
 				direction /= length; //正規化
-				float flameMoveDist = ENEMY::MOVE_SPEED * flameTime * 100;
+				float flameMoveDist = ENEMY::MOVE_SPEED * flameTime_ * 100;
 				VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
 				transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 				transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
@@ -191,9 +194,9 @@ void Enemy::UpdatePatrol()
 		}
 	}
 
-	if (returndFlag)
+	if (returndFlag_)
 	{
-		returndFlag = false;
+		returndFlag_ = false;
 	}
 }
 
@@ -209,7 +212,7 @@ void Enemy::UpdateChase()
 		if (length > 0.1f)
 		{
 			direction /= length; //正規化
-			float flameMoveDist = ENEMY::CHASE_SPEED * flameTime * 100;
+			float flameMoveDist = ENEMY::CHASE_SPEED * flameTime_ * 100;
 			VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
 			transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 			transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
@@ -225,7 +228,7 @@ void Enemy::UpdateReturn()
 	if (length > 1.0f)//patrolPointに戻るときは少し距離の閾値を大きくする
 	{
 		direction /= length; //正規化
-		float flameMoveDist = ENEMY::MOVE_SPEED * flameTime * 100;
+		float flameMoveDist = ENEMY::MOVE_SPEED * flameTime_ * 100;
 		VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
 		transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 		transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
@@ -233,7 +236,7 @@ void Enemy::UpdateReturn()
 	else
 	{
 		//patrolPointに戻ったときの処理
-		returndFlag = true;
+		returndFlag_ = true;
 	}
 }
 
@@ -241,8 +244,8 @@ void Enemy::UpdateStun()
 {
 	//プレイヤーに攻撃されたときに停止する
 	//時間経過で回復
-	stunTimer -= flameTime;
-	if (stunTimer <= 0)
+	stunTimer_ -= flameTime_;
+	if (stunTimer_ <= 0)
 	{
 		ChangeState(PATROL);
 	}
@@ -252,6 +255,10 @@ void Enemy::ChangeState(State newState)
 {
 	if (newState!=state_)
 	{
+		if (newState == State::CHASE)
+		{
+			PlaySoundMem(hCheckSound_, DX_PLAYTYPE_BACK);
+		}
 		state_ = newState;
 	}
 }

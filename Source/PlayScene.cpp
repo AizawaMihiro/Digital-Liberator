@@ -10,6 +10,7 @@
 namespace
 {
 	const int CLEAR_STAGE_COUNT = 3;
+	const int SOUND_VOLUME = 75;//255‚ªÅ‘å 30%‚Ù‚Ç‚Ì‰¹—Ê‚ÉÝ’è
 }
 
 PlayScene::PlayScene()
@@ -25,6 +26,11 @@ PlayScene::PlayScene()
 	light->CreateAddLight(DX_LIGHTTYPE_POINT);
 
 	camera->SetTargetPosition(player->GetTransform().position);
+
+	hBGM_ = LoadSoundMem("Assets/sound/Escape.mp3");
+
+	PlaySoundMem(hBGM_, DX_PLAYTYPE_LOOP);
+	ChangeVolumeSoundMem(SOUND_VOLUME, hBGM_);
 }
 
 PlayScene::~PlayScene()
@@ -49,6 +55,7 @@ PlayScene::~PlayScene()
 		delete light;
 		light = nullptr;
 	}
+	DeleteSoundMem(hBGM_);
 }
 
 void PlayScene::Update()

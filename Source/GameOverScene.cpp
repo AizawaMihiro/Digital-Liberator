@@ -3,6 +3,8 @@
 GameOverScene::GameOverScene()
 {
 	hImage_ = LoadGraph("Assets/image/GameOver.jpg");
+	hGameOverSound_ = LoadSoundMem("Assets/sound/se/GameOver.mp3");
+	PlaySoundMem(hGameOverSound_, DX_PLAYTYPE_BACK);
 }
 
 GameOverScene::~GameOverScene()
@@ -12,7 +14,7 @@ GameOverScene::~GameOverScene()
 		DeleteGraph(hImage_);
 		hImage_ = -1;
 	}
-
+	DeleteSoundMem(hGameOverSound_);
 }
 
 void GameOverScene::Update()
@@ -25,7 +27,7 @@ void GameOverScene::Update()
 void GameOverScene::Draw()
 {
 	DrawGraph(0, 0, hImage_, TRUE);
-	DrawString(0, 0, "CLEAR SCENE", GetColor(255, 255, 255));
+	//DrawString(0, 0, "CLEAR SCENE", GetColor(255, 255, 255));
 	//DrawString(100, 300, "GAME OVER", GetColor(255, 0, 0));
 	DrawString(550, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
 }

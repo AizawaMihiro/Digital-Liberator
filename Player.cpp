@@ -28,10 +28,13 @@ Player::Player()
 	hIdleAnim_ = MV1LoadModel("Assets/anime/Idle.mv1");
 	hMoveAnim_ = MV1LoadModel("Assets/anime/Run.mv1");
 	hViewModel_ = hIdleAnim_;
-	animFrame = MV1AttachAnim(hViewModel_, 0);
+	animFrame_ = MV1AttachAnim(hViewModel_, 0);
 
 	camera = FindGameObject<Camera>();
 	flameTime_ = Time::DeltaTime();
+
+	hWalkSound_ = LoadSoundMem("Assets/sound/se/walk.mp3");
+	hDashSound_ = LoadSoundMem("Assets/sound/se/run.mp3");
 }
 
 Player::~Player()
@@ -48,6 +51,8 @@ Player::~Player()
 	}
 	MV1DeleteModel(hIdleAnim_);
 	MV1DeleteModel(hMoveAnim_);
+	DeleteSoundMem(hWalkSound_);
+	DeleteSoundMem(hDashSound_);
 }
 
 void Player::Update()
@@ -55,22 +60,21 @@ void Player::Update()
 	flameTime_ = Time::DeltaTime();
 	MouseInput();
 
-	if (IsCheckMoveInput())
-	{
-		ChangeState(MOVE);
-	}
-	else
-	{
-		ChangeState(IDLE);
-	}
-
 	if (CheckHitKey(KEY_INPUT_LSHIFT))
 	{
 		ChangeState(HIDE);
 	}
-	if (GetMouseInput()&&MOUSE_INPUT_LEFT)
+	else if (IsCheckMoveInput())
+	{
+		ChangeState(MOVE);
+	}
+	else if (GetMouseInput()&&MOUSE_INPUT_LEFT)
 	{
 		ChangeState(ATTACK);
+	}
+	else
+	{
+		ChangeState(IDLE);
 	}
 
 	switch (state_)
@@ -205,29 +209,61 @@ void Player::UpdateDead()
 
 void Player::ChangeState(State newState)
 {
-	if (newState == State::MOVE && hViewModel_!= hMoveAnim_)
+	//アニメーションの切り替え
+	//seの切り替えもここで行う
+	if (newState != state_)
 	{
-		MV1DetachAnim(hViewModel_, 0);
-		hViewModel_ = hMoveAnim_;
-		viewModelTransform.scale = viewDefScale;
-		animTimer = 0.0f;
-		animFrame = MV1AttachAnim(hViewModel_, 0);
-	}else if (newState == State::IDLE && hViewModel_ != hIdleAnim_)
-	{
-		MV1DetachAnim(hViewModel_, 0);
-		hViewModel_ = hIdleAnim_;
-		viewModelTransform.scale = viewDefScale;
-		animTimer = 0.0f;
-		animFrame = MV1AttachAnim(hViewModel_, 0);
+		if (newState == State::MOVE && hViewModel_ != hMoveAnim_)
+		{
+			MV1DetachAnim(hViewModel_, 0);
+			hViewModel_ = hMoveAnim_;
+			viewModelTransform.scale = viewDefScale;
+			animTimer_ = 0.0f;
+			animFrame_ = MV1AttachAnim(hViewModel_, 0);
+			if (CheckSoundMem(hWalkSound_))
+			{
+				StopSoundMem(hWalkSound_);
+			}
+			PlaySoundMem(hDashSound_, DX_PLAYTYPE_LOOP);
+		}
+		else if (newState == State::HIDE && hViewModel_ != hMoveAnim_)
+		{
+			MV1DetachAnim(hViewModel_, 0);
+			hViewModel_ = hMoveAnim_;
+			viewModelTransform.scale = viewDefScale;
+			animTimer_ = 0.0f;
+			animFrame_ = MV1AttachAnim(hViewModel_, 0);
+			if (CheckSoundMem(hDashSound_))
+			{
+				StopSoundMem(hDashSound_);
+			}
+			PlaySoundMem(hWalkSound_, DX_PLAYTYPE_LOOP);
+		}
+		else if (newState == State::IDLE && hViewModel_ != hIdleAnim_)
+		{
+			MV1DetachAnim(hViewModel_, 0);
+			hViewModel_ = hIdleAnim_;
+			viewModelTransform.scale = viewDefScale;
+			animTimer_ = 0.0f;
+			animFrame_ = MV1AttachAnim(hViewModel_, 0);
+			if (CheckSoundMem(hDashSound_))
+			{
+				StopSoundMem(hDashSound_);
+			}
+			if (CheckSoundMem(hWalkSound_))
+			{
+				StopSoundMem(hWalkSound_);
+			}
+		}
+		state_ = newState;
 	}
-	state_ = newState;
 }
 
 void Player::UpdateViewModel()
 {
-	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame);
-	animTimer = fmod(animTimer + flameTime_ * 100.0f, totalTime);
-	MV1SetAttachAnimTime(hViewModel_, animFrame, animTimer);
+	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame_);
+	animTimer_ = fmod(animTimer_ + flameTime_ * 100.0f, totalTime);
+	MV1SetAttachAnimTime(hViewModel_, animFrame_, animTimer_);
 }
 
 void Player::MouseInput()

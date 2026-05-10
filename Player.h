@@ -41,6 +41,11 @@ private:
 	int hViewModel_;
 	int hIdleAnim_;
 	int hMoveAnim_;
+	float flameTime_;	//使用時に*100する
+	float animTimer_;	//アニメーションの再生時間を管理する
+	int animFrame_;		//アニメーションのフレームを管理する
+	int hWalkSound_;
+	int hDashSound_;
 	Transform viewModelTransform;
 	State state_;
 	Camera* camera;
@@ -54,8 +59,5 @@ private:
 	void MouseInput();
 	bool IsCheckMoveInput();
 	void CameraControl();
-	float flameTime_;	//使用時に*100する
-	float animTimer;	//アニメーションの再生時間を管理する
-	int animFrame;		//アニメーションのフレームを管理する
 };
 

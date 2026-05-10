@@ -14,8 +14,10 @@ LoadScene::LoadScene()
 	{
 		hImage_ = LoadGraph("Assets/image/Load check.jpg");
 	}
-	
 	timer_ = 0;
+
+	hChangeStageSound_ = LoadSoundMem("Assets/sound/se/SceneChange.mp3");
+	PlaySoundMem(hChangeStageSound_, DX_PLAYTYPE_BACK);
 }
 
 LoadScene::~LoadScene()
@@ -24,6 +26,7 @@ LoadScene::~LoadScene()
 		DeleteGraph(hImage_);
 		hImage_ = -1;
 	}
+	DeleteSoundMem(hChangeStageSound_);
 }
 
 void LoadScene::Update()

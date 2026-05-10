@@ -23,4 +23,5 @@ private:
 	Camera* camera;
 	Map* map;
 	Light* light;
+	int hBGM_;
 };

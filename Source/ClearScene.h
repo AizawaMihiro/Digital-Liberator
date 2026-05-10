@@ -11,4 +11,5 @@ public:
 
 private:
 	int hImage_;
+	int hClearSound_;
 };

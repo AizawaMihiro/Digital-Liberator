@@ -30,13 +30,14 @@ private:
 	VECTOR3 homePosition_;
 	std::vector<VECTOR3> patrolPoints_;
 	int currentPatrolIndex;
+	float flameTime_;	//使用時に*100する
+	float stunTimer_;	//スタン状態の残り時間
+	bool returndFlag_;	//patrolPointsに戻ったかどうか
+	int hCheckSound_;
 	void UpdatePatrol();
 	void UpdateChase();
 	void UpdateReturn();
 	void UpdateStun();
 	void ChangeState(State newState);
-	float flameTime;	//使用時に*100する
-	float stunTimer;	//スタン状態の残り時間
-	bool returndFlag;	//patrolPointsに戻ったかどうか
 };
 
