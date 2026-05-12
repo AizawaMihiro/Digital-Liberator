@@ -23,31 +23,3 @@ void Object3D::Draw()
 		}
 	}
 }
-
-void Object3D::RayCast(Object3D object, RayCastData& data)
-{
-	FLOAT3 target = { data.origin.x + data.dir.x, data.origin.y + data.dir.y, data.origin.z + data.dir.z };
-	MATRIX InvMat = MInverse(transform.GetLocalMatrix());
-	VECTOR3 localOrigin = VTransform(data.origin, InvMat);
-	VECTOR3 localTarget = VTransform(target, InvMat);
-	VECTOR3 localDir = VSub(localTarget, localOrigin);
-
-	// RayCastDataの更新
-	data.origin = localOrigin;
-	data.dir = localDir;
-	data.hit = false;
-
-	//objectの三角形とレイの当たり判定を行う
-	HITRESULT_LINE result;
-	if (object.IsLoadedFbx())
-	{
-		object.pFbx->RayCast(&data);
-	}
-
-	data.hit = result.HitFlag;
-	if (result.HitFlag)
-	{
-		data.pos = result.Position;
-	}
-}
-
