@@ -13,6 +13,7 @@ Player::Player()
 	transform.rotation = VZero;
 	VECTOR3 defScale = { (10.0f),(10.0f),(10.0f) };
 	transform.scale = defScale;
+	MV1SetupCollInfo(hModel, -1);
 	camera = FindGameObject<Camera>();
 	flameTime = Time::DeltaTime();
 }
