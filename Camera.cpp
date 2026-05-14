@@ -27,8 +27,8 @@ Camera::Camera()
 	GetMousePoint(&prevX, &prevY);
 	transform.position = VECTOR3(0, 0, 0);
 	transform.rotation = VECTOR3(20.0f * DegToRad, 0, 0);
-	isThirdPerson = true;
-	InputTimer = 0;
+	isThirdPerson_ = true;
+	InputTimer_ = 0;
 }
 
 Camera::~Camera()
@@ -37,14 +37,13 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	int moveX = Input::GetMouseMoveX();
 	int moveY = Input::GetMouseMoveY();
 
 	VECTOR3& rot = transform.rotation;// 回転角度の"参照"
-	rot.y += moveX * 0.5f * DegToRad;
 	rot.x += moveY * 0.5f * DegToRad;
+
 	// 上下の回転を制限
-	if (isThirdPerson)
+	if (isThirdPerson_)
 	{
 		if (rot.x < UPPER_ANGLE * DegToRad) {
 			rot.x = UPPER_ANGLE * DegToRad;
@@ -63,24 +62,17 @@ void Camera::Update()
 		}
 	}
 
-	// 左右の回転を制限
-	//if (rot.y > RIGHT_ANGLE * DegToRad) {
-	//	rot.y = RIGHT_ANGLE * DegToRad;
-	//}
-	//if (rot.y < LEFT_ANGLE * DegToRad) {
-	//	rot.y = LEFT_ANGLE * DegToRad;
-	//}
-
 	//カメラの距離調整
+	//デバッグ用にマウスホイールで距離を調整できるようにしている
 	int wheel = GetMouseWheelRotVol();
 	if (wheel!=0)
 	{
 		THIRD_CAMERA_DISTANCE -= wheel*10;
 	}
 
-	CameraSetup(rot,isThirdPerson);
+	CameraSetup(rot,isThirdPerson_);
 
-	DebugImGui(rot);
+	//DebugImGui(rot);
 }
 
 void Camera::CameraSetup(VECTOR3 rot, bool viewMode)
@@ -89,21 +81,21 @@ void Camera::CameraSetup(VECTOR3 rot, bool viewMode)
 	//三人称と一人称の位置を常に更新しておき、切り替え時にスムーズに移動させる
 
 	//三人称視点の情報
-	VECTOR3 ThirdPersonCamPos = targetPosition + VECTOR3(0, CAMERA_HEIGHT - 30.0f, 0) +
+	VECTOR3 ThirdPersonCamPos = targetPosition_ + VECTOR3(0, CAMERA_HEIGHT - 30.0f, 0) +
 		VECTOR3(0, 0, -THIRD_CAMERA_DISTANCE) * MGetRotX(rot.x) * MGetRotY(rot.y);
-	VECTOR3 ThirdPersonLookAt = targetPosition + VECTOR3(0, CAMERA_HEIGHT, 0);
+	VECTOR3 ThirdPersonLookAt = targetPosition_ + VECTOR3(0, CAMERA_HEIGHT, 0);
 
 	//一人称視点の情報
-	VECTOR3 SinglePersonCamPos = targetPosition + 
+	VECTOR3 SinglePersonCamPos = targetPosition_ + 
 		VECTOR3(0, CAMERA_HEIGHT, -FIRST_CAMERA_DISTANCE) * MGetRotX(rot.x) * MGetRotY(rot.y);
 	VECTOR3 SinglePersonLookAt = SinglePersonCamPos +
 		VECTOR3(0, 0.15f, 1.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
 	//スムーズに切り替える処理
-	if (prevIsThirdPerson != isThirdPerson)
+	if (prevIsThirdPerson != isThirdPerson_)
 	{
 		transitionTimer += Time::DeltaTime();
-		if (isThirdPerson)
+		if (isThirdPerson_)
 		{
 			//三人称視点へ切り替え
 			SinglePersonCamPos += (ThirdPersonCamPos - SinglePersonCamPos) * SWITCH_SPEED * transitionTimer;
@@ -116,7 +108,7 @@ void Camera::CameraSetup(VECTOR3 rot, bool viewMode)
 			//一定距離まで近づいたら完全に切り替え
 			if (distance < CHENGE_DISTANCE)
 			{
-				prevIsThirdPerson = isThirdPerson;
+				prevIsThirdPerson = isThirdPerson_;
 				transitionTimer = 0.0f;
 			}
 		}
@@ -133,7 +125,7 @@ void Camera::CameraSetup(VECTOR3 rot, bool viewMode)
 			//一定距離まで近づいたら完全に切り替え
 			if (distance < CHENGE_DISTANCE)
 			{
-				prevIsThirdPerson = isThirdPerson;
+				prevIsThirdPerson = isThirdPerson_;
 				transitionTimer = 0.0f;
 			}
 		}

@@ -16,8 +16,9 @@ enum CameraMode
 };
 
 namespace {
-	const float MOVE_SPEED = 4.0f;
+	const float MOVE_SPEED = 3.0f;
 	const float HIDE_SPEED = 2.0f;
+	const float ROT_SPEED = 2.0f;
 	int moveX, moveY;
 }
 
@@ -37,17 +38,27 @@ public:
 	VECTOR3 GetPosition() { return transform.position; }
 
 private:
+	int hViewModel_;
+	int hIdleAnim_;
+	int hMoveAnim_;
+	float flameTime_;	//使用時に*100する
+	float animTimer_;	//アニメーションの再生時間を管理する
+	int animFrame_;		//アニメーションのフレームを管理する
+	int hWalkSound_;
+	int hDashSound_;
+	Transform viewModelTransform;
 	State state_;
+	Camera* camera;
 	CameraMode cameraMode;
 	void UpdateMove();
 	void UpdateHide();
 	void UpdateAttack();
 	void UpdateDead();
 	void ChangeState(State newState);
-	Camera* camera;
+	void UpdateViewModel();//ViewModelのアニメーション
 	void MouseInput();
 	bool IsCheckMoveInput();
 	void CameraControl();
-	float flameTime;	//使用時に*100する
+	void DebugImGui();
 };
 

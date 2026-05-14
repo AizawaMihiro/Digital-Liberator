@@ -20,5 +20,6 @@ private:
 	std::pair<int, int> playerPos_;
 	std::list<Enemy*> enemies_;
 	std::vector<std::pair<int, int>> enemyPos_;
+	void DebugImGui();
 };
 

@@ -16,10 +16,10 @@ public:
 		transform.position = position;
 	}
 	bool GetGoaled() {
-		return TouchGoal;
+		return TouchGoal_;
 	}
 private:
 	void CheckHitPlayer(VECTOR3 pPos,VECTOR3 pSca);
-	bool TouchGoal;
+	bool TouchGoal_;
 };
 

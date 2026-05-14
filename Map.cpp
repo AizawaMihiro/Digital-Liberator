@@ -31,10 +31,8 @@ Map::Map(generator gen)
 	default:
 		break;
 	}
-	//hBlockModel_ = MV1LoadModel("Assets/model/shape-cube.mv1");
 	hBlockModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
 	assert(hBlockModel_ != -1);
-	//hPillarModel_ = MV1LoadModel("Assets/model/shape-cylinder.mv1");
 	hPillarModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
 	assert(hPillarModel_ != -1);
 }
@@ -173,7 +171,7 @@ void Map::Instantinate()
 
 	//迷路データから実際のオブジェクトを生成する処理
 	//コンパイルエラーC2360回避のために一時的に変数を用意
-		//nullptrのものは使用時に初期化する
+	//nullptrのものは使用時に初期化する
 	Block* block = nullptr;
 	Block* pillar = nullptr;
 	Enemy* enemy = nullptr;

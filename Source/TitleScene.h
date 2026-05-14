@@ -13,4 +13,12 @@ public:
 	~TitleScene();
 	void Update() override;
 	void Draw() override;
+
+private:
+	int hImage_;
+	float textTimer_;
+	float startTimer_;
+	bool PressStartKey_;
+	int hBGM_;
+	int hStartSound_;
 };

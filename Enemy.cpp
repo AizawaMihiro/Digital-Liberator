@@ -13,6 +13,12 @@ Enemy::Enemy()
 	transform.position = defPos;
 	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
 	transform.scale = defScale;
+	currentPatrolIndex = 0;
+	flameTime_ = 0.0f;
+	stunTimer_ = 0.0f;
+	returndFlag_ = false;
+
+	hCheckSound_ = LoadSoundMem("Assets/sound/se/Check.mp3");
 }
 
 Enemy::~Enemy()
@@ -22,11 +28,12 @@ Enemy::~Enemy()
 		MV1DeleteModel(hModel);
 		hModel = -1;
 	}
+	DeleteSoundMem(hCheckSound_);
 }
 
 void Enemy::Update()
 {
-	flameTime = Time::DeltaTime();
+	flameTime_ = Time::DeltaTime();
 	Player* player = ObjectManager::FindGameObject<Player>();
 	if (player)
 	{
@@ -56,19 +63,19 @@ void Enemy::Update()
 		}
 
 		//CHASE状態への遷移条件は、元々PATROLかRETURN状態でプレイヤーが一定距離以内かつEnemyの向きにいる場合
-		//PATROL状態への遷移条件は、プレイヤーが一定距離以上かつEnemyの向きにいない場合、またはRETURN状態でpatrolPointsに戻った場合
 		//RETURN状態への遷移条件は、CHASE状態でプレイヤーが一定距離以上かつEnemyの向きにいない場合、またはRETURN状態でpatrolPointsに戻っていない場合
-		if (inChaseRange && inFront && (state_ == State::PATROL || state_ == State::RETURN))
+		//PATROL状態への遷移条件は、プレイヤーが一定距離以上かつEnemyの向きにいない場合、またはRETURN状態でpatrolPointsに戻った場合
+		if (inChaseRange && inFront && (state_ == State::PATROL || state_ == State::RETURN || state_ == State::CHASE))
 		{
 			ChangeState(CHASE);
 		}
-		else if (state_ == State::PATROL || returndFlag)
-		{
-			ChangeState(PATROL);
-		}
-		else if (state_ == State::CHASE || state_ == State::RETURN)
+		else if ((state_ == State::CHASE || state_ == State::RETURN) && !returndFlag_)
 		{
 			ChangeState(RETURN);
+		}
+		else if (state_ == State::PATROL || returndFlag_)
+		{
+			ChangeState(PATROL);
 		}
 	}
 
@@ -91,11 +98,7 @@ void Enemy::Update()
 		break;
 	}
 
-	//ImGui::Begin("Enemy");
-	//ImGui::InputFloat("PositionX", &transform.position.x);
-	//ImGui::InputFloat("PositionY", &transform.position.y);
-	//ImGui::InputFloat("PositionZ", &transform.position.z);
-	//ImGui::End();
+	//DebugImgui();
 }
 
 void Enemy::Draw()
@@ -155,7 +158,7 @@ void Enemy::SetStateStun()
 	//スタン状態になったときの処理
 	//スタン時間をリセットするなど
 	ChangeState(STUN);
-	stunTimer = ENEMY::STUN_TIME;
+	stunTimer_ = ENEMY::STUN_TIME;
 }
 
 void Enemy::UpdatePatrol()
@@ -184,17 +187,23 @@ void Enemy::UpdatePatrol()
 			if (length > 0.1f)
 			{
 				direction /= length; //正規化
-				float flameMoveDist = ENEMY::MOVE_SPEED * flameTime * 100;
+				float flameMoveDist = ENEMY::MOVE_SPEED * flameTime_ * 100;
 				VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
 				transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 				transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
 			}
 		}
 	}
+
+	if (returndFlag_)
+	{
+		returndFlag_ = false;
+	}
 }
 
 void Enemy::UpdateChase()
 {
+	//プレイヤーの位置を取得して、プレイヤーに向かって移動する
 	Player* player = ObjectManager::FindGameObject<Player>();
 	if (player)
 	{
@@ -204,7 +213,7 @@ void Enemy::UpdateChase()
 		if (length > 0.1f)
 		{
 			direction /= length; //正規化
-			float flameMoveDist = ENEMY::CHASE_SPEED * flameTime * 100;
+			float flameMoveDist = ENEMY::CHASE_SPEED * flameTime_ * 100;
 			VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
 			transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 			transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
@@ -214,15 +223,30 @@ void Enemy::UpdateChase()
 
 void Enemy::UpdateReturn()
 {
-
+	//本来向かおうとしていたpatrolPointに向かう
+	VECTOR3 direction = patrolPoints_[currentPatrolIndex] - this->GetTransform().position;
+	float length = sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
+	if (length > 1.0f)//patrolPointに戻るときは少し距離の閾値を大きくする
+	{
+		direction /= length; //正規化
+		float flameMoveDist = ENEMY::MOVE_SPEED * flameTime_ * 100;
+		VECTOR3 moveVec = { 0.0f,0.0f,1.0f };
+		transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
+		transform.rotation.y = atan2(direction.x, direction.z); //向きを変える
+	}
+	else
+	{
+		//patrolPointに戻ったときの処理
+		returndFlag_ = true;
+	}
 }
 
 void Enemy::UpdateStun()
 {
 	//プレイヤーに攻撃されたときに停止する
 	//時間経過で回復
-	stunTimer -= flameTime;
-	if (stunTimer <= 0)
+	stunTimer_ -= flameTime_;
+	if (stunTimer_ <= 0)
 	{
 		ChangeState(PATROL);
 	}
@@ -230,6 +254,22 @@ void Enemy::UpdateStun()
 
 void Enemy::ChangeState(State newState)
 {
-	state_ = newState;
+	if (newState!=state_)
+	{
+		if (newState == State::CHASE)
+		{
+			PlaySoundMem(hCheckSound_, DX_PLAYTYPE_BACK);
+		}
+		state_ = newState;
+	}
+}
+
+void Enemy::DebugImGui()
+{
+	ImGui::Begin("Enemy");
+	ImGui::InputFloat("PositionX", &transform.position.x);
+	ImGui::InputFloat("PositionY", &transform.position.y);
+	ImGui::InputFloat("PositionZ", &transform.position.z);
+	ImGui::End();
 }
 

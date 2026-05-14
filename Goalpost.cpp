@@ -11,7 +11,7 @@ Goalpost::Goalpost()
 	VECTOR3 defScale = { (GOALPOST::size),(GOALPOST::size),(GOALPOST::size) };
 	transform.scale = defScale;
 
-	TouchGoal = false;
+	TouchGoal_ = false;
 }
 
 Goalpost::~Goalpost()
@@ -51,9 +51,9 @@ void Goalpost::CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca)
 	float limitZ = pSca.z + GOALPOST::size;
 	if (distX < limitX && distZ < limitZ)
 	{
-		TouchGoal = true;
+		TouchGoal_ = true;
 		return;
 	}
-	TouchGoal = false;
+	TouchGoal_ = false;
 	return;
 }

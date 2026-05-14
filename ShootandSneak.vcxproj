@@ -61,6 +61,7 @@
     <ClInclude Include="Source\SceneFactory.h" />
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\TitleScene.h" />
+    <ClInclude Include="StageCounter.h" />
     <ClInclude Include="TextMap.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -99,6 +100,7 @@
     <ClCompile Include="Source\PlayScene.cpp" />
     <ClCompile Include="Source\SceneFactory.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
+    <ClCompile Include="StageCounter.cpp" />
     <ClCompile Include="TextMap.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>

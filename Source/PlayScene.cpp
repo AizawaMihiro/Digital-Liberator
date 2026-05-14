@@ -5,6 +5,13 @@
 #include "../Axis.h"
 #include "../Map.h"
 #include "../Light.h"
+#include "../StageCounter.h"
+
+namespace
+{
+	const int CLEAR_STAGE_COUNT = 3;
+	const int SOUND_VOLUME = 75;//255‚ªÅ‘å 30%‚Ù‚Ç‚Ì‰¹—Ê‚ÉÝ’è
+}
 
 PlayScene::PlayScene()
 {
@@ -19,6 +26,11 @@ PlayScene::PlayScene()
 	light->CreateAddLight(DX_LIGHTTYPE_POINT);
 
 	camera->SetTargetPosition(player->GetTransform().position);
+
+	hBGM_ = LoadSoundMem("Assets/sound/Escape.mp3");
+
+	PlaySoundMem(hBGM_, DX_PLAYTYPE_LOOP);
+	ChangeVolumeSoundMem(SOUND_VOLUME, hBGM_);
 }
 
 PlayScene::~PlayScene()
@@ -43,6 +55,7 @@ PlayScene::~PlayScene()
 		delete light;
 		light = nullptr;
 	}
+	DeleteSoundMem(hBGM_);
 }
 
 void PlayScene::Update()
@@ -54,7 +67,15 @@ void PlayScene::Update()
 	light->Update();
 	if (map->GetGameClearFlag())
 	{
-		SceneManager::ChangeScene("LOAD");
+		StageCounter::CountUp();
+		if (StageCounter::GetCount()>= CLEAR_STAGE_COUNT)
+		{
+			SceneManager::ChangeScene("CLEAR");
+		}
+		else
+		{
+			SceneManager::ChangeScene("LOAD");
+		}
 	}
 	if (map->GetGameOverFlag())
 	{
@@ -64,6 +85,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
-	DrawString(100, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
+	//DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
+	//DrawString(100, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
 }

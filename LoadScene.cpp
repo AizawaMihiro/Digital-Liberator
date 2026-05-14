@@ -1,12 +1,32 @@
 #include "LoadScene.h"
+#include <stdlib.h>
+#include <time.h>
 
 LoadScene::LoadScene()
 {
+	srand((unsigned int)time(NULL));
+	int randomNum = rand() % 2;
+	if (randomNum==0)
+	{
+		hImage_ = LoadGraph("Assets/image/Load hide.jpg");
+	}
+	else
+	{
+		hImage_ = LoadGraph("Assets/image/Load check.jpg");
+	}
 	timer_ = 0;
+
+	hChangeStageSound_ = LoadSoundMem("Assets/sound/se/SceneChange.mp3");
+	PlaySoundMem(hChangeStageSound_, DX_PLAYTYPE_BACK);
 }
 
 LoadScene::~LoadScene()
 {
+	if (hImage_ != -1) {
+		DeleteGraph(hImage_);
+		hImage_ = -1;
+	}
+	DeleteSoundMem(hChangeStageSound_);
 }
 
 void LoadScene::Update()
@@ -20,6 +40,7 @@ void LoadScene::Update()
 
 void LoadScene::Draw()
 {
-	DrawString(0, 0, "LOAD SCENE", GetColor(255, 255, 255));
-	DrawString(100, 400, "Waiting...", GetColor(255, 255, 255));
+	DrawGraph(0, 0, hImage_, TRUE);
+	//DrawString(0, 0, "LOAD SCENE", GetColor(255, 255, 255));
+	DrawString(100, 400, "Loading...", GetColor(255, 255, 255));
 }

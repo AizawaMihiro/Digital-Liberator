@@ -2,10 +2,19 @@
 
 ClearScene::ClearScene()
 {
+	hImage_ = LoadGraph("Assets/image/Clear.jpg");
+	hClearSound_ = LoadSoundMem("Assets/sound/se/Clear.mp3");
+
+	PlaySoundMem(hClearSound_, DX_PLAYTYPE_BACK);
 }
 
 ClearScene::~ClearScene()
 {
+	if (hImage_ != -1) {
+		DeleteGraph(hImage_);
+		hImage_ = -1;
+	}
+	DeleteSoundMem(hClearSound_);
 }
 
 void ClearScene::Update()
@@ -17,7 +26,9 @@ void ClearScene::Update()
 
 void ClearScene::Draw()
 {
-	DrawString(0, 0, "CLEAR SCENE", GetColor(255, 255, 255));
-	DrawString(100, 300, "GAME CLEAR", GetColor(255, 255, 0));
-	DrawString(100, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
+	DrawGraph(0, 0, hImage_, TRUE);
+
+	//DrawString(0, 0, "CLEAR SCENE", GetColor(255, 255, 255));
+	//DrawString(100, 300, "GAME CLEAR", GetColor(255, 255, 0));
+	DrawString(550, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
 }

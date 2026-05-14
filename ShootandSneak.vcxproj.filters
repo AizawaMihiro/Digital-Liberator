@@ -25,6 +25,9 @@
     <Filter Include="OverScene">
       <UniqueIdentifier>{0ee4f70a-87e3-4b84-9359-19f97153d8f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LoadScene">
+      <UniqueIdentifier>{264c4e6f-308a-4717-a73d-a514909a4a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h">
@@ -117,13 +120,18 @@
     <ClInclude Include="namespace.h" />
     <ClInclude Include="TextMap.h" />
     <ClInclude Include="global.h" />
-    <ClInclude Include="Goalpost.h" />
     <ClInclude Include="Source\ClearScene.h" />
     <ClInclude Include="Source\GameOverScene.h">
       <Filter>OverScene</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="StageCounter.h" />
+    <ClInclude Include="LoadScene.h">
+      <Filter>LoadScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Goalpost.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -198,12 +206,17 @@
       <Filter>Maze</Filter>
     </ClCompile>
     <ClCompile Include="TextMap.cpp" />
-    <ClCompile Include="Goalpost.cpp" />
     <ClCompile Include="Source\ClearScene.cpp" />
     <ClCompile Include="Source\GameOverScene.cpp">
       <Filter>OverScene</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="StageCounter.cpp" />
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>LoadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Goalpost.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
