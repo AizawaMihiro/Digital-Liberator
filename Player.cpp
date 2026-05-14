@@ -108,6 +108,8 @@ void Player::Update()
 	CameraControl();
 	UpdateViewModel();
 
+	MV1RefreshCollInfo(hModel);
+
 	//DebugImGui();
 }
 
