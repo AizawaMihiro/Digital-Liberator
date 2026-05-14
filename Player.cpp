@@ -76,6 +76,8 @@ void Player::Update()
 
 	CameraControl();
 
+	MV1RefreshCollInfo(hModel);
+
 	ImGui::Begin("Player");
 	ImGui::InputFloat("PositionX", &transform.position.x);
 	ImGui::InputFloat("PositionY", &transform.position.y);
