@@ -29,6 +29,15 @@ public:
 	/// </summary>
 	/// <param name="_parent">親オブジェクト</param>
 	void SetParent(Object3D* _parent) { parent = _parent; }
+
+	/// <summary>
+	/// 指定したオブジェクトに対してレイキャストを行い、ポリゴン単位の衝突結果を取得する。
+	/// </summary>
+	/// <param name="target">レイを照射する対象のポインタ</param>
+	/// <param name="distance">レイの最大到達距離（float）</param>
+	/// <returns>内部関数の返り値　MV1_COLL_RESULT_POLY </returns>
+	MV1_COLL_RESULT_POLY RayCast(Object3D* target,float distance);
+
 protected:
 	int hModel;
 	Transform transform;

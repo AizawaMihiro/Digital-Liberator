@@ -23,3 +23,12 @@ void Object3D::Draw()
 		}
 	}
 }
+
+MV1_COLL_RESULT_POLY Object3D::RayCast(Object3D* target, float distance)
+{
+	VECTOR3 forward = { 0.0f,0.0f,1.0f };
+	VECTOR3 startPos = this->transform.position + VECTOR3(0.0f, 20.0f, 0.0f) * MGetRotY(transform.rotation.y);
+	VECTOR3 endPos = startPos + forward * distance * MGetRotY(transform.rotation.y);
+	DrawLine3D(startPos, endPos, GetColor(255, 255, 0));
+	return MV1CollCheck_Line(target->hModel,-1, startPos, endPos);
+}

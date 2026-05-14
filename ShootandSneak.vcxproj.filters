@@ -108,27 +108,22 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Axis.h" />
     <ClInclude Include="Block.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h" />
     <ClInclude Include="Maze.h">
       <Filter>Maze</Filter>
     </ClInclude>
     <ClInclude Include="MinerMaze.h">
       <Filter>Maze</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h" />
     <ClInclude Include="namespace.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="TextMap.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Source\ClearScene.h" />
     <ClInclude Include="Source\GameOverScene.h">
       <Filter>OverScene</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="StageCounter.h" />
     <ClInclude Include="LoadScene.h">
@@ -201,25 +196,20 @@
       <Filter>PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Block.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Maze.cpp">
       <Filter>Maze</Filter>
     </ClCompile>
     <ClCompile Include="MinerMaze.cpp">
       <Filter>Maze</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="TextMap.cpp" />
     <ClCompile Include="Source\ClearScene.cpp" />
     <ClCompile Include="Source\GameOverScene.cpp">
       <Filter>OverScene</Filter>
     </ClCompile>
-    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="StageCounter.cpp" />
     <ClCompile Include="LoadScene.cpp">

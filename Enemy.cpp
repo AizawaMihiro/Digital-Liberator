@@ -48,11 +48,16 @@ void Enemy::Update()
 		}
 		//Enemy‚ÌŒü‚«‚É‚¢‚é‚©‚Ç‚¤‚©‚ð”»’è‚·‚é
 		bool inFront = false;
-		VECTOR3 forward = { 0.0f,0.0f,1.0f };
-		forward = forward * MGetRotY(transform.rotation.y);
-		VECTOR3 toPlayer = playerPos - this->transform.position;
-		float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
-		if (dot > 0)
+		//VECTOR3 forward = { 0.0f,0.0f,1.0f };
+		//forward = forward * MGetRotY(transform.rotation.y);
+		//VECTOR3 toPlayer = playerPos - this->transform.position;
+		//float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
+		//if (dot > 0)
+		//{
+		//	inFront = true;
+		//}
+		MV1_COLL_RESULT_POLY result = this->RayCast(player, ENEMY::CHASE_RANGE);
+		if (result.HitFlag==1)
 		{
 			inFront = true;
 		}
