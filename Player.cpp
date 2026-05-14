@@ -21,6 +21,7 @@ Player::Player()
 	transform.scale = defScale;
 
 	hViewModel_ = MV1LoadModel("Assets/model/3Dchara man.mv1");
+	assert(hViewModel_ != -1);
 	viewModelTransform.position = VZero;
 	viewModelTransform.rotation = viewDefRot;
 	viewModelTransform.scale = viewDefScale;
@@ -115,7 +116,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	// ビューモデルの描画
+	// ビューモデルの描画準備
 	if (hViewModel_ != -1)
 	{
 		const MATRIX& local = viewModelTransform.MakeLocalMatrix();
@@ -128,10 +129,17 @@ void Player::Draw()
 			MV1SetMatrix(hViewModel_, local);
 		}
 	}
+	// プレイヤーモデルの描画準備
+	// この準備をしておかないと、RayCastの結果がおかしくなる
+	if (hModel != -1)
+	{
+		Object3D::Draw();
+	}
 
 	if (camera->IsThirdPerson())
 	{
 		MV1DrawModel(hViewModel_);
+		//MV1DrawModel(hModel);
 	}
 }
 

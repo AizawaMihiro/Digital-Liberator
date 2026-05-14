@@ -57,7 +57,7 @@ void Enemy::Update()
 		//	inFront = true;
 		//}
 		MV1_COLL_RESULT_POLY result = this->RayCast(player, ENEMY::CHASE_RANGE);
-		if (result.HitFlag==1)
+		if (result.HitFlag == 1)
 		{
 			inFront = true;
 		}
