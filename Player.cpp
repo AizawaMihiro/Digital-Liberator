@@ -3,6 +3,7 @@
 #include "ImGui/imgui.h"
 #include "Input.h"
 #include "Time.h"
+#include "Object2D.h"
 
 namespace
 {
@@ -37,6 +38,15 @@ Player::Player()
 
 	hWalkSound_ = LoadSoundMem("Assets/sound/se/walk.mp3");
 	hDashSound_ = LoadSoundMem("Assets/sound/se/run.mp3");
+
+	uiCrosshair = new Object2D();
+	uiCrosshair->SetGraph("Assets/image/Crosshair.png");
+	Transform crosshairTransform;
+	crosshairTransform.position = VECTOR3(600.0f, 300.0f, 0.0f);
+	crosshairTransform.rotation = VZero;
+	crosshairTransform.scale = VECTOR3(1.0f, 1.0f, 1.0f);
+	uiCrosshair->SetTransform(crosshairTransform);
+	uiCrosshair->SetDrawFlag(false);
 }
 
 Player::~Player()
@@ -133,7 +143,14 @@ void Player::Draw()
 	{
 		MV1DrawModel(hViewModel_);
 		//MV1DrawModel(hModel);
+		uiCrosshair->SetDrawFlag(false);
 	}
+	else
+	{
+		// クロスヘアの描画
+		uiCrosshair->SetDrawFlag(true);
+	}
+
 }
 
 void Player::UpdateMove()

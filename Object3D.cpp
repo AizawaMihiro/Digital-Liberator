@@ -1,5 +1,11 @@
 #include "Object3D.h"
 
+Object3D::Object3D()
+	: hModel(-1), parent(nullptr)
+{
+	GameObject::SetDrawOrder(100);//3Dオブジェクトは2Dオブジェクトより先に描画されるようにする
+}
+
 Object3D::~Object3D()
 {
 	if (hModel != -1) {

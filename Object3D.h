@@ -7,7 +7,7 @@
 /// </summary>
 class Object3D : public GameObject {
 public:
-	Object3D() : hModel(-1), parent(nullptr) {}
+	Object3D();
 	virtual ~Object3D();
 	void Draw() override;
 

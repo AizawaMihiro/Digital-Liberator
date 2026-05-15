@@ -12,9 +12,10 @@ public:
     const Transform& GetTransform() { return transform; }
     const void SetTransform(const Transform& _transform) { transform = _transform; }
     void SetGraph(std::string filename);
+	void SetDrawFlag(bool flag) { drawFlag = flag; }
 private:
     int hImage;
+	bool drawFlag;
     Transform transform;
-
 };
 

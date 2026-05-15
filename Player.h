@@ -22,6 +22,7 @@ namespace {
 }
 
 class Camera;
+class Object2D;
 
 class Player :
     public Object3D
@@ -49,6 +50,7 @@ private:
 	State state_;
 	Camera* camera;
 	CameraMode cameraMode;
+	Object2D* uiCrosshair;
 	void UpdateMove();
 	void UpdateAttack();
 	void UpdateDead();
