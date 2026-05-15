@@ -4,7 +4,6 @@ enum State
 {
 	IDLE,
 	MOVE,
-	HIDE,
 	ATTACK,
 	DEAD
 };
@@ -51,7 +50,6 @@ private:
 	Camera* camera;
 	CameraMode cameraMode;
 	void UpdateMove();
-	void UpdateHide();
 	void UpdateAttack();
 	void UpdateDead();
 	void ChangeState(State newState);

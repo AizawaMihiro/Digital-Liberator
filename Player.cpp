@@ -64,15 +64,11 @@ void Player::Update()
 
 	if (CheckHitKey(KEY_INPUT_LSHIFT))
 	{
-		ChangeState(HIDE);
+		ChangeState(ATTACK);
 	}
 	else if (IsCheckMoveInput())
 	{
 		ChangeState(MOVE);
-	}
-	else if (GetMouseInput()&&MOUSE_INPUT_LEFT)
-	{
-		ChangeState(ATTACK);
 	}
 	else
 	{
@@ -83,9 +79,6 @@ void Player::Update()
 	{
 	case MOVE:
 		UpdateMove();
-		break;
-	case HIDE:
-		UpdateHide();
 		break;
 	case ATTACK:
 		UpdateAttack();
@@ -167,9 +160,9 @@ void Player::UpdateMove()
 	transform.position += moveVec.Normalize()* flameMoveDist * MGetRotY(transform.rotation.y);
 }
 
-void Player::UpdateHide()
+void Player::UpdateAttack()
 {
-	//しゃがみ移動を行う
+	//武器構え状態
 	//やや遅くなる
 	float moveTime = flameTime_ * 100.0f;
 	float flameMoveDist = HIDE_SPEED * moveTime;
@@ -191,16 +184,17 @@ void Player::UpdateHide()
 		moveVec.z -= 1.0f;
 	}
 	transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
-}
-
-void Player::UpdateAttack()
-{
-	//武器構え状態
-	UpdateHide();
+	
 	if (cameraMode == THIRD_PERSON)
 	{
 		camera->ChangeViewMode(false);
 		cameraMode = FIRST_PERSON;
+	}
+
+	//攻撃処理
+	if (GetMouseInput() && MOUSE_INPUT_LEFT)
+	{
+
 	}
 }
 
@@ -228,13 +222,8 @@ void Player::ChangeState(State newState)
 			}
 			PlaySoundMem(hDashSound_, DX_PLAYTYPE_LOOP);
 		}
-		else if (newState == State::HIDE && hViewModel_ != hMoveAnim_)
+		else if (newState == State::ATTACK)
 		{
-			MV1DetachAnim(hViewModel_, 0);
-			hViewModel_ = hMoveAnim_;
-			viewModelTransform.scale = viewDefScale;
-			animTimer_ = 0.0f;
-			animFrame_ = MV1AttachAnim(hViewModel_, 0);
 			if (CheckSoundMem(hDashSound_))
 			{
 				StopSoundMem(hDashSound_);
