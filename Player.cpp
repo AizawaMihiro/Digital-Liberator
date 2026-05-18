@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "ImGui/imgui.h"
 #include "Input.h"
+#include "Enemy.h"
 #include "Time.h"
 #include "Object2D.h"
 
@@ -219,7 +220,27 @@ void Player::UpdateAttack()
 	//攻撃処理
 	if (GetMouseInput() && MOUSE_INPUT_LEFT)
 	{
-
+		std::list<Enemy*> enemies = ObjectManager::FindGameObjects<Enemy>();
+		for (Enemy* enemy : enemies)
+		{
+			//Playerの向きにいるかどうかを判定する
+			VECTOR3 enemyPos = enemy->GetTransform().position;
+			VECTOR3 forward = { 0.0f,0.0f,1.0f };
+			forward = forward * MGetRotY(transform.rotation.y);
+			VECTOR3 toPlayer = enemyPos - this->transform.position;
+			float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
+			if (dot > 0)
+			{
+				//Playerの向きにいると判定された敵に対して、RayCastを行う
+				//RayCastの結果、攻撃が当たったと判定された敵はスタン状態にする
+				enemy->UpdateCollision();//RayCastの前にコリジョン情報を更新する必要がある
+				MV1_COLL_RESULT_POLY result = RayCast(enemy, ATTACK_RANGE);
+				if (result.HitFlag)
+				{
+					enemy->SetStateStun();
+				}
+			}
+		}
 	}
 }
 

@@ -19,6 +19,8 @@ Enemy::Enemy()
 	returndFlag_ = false;
 
 	hCheckSound_ = LoadSoundMem("Assets/sound/se/Check.mp3");
+
+	MV1SetupCollInfo(hModel, -1);
 }
 
 Enemy::~Enemy()
@@ -48,14 +50,6 @@ void Enemy::Update()
 		}
 		//Enemyの向きにいるかどうかを判定する
 		bool inFront = false;
-		//VECTOR3 forward = { 0.0f,0.0f,1.0f };
-		//forward = forward * MGetRotY(transform.rotation.y);
-		//VECTOR3 toPlayer = playerPos - this->transform.position;
-		//float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
-		//if (dot > 0)
-		//{
-		//	inFront = true;
-		//}
 		MV1_COLL_RESULT_POLY result = this->RayCast(player, ENEMY::CHASE_RANGE);
 		if (result.HitFlag == 1)
 		{
@@ -159,6 +153,12 @@ void Enemy::SetStateStun()
 	//スタン時間をリセットするなど
 	ChangeState(STUN);
 	stunTimer_ = ENEMY::STUN_TIME;
+}
+
+void Enemy::UpdateCollision()
+{
+	//RayCastで当たり判定を行うためのコリジョン情報を更新する
+	MV1RefreshCollInfo(hModel);
 }
 
 void Enemy::UpdatePatrol()

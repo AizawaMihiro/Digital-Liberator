@@ -21,6 +21,7 @@ public:
 	void SetPosition(VECTOR3 pos);
 	bool CheckHitPlayer(VECTOR3 pPos, VECTOR3 pSca);
 	void SetStateStun();
+	void UpdateCollision();
 private:
 	enum State
 	{
