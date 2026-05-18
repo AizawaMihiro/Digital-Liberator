@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmmoCounter.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />

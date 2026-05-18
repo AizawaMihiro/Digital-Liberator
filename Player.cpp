@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Enemy.h"
 #include "Time.h"
+#include "AmmoCounter.h"
 #include "Object2D.h"
 
 namespace
@@ -14,7 +15,7 @@ namespace
 }
 
 Player::Player()
-	:state_(IDLE), cameraMode_(THIRD_PERSON)
+	:state_(IDLE), cameraMode_(THIRD_PERSON), gunAmmo_(0), leftClicked_(false)
 {
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//まだモデルがないので仮
 	assert(hModel != -1);
@@ -50,6 +51,8 @@ Player::Player()
 	uiCrosshair_->SetTransform(crosshairTransform);
 	uiCrosshair_->SetDrawFlag(false);
 	uiCrosshair_->SetTransFlag(1);
+
+	gunAmmo_ = AmmoCounter::GetCurrentAmmo();
 }
 
 Player::~Player()
@@ -218,8 +221,10 @@ void Player::UpdateAttack()
 	transform.rotation.y += moveX * TARGETING_ROT_SPEED * DegToRad;
 
 	//攻撃処理
-	if (GetMouseInput() && MOUSE_INPUT_LEFT)
+	//マウスの左クリックと弾数があるかを判定する
+	if (GetMouseInput() && MOUSE_INPUT_LEFT && gunAmmo_ > 0)
 	{
+		leftClicked_ = true;
 		std::list<Enemy*> enemies = ObjectManager::FindGameObjects<Enemy>();
 		for (Enemy* enemy : enemies)
 		{
@@ -240,6 +245,15 @@ void Player::UpdateAttack()
 					enemy->SetStateStun();
 				}
 			}
+		}
+	}
+	else
+	{
+		if (leftClicked_)
+		{
+			gunAmmo_--;
+			AmmoCounter::CountDown();
+			leftClicked_ = false;
 		}
 	}
 }

@@ -21,6 +21,7 @@
 #include "../global.h"
 #include <time.h>
 #include "../StageCounter.h"
+#include "../AmmoCounter.h"
 
 #define CoGVersion "4.5"
 
@@ -80,6 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	StageCounter::StageCounter();
+	AmmoCounter::AmmoCounter();
 
 	while (true) {
 #if IMGUI
@@ -124,7 +126,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 //次やること
-// UI
-// プレイヤーの攻撃
-//敵のAI
 //敵のアニメーション

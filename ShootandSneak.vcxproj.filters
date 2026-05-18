@@ -132,6 +132,12 @@
     <ClInclude Include="Goalpost.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="Axis.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Object2D.h" />
+    <ClInclude Include="AmmoCounter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -218,5 +224,11 @@
     <ClCompile Include="Goalpost.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Object2D.cpp" />
+    <ClCompile Include="AmmoCounter.cpp" />
   </ItemGroup>
 </Project>

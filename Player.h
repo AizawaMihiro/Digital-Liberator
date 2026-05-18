@@ -40,6 +40,7 @@ public:
 	VECTOR3 GetPosition() { return transform.position; }
 
 private:
+	int gunAmmo_;
 	int hViewModel_;
 	int hIdleAnim_;
 	int hMoveAnim_;
@@ -48,6 +49,7 @@ private:
 	int animFrame_;		//アニメーションのフレームを管理する
 	int hWalkSound_;
 	int hDashSound_;
+	bool leftClicked_;
 	Transform viewModelTransform;
 	State state_;
 	Camera* camera_;
