@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 Object2D::Object2D()
-	:hImage(-1), drawFlag(true)
+	:hImage(-1), drawFlag(true), transFlag(0)
 {
 	GameObject::SetDrawOrder(0);//2Dオブジェクトは3Dオブジェクトより後に描画されるようにする
 }
@@ -17,7 +17,7 @@ void Object2D::Draw()
 	{
 		if (drawFlag)
 		{
-			DrawGraph(transform.position.x, transform.position.y, hImage, 0);
+			DrawGraph(transform.position.x, transform.position.y, hImage, transFlag);
 		}
 	}
 }

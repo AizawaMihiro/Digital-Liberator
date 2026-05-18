@@ -18,6 +18,7 @@ namespace {
 	const float MOVE_SPEED = 3.0f;
 	const float HIDE_SPEED = 2.0f;
 	const float ROT_SPEED = 2.0f;
+	const float TARGETING_ROT_SPEED = 0.2f;
 	int moveX, moveY;
 }
 

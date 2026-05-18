@@ -30,6 +30,7 @@ Player::Player()
 	hIdleAnim_ = MV1LoadModel("Assets/anime/Idle.mv1");
 	hMoveAnim_ = MV1LoadModel("Assets/anime/Run.mv1");
 	hViewModel_ = hIdleAnim_;
+	animTimer_ = 0.0f;
 	animFrame_ = MV1AttachAnim(hViewModel_, 0);
 
 	MV1SetupCollInfo(hModel, -1);
@@ -47,6 +48,7 @@ Player::Player()
 	crosshairTransform.scale = VECTOR3(1.0f, 1.0f, 1.0f);
 	uiCrosshair_->SetTransform(crosshairTransform);
 	uiCrosshair_->SetDrawFlag(false);
+	uiCrosshair_->SetTransFlag(1);
 }
 
 Player::~Player()
@@ -208,6 +210,11 @@ void Player::UpdateAttack()
 		camera_->ChangeViewMode(false);
 		cameraMode_ = FIRST_PERSON;
 	}
+
+	//照準操作
+	//マウスの移動量を取得して、プレイヤーの向きに反映させる
+	//上下の照準操作はカメラの回転で行うので、ここでは左右の照準操作のみ行う
+	transform.rotation.y += moveX * TARGETING_ROT_SPEED * DegToRad;
 
 	//攻撃処理
 	if (GetMouseInput() && MOUSE_INPUT_LEFT)
