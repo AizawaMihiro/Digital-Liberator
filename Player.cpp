@@ -13,7 +13,7 @@ namespace
 }
 
 Player::Player()
-	:state_(IDLE), cameraMode(THIRD_PERSON)
+	:state_(IDLE), cameraMode_(THIRD_PERSON)
 {
 	hModel = MV1LoadModel("Assets/model/cube.mv1");//まだモデルがないので仮
 	assert(hModel != -1);
@@ -33,20 +33,20 @@ Player::Player()
 	animFrame_ = MV1AttachAnim(hViewModel_, 0);
 
 	MV1SetupCollInfo(hModel, -1);
-	camera = FindGameObject<Camera>();
+	camera_ = FindGameObject<Camera>();
 	flameTime_ = Time::DeltaTime();
 
 	hWalkSound_ = LoadSoundMem("Assets/sound/se/walk.mp3");
 	hDashSound_ = LoadSoundMem("Assets/sound/se/run.mp3");
 
-	uiCrosshair = new Object2D();
-	uiCrosshair->SetGraph("Assets/image/Crosshair.png");
+	uiCrosshair_ = new Object2D();
+	uiCrosshair_->SetGraph("Assets/image/Crosshair.png");
 	Transform crosshairTransform;
 	crosshairTransform.position = VECTOR3(600.0f, 300.0f, 0.0f);
 	crosshairTransform.rotation = VZero;
 	crosshairTransform.scale = VECTOR3(1.0f, 1.0f, 1.0f);
-	uiCrosshair->SetTransform(crosshairTransform);
-	uiCrosshair->SetDrawFlag(false);
+	uiCrosshair_->SetTransform(crosshairTransform);
+	uiCrosshair_->SetDrawFlag(false);
 }
 
 Player::~Player()
@@ -103,10 +103,10 @@ void Player::Update()
 	viewModelTransform.position = transform.position;
 	viewModelTransform.rotation = transform.rotation + VECTOR3(0.0f, 180.0f * DegToRad, 0.0f);
 
-	if (cameraMode == FIRST_PERSON && state_ != ATTACK)
+	if (cameraMode_ == FIRST_PERSON && state_ != ATTACK)
 	{
-		camera->ChangeViewMode(true);
-		cameraMode = THIRD_PERSON;
+		camera_->ChangeViewMode(true);
+		cameraMode_ = THIRD_PERSON;
 	}
 
 	CameraControl();
@@ -139,16 +139,17 @@ void Player::Draw()
 		Object3D::Draw();
 	}
 
-	if (camera->IsThirdPerson())
+	// カメラの視点に応じて描画するものを切り替える
+	if (camera_->IsThirdPerson())
 	{
 		MV1DrawModel(hViewModel_);
 		//MV1DrawModel(hModel);
-		uiCrosshair->SetDrawFlag(false);
+		uiCrosshair_->SetDrawFlag(false);
 	}
 	else
 	{
 		// クロスヘアの描画
-		uiCrosshair->SetDrawFlag(true);
+		uiCrosshair_->SetDrawFlag(true);
 	}
 
 }
@@ -202,10 +203,10 @@ void Player::UpdateAttack()
 	}
 	transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
 	
-	if (cameraMode == THIRD_PERSON)
+	if (cameraMode_ == THIRD_PERSON)
 	{
-		camera->ChangeViewMode(false);
-		cameraMode = FIRST_PERSON;
+		camera_->ChangeViewMode(false);
+		cameraMode_ = FIRST_PERSON;
 	}
 
 	//攻撃処理
@@ -297,13 +298,13 @@ bool Player::IsCheckMoveInput()
 void Player::CameraControl()
 {
 	// カメラの向きをプレイヤーの向きに合わせる
-	VECTOR3 camRot = camera->GetCameraRot();
+	VECTOR3 camRot = camera_->GetCameraRot();
 	camRot.y = transform.rotation.y;
-	camera->SetCameraRotation(camRot);
+	camera_->SetCameraRotation(camRot);
 
 	// カメラの注視点をプレイヤーの前方に設定
 	VECTOR3 lookPos = transform.position;
-	camera->SetTargetPosition(lookPos);
+	camera_->SetTargetPosition(lookPos);
 }
 
 void Player::DebugImGui()

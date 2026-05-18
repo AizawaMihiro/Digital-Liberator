@@ -48,9 +48,9 @@ private:
 	int hDashSound_;
 	Transform viewModelTransform;
 	State state_;
-	Camera* camera;
-	CameraMode cameraMode;
-	Object2D* uiCrosshair;
+	Camera* camera_;
+	CameraMode cameraMode_;
+	Object2D* uiCrosshair_;
 	void UpdateMove();
 	void UpdateAttack();
 	void UpdateDead();

@@ -35,6 +35,8 @@ Map::Map(generator gen)
 	assert(hBlockModel_ != -1);
 	hPillarModel_ = MV1LoadModel("Assets/model/Blockcolord.mv1");
 	assert(hPillarModel_ != -1);
+
+	SetDrawOrder(50);//テキストマップなどのUIより先に描画されるようにする
 }
 
 Map::~Map()
