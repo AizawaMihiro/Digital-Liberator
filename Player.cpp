@@ -17,7 +17,7 @@ namespace
 Player::Player()
 	:state_(IDLE), cameraMode_(THIRD_PERSON), gunAmmo_(0), leftClicked_(false)
 {
-	hModel = MV1LoadModel("Assets/model/cube.mv1");//まだモデルがないので仮
+	hModel = MV1LoadModel("Assets/model/cube.mv1");//当たり判定用のモデル
 	assert(hModel != -1);
 	transform.position = VZero;
 	transform.rotation = VZero;
@@ -125,6 +125,12 @@ void Player::Update()
 
 void Player::Draw()
 {
+	// プレイヤーモデルの描画準備
+	// この準備をしておかないと、RayCastの結果がおかしくなる
+	if (hModel != -1)
+	{
+		Object3D::Draw();
+	}
 	// ビューモデルの描画準備
 	if (hViewModel_ != -1)
 	{
@@ -138,18 +144,11 @@ void Player::Draw()
 			MV1SetMatrix(hViewModel_, local);
 		}
 	}
-	// プレイヤーモデルの描画準備
-	// この準備をしておかないと、RayCastの結果がおかしくなる
-	if (hModel != -1)
-	{
-		Object3D::Draw();
-	}
 
 	// カメラの視点に応じて描画するものを切り替える
 	if (camera_->IsThirdPerson())
 	{
 		MV1DrawModel(hViewModel_);
-		//MV1DrawModel(hModel);
 		uiCrosshair_->SetDrawFlag(false);
 	}
 	else
@@ -313,7 +312,8 @@ void Player::ChangeState(State newState)
 void Player::UpdateViewModel()
 {
 	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame_);
-	animTimer_ = fmod(animTimer_ + flameTime_ * 100.0f, totalTime);
+	float animSpeed = flameTime_ * 100.0f;
+	animTimer_ = fmod(animTimer_ + animSpeed, totalTime);
 	MV1SetAttachAnimTime(hViewModel_, animFrame_, animTimer_);
 }
 

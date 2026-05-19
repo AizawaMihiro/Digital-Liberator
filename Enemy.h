@@ -5,7 +5,7 @@
 namespace ENEMY
 {
 	const float MOVE_SPEED = 0.15f;
-	const float CHASE_SPEED = 0.2f;
+	const float CHASE_SPEED = 0.25f;
 	const float STUN_TIME = 10.0f;
 	const float CHASE_RANGE = 150.0f;
 }
@@ -27,10 +27,18 @@ private:
 	{
 		PATROL, CHASE, RETURN, STUN, MAX_STATE
 	};
+	enum Anim
+	{
+		STOP, IDLE, WALK, MAX_ANIM
+	};
 	State state_;
 	VECTOR3 homePosition_;
 	std::vector<VECTOR3> patrolPoints_;
 	int currentPatrolIndex;
+	int hViewModel_;
+	Transform viewModelTransform;
+	int animFrame_;
+	float animTimer_;
 	float flameTime_;	//使用時に*100する
 	float stunTimer_;	//スタン状態の残り時間
 	bool returndFlag_;	//patrolPointsに戻ったかどうか
@@ -39,6 +47,7 @@ private:
 	void UpdateChase();
 	void UpdateReturn();
 	void UpdateStun();
+	void UpdateViewModel();
 	void ChangeState(State newState);
 	void DebugImGui();
 };

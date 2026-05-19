@@ -4,19 +4,33 @@
 #include "Player.h"
 #include "Time.h"
 
+namespace {
+	VECTOR3 defPos = { (-30.0f),(0.0f),(50.0f) };
+	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
+	VECTOR3 viewDefRot = { (0.0f),(180.0f * DegToRad),(0.0f) };
+	VECTOR3 viewDefScale = { (0.25f),(0.25f),(0.25f) };
+}
+
 Enemy::Enemy()
 	:state_(PATROL)
 {
-	hModel = MV1LoadModel("Assets/model/enemy01.mv1");//まだモデルがないので仮
+	hModel = MV1LoadModel("Assets/model/enemy01.mv1");//当たり判定用のモデル
 	assert(hModel != -1);
-	VECTOR3 defPos = { (-30.0f),(0.0f),(50.0f) };
 	transform.position = defPos;
-	VECTOR3 defScale = { (0.5f),(0.25f),(0.5f) };
+	transform.rotation = VZero;
 	transform.scale = defScale;
 	currentPatrolIndex = 0;
 	flameTime_ = 0.0f;
 	stunTimer_ = 0.0f;
 	returndFlag_ = false;
+
+	hViewModel_ = MV1LoadModel("Assets/model/character-g.mv1");
+	assert(hViewModel_ != -1);
+	viewModelTransform.position = VZero;
+	viewModelTransform.rotation = viewDefRot;
+	viewModelTransform.scale = viewDefScale;
+	animTimer_ = 0.0f;
+	animFrame_ = MV1AttachAnim(hViewModel_, Anim::WALK);
 
 	hCheckSound_ = LoadSoundMem("Assets/sound/se/Check.mp3");
 
@@ -29,6 +43,11 @@ Enemy::~Enemy()
 	{
 		MV1DeleteModel(hModel);
 		hModel = -1;
+	}
+	if (hViewModel_ != -1)
+	{
+		MV1DeleteModel(hViewModel_);
+		hViewModel_ = -1;
 	}
 	DeleteSoundMem(hCheckSound_);
 }
@@ -61,44 +80,64 @@ void Enemy::Update()
 		//PATROL状態への遷移条件は、プレイヤーが一定距離以上かつEnemyの向きにいない場合、またはRETURN状態でpatrolPointsに戻った場合
 		if (inChaseRange && inFront && (state_ == State::PATROL || state_ == State::RETURN || state_ == State::CHASE))
 		{
-			ChangeState(CHASE);
+			ChangeState(State::CHASE);
 		}
 		else if ((state_ == State::CHASE || state_ == State::RETURN) && !returndFlag_)
 		{
-			ChangeState(RETURN);
+			ChangeState(State::RETURN);
 		}
 		else if (state_ == State::PATROL || returndFlag_)
 		{
-			ChangeState(PATROL);
+			ChangeState(State::PATROL);
 		}
 	}
 
 
 	switch (state_)
 	{
-	case PATROL:
+	case State::PATROL:
 		UpdatePatrol();
 		break;
-	case CHASE:
+	case State::CHASE:
 		UpdateChase();
 		break;
-	case RETURN:
+	case State::RETURN:
 		UpdateReturn();
 		break;
-	case STUN:
+	case State::STUN:
 		UpdateStun();
 		break;
 	default:
 		break;
 	}
 
+	viewModelTransform.position = transform.position;
+	viewModelTransform.rotation = transform.rotation + VECTOR3(0.0f, 180.0f * DegToRad, 0.0f);
+
+	UpdateViewModel();
+
 	//DebugImgui();
 }
 
 void Enemy::Draw()
 {
-	Object3D::Draw();
-	MV1DrawModel(hModel);
+	if (hModel != -1)
+	{
+		Object3D::Draw();
+	}
+	if (hViewModel_ != -1)
+	{
+		const MATRIX& local = viewModelTransform.MakeLocalMatrix();
+		if (parent != nullptr) {
+			const MATRIX& parentLocal = parent->GetTransform().GetLocalMatrix();
+			MATRIX world = local * parentLocal;
+			MV1SetMatrix(hViewModel_, world);
+		}
+		else {
+			MV1SetMatrix(hViewModel_, local);
+		}
+	}
+	MV1DrawModel(hViewModel_);
 	//向き表示用の座標軸描画
 	unsigned int red = GetColor(255, 0, 0);
 	float hight = 40.0f;
@@ -151,7 +190,7 @@ void Enemy::SetStateStun()
 {
 	//スタン状態になったときの処理
 	//スタン時間をリセットするなど
-	ChangeState(STUN);
+	ChangeState(State::STUN);
 	stunTimer_ = ENEMY::STUN_TIME;
 }
 
@@ -248,8 +287,17 @@ void Enemy::UpdateStun()
 	stunTimer_ -= flameTime_;
 	if (stunTimer_ <= 0)
 	{
-		ChangeState(PATROL);
+		ChangeState(State::PATROL);
+		animFrame_ = MV1AttachAnim(hViewModel_, Anim::WALK);
 	}
+}
+
+void Enemy::UpdateViewModel()
+{
+	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame_);
+	float animSpeed = flameTime_ * 60.0f;//アニメーションの再生速度を調整するための値
+	animTimer_ = fmod(animTimer_ + animSpeed, totalTime);
+	MV1SetAttachAnimTime(hViewModel_, animFrame_, animTimer_);
 }
 
 void Enemy::ChangeState(State newState)
@@ -259,6 +307,10 @@ void Enemy::ChangeState(State newState)
 		if (newState == State::CHASE)
 		{
 			PlaySoundMem(hCheckSound_, DX_PLAYTYPE_BACK);
+		}
+		if (newState == State::STUN)
+		{
+			animFrame_ = MV1AttachAnim(hViewModel_, Anim::STOP);
 		}
 		state_ = newState;
 	}
