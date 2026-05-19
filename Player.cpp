@@ -23,8 +23,6 @@ Player::Player()
 	transform.rotation = VZero;
 	transform.scale = defScale;
 
-	hViewModel_ = MV1LoadModel("Assets/model/3Dchara man.mv1");
-	assert(hViewModel_ != -1);
 	viewModelTransform.position = VZero;
 	viewModelTransform.rotation = viewDefRot;
 	viewModelTransform.scale = viewDefScale;
