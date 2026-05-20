@@ -5,7 +5,7 @@
 namespace ENEMY
 {
 	const float MOVE_SPEED = 0.15f;
-	const float CHASE_SPEED = 0.25f;
+	const float CHASE_SPEED = 0.3f;
 	const float STUN_TIME = 10.0f;
 	const float CHASE_RANGE = 150.0f;
 }

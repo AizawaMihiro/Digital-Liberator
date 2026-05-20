@@ -295,7 +295,17 @@ void Enemy::UpdateStun()
 void Enemy::UpdateViewModel()
 {
 	float totalTime = MV1GetAttachAnimTotalTime(hViewModel_, animFrame_);
-	float animSpeed = flameTime_ * 60.0f;//アニメーションの再生速度を調整するための値
+	float animSpeed;
+	if (MV1GetAttachAnim(hViewModel_, animFrame_) == Anim::WALK)
+	{
+		//*100ではなく、アニメーションの再生速度を調整するため*50にする
+		animSpeed = flameTime_ * 50.0f;
+	}
+	else
+	{
+		//CHASE状態のときはアニメーションの再生速度を上げる
+		animSpeed = flameTime_ * 50.0f * (ENEMY::CHASE_SPEED / ENEMY::MOVE_SPEED);
+	}
 	animTimer_ = fmod(animTimer_ + animSpeed, totalTime);
 	MV1SetAttachAnimTime(hViewModel_, animFrame_, animTimer_);
 }
