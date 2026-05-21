@@ -39,6 +39,10 @@ Player::Player()
 
 	hWalkSound_ = LoadSoundMem("Assets/sound/se/walk.mp3");
 	hDashSound_ = LoadSoundMem("Assets/sound/se/run.mp3");
+	hAttackReadySound_ = LoadSoundMem("Assets/sound/se/gunready.mp3");
+	hAttackSound_ = LoadSoundMem("Assets/sound/se/shot.mp3");
+	hReloadSound_ = LoadSoundMem("Assets/sound/se/reload.mp3");
+	hAmmoEmptySound_ = LoadSoundMem("Assets/sound/se/noammo.mp3");
 
 	uiCrosshair_ = new Object2D();
 	uiCrosshair_->SetGraph("Assets/image/Crosshair.png");
@@ -69,6 +73,10 @@ Player::~Player()
 	MV1DeleteModel(hMoveAnim_);
 	DeleteSoundMem(hWalkSound_);
 	DeleteSoundMem(hDashSound_);
+	DeleteSoundMem(hAttackReadySound_);
+	DeleteSoundMem(hAttackSound_);
+	DeleteSoundMem(hReloadSound_);
+	DeleteSoundMem(hAmmoEmptySound_);
 }
 
 void Player::Update()
@@ -205,6 +213,16 @@ void Player::UpdateAttack()
 		moveVec.z -= 1.0f;
 	}
 	transform.position += moveVec.Normalize() * flameMoveDist * MGetRotY(transform.rotation.y);
+
+	//歩いているときのSEの再生
+	if (IsCheckMoveInput()&& !CheckSoundMem(hWalkSound_))
+	{
+		PlaySoundMem(hWalkSound_, DX_PLAYTYPE_LOOP);
+	}
+	else if (!IsCheckMoveInput() && CheckSoundMem(hWalkSound_))
+	{
+		StopSoundMem(hWalkSound_);
+	}
 	
 	if (cameraMode_ == THIRD_PERSON)
 	{
@@ -218,41 +236,67 @@ void Player::UpdateAttack()
 	transform.rotation.y += moveX * TARGETING_ROT_SPEED * DegToRad;
 
 	//攻撃処理
-	//マウスの左クリックと弾数があるかを判定する
-	if (GetMouseInput() && MOUSE_INPUT_LEFT && gunAmmo_ > 0)
+	if (gunAmmo_ > 0)
 	{
-		leftClicked_ = true;
-		std::list<Enemy*> enemies = ObjectManager::FindGameObjects<Enemy>();
-		for (Enemy* enemy : enemies)
+		if (GetMouseInput() && MOUSE_INPUT_LEFT)
 		{
-			//Playerの向きにいるかどうかを判定する
-			VECTOR3 enemyPos = enemy->GetTransform().position;
-			VECTOR3 forward = { 0.0f,0.0f,1.0f };
-			forward = forward * MGetRotY(transform.rotation.y);
-			VECTOR3 toPlayer = enemyPos - this->transform.position;
-			float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
-			if (dot > 0)
+			//左クリックされた瞬間に攻撃処理を行う
+			if (!leftClicked_)
 			{
-				//Playerの向きにいると判定された敵に対して、RayCastを行う
-				//RayCastの結果、攻撃が当たったと判定された敵はスタン状態にする
-				enemy->UpdateCollision();//RayCastの前にコリジョン情報を更新する必要がある
-				MV1_COLL_RESULT_POLY result = RayCast(enemy, ATTACK_RANGE);
-				if (result.HitFlag)
+				leftClicked_ = true;
+				PlaySoundMem(hAttackSound_, DX_PLAYTYPE_BACK);
+				std::list<Enemy*> enemies = ObjectManager::FindGameObjects<Enemy>();
+				for (Enemy* enemy : enemies)
 				{
-					enemy->SetStateStun();
+					//Playerの向きにいるかどうかを判定する
+					VECTOR3 enemyPos = enemy->GetTransform().position;
+					VECTOR3 forward = { 0.0f,0.0f,1.0f };
+					forward = forward * MGetRotY(transform.rotation.y);
+					VECTOR3 toPlayer = enemyPos - this->transform.position;
+					float dot = forward.x * toPlayer.x + forward.y * toPlayer.y + forward.z * toPlayer.z;
+					if (dot > 0)
+					{
+						//Playerの向きにいると判定された敵に対して、RayCastを行う
+						//RayCastの結果、攻撃が当たったと判定された敵はスタン状態にする
+						enemy->UpdateCollision();//RayCastの前にコリジョン情報を更新する必要がある
+						MV1_COLL_RESULT_POLY result = RayCast(enemy, ATTACK_RANGE);
+						if (result.HitFlag)
+						{
+							enemy->SetStateStun();
+						}
+					}
 				}
+			}
+			//左クリックが押され続けている間は攻撃処理を行わない
+		}
+		else
+		{
+			if (leftClicked_)
+			{
+				PlaySoundMem(hReloadSound_, DX_PLAYTYPE_BACK);
+				gunAmmo_--;
+				AmmoCounter::CountDown();
+				leftClicked_ = false;
 			}
 		}
 	}
 	else
 	{
-		if (leftClicked_)
+		if (GetMouseInput() && MOUSE_INPUT_LEFT) {
+			if (!leftClicked_)
+			{
+				leftClicked_ = true;
+				//弾切れの音を鳴らす
+				PlaySoundMem(hAmmoEmptySound_, DX_PLAYTYPE_BACK);
+			}
+	
+		}
+		else
 		{
-			gunAmmo_--;
-			AmmoCounter::CountDown();
 			leftClicked_ = false;
 		}
 	}
+	
 }
 
 void Player::UpdateDead()
@@ -285,7 +329,6 @@ void Player::ChangeState(State newState)
 			{
 				StopSoundMem(hDashSound_);
 			}
-			PlaySoundMem(hWalkSound_, DX_PLAYTYPE_LOOP);
 		}
 		else if (newState == State::IDLE && hViewModel_ != hIdleAnim_)
 		{

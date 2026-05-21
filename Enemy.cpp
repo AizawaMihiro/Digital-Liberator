@@ -33,6 +33,8 @@ Enemy::Enemy()
 	animFrame_ = MV1AttachAnim(hViewModel_, Anim::WALK);
 
 	hCheckSound_ = LoadSoundMem("Assets/sound/se/Check.mp3");
+	hStunSound_ = LoadSoundMem("Assets/sound/se/stun.mp3");
+	ChangeVolumeSoundMem(255/2, hStunSound_);
 
 	MV1SetupCollInfo(hModel, -1);
 }
@@ -50,6 +52,7 @@ Enemy::~Enemy()
 		hViewModel_ = -1;
 	}
 	DeleteSoundMem(hCheckSound_);
+	DeleteSoundMem(hStunSound_);
 }
 
 void Enemy::Update()
@@ -192,6 +195,7 @@ void Enemy::SetStateStun()
 	//スタン時間をリセットするなど
 	ChangeState(State::STUN);
 	stunTimer_ = ENEMY::STUN_TIME;
+	PlaySoundMem(hStunSound_, DX_PLAYTYPE_LOOP);
 }
 
 void Enemy::UpdateCollision()
@@ -289,6 +293,7 @@ void Enemy::UpdateStun()
 	{
 		ChangeState(State::PATROL);
 		animFrame_ = MV1AttachAnim(hViewModel_, Anim::WALK);
+		StopSoundMem(hStunSound_);
 	}
 }
 

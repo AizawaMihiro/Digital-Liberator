@@ -43,6 +43,7 @@ private:
 	float stunTimer_;	//ƒXƒ^ƒ“ó‘Ô‚Ìc‚èŠÔ
 	bool returndFlag_;	//patrolPoints‚É–ß‚Á‚½‚©‚Ç‚¤‚©
 	int hCheckSound_;
+	int hStunSound_;
 	void UpdatePatrol();
 	void UpdateChase();
 	void UpdateReturn();

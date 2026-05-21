@@ -49,6 +49,10 @@ private:
 	int animFrame_;		//アニメーションのフレームを管理する
 	int hWalkSound_;
 	int hDashSound_;
+	int hAttackReadySound_;
+	int hAttackSound_;
+	int hReloadSound_;
+	int hAmmoEmptySound_;
 	bool leftClicked_;
 	Transform viewModelTransform;
 	State state_;
