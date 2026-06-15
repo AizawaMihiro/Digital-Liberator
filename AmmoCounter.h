@@ -6,4 +6,9 @@ namespace AmmoCounter
 	void CountDown();
 	void Reset();
 	int GetCurrentAmmo();
+
+	//GUIに表示するための関数
+	void SetDisplayAmmo();
+	void UpdateDisplay();
+	void DrawDisplay();
 };

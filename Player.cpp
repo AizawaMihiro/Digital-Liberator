@@ -55,6 +55,7 @@ Player::Player()
 	uiCrosshair_->SetTransFlag(1);
 
 	gunAmmo_ = AmmoCounter::GetCurrentAmmo();
+	AmmoCounter::SetDisplayAmmo();
 }
 
 Player::~Player()
@@ -125,6 +126,8 @@ void Player::Update()
 	UpdateViewModel();
 
 	MV1RefreshCollInfo(hModel);
+
+	AmmoCounter::DrawDisplay();
 
 	//DebugImGui();
 }

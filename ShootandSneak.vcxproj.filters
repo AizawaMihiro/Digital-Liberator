@@ -107,7 +107,6 @@
     <ClInclude Include="Player.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="Block.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
@@ -118,7 +117,6 @@
       <Filter>Maze</Filter>
     </ClInclude>
     <ClInclude Include="namespace.h" />
-    <ClInclude Include="TextMap.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Source\ClearScene.h" />
     <ClInclude Include="Source\GameOverScene.h">
@@ -132,12 +130,26 @@
     <ClInclude Include="Goalpost.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Axis.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Object2D.h" />
     <ClInclude Include="AmmoCounter.h" />
+    <ClInclude Include="Axis.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Object2D.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMap.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">
@@ -201,7 +213,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Block.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
@@ -211,7 +222,6 @@
     <ClCompile Include="MinerMaze.cpp">
       <Filter>Maze</Filter>
     </ClCompile>
-    <ClCompile Include="TextMap.cpp" />
     <ClCompile Include="Source\ClearScene.cpp" />
     <ClCompile Include="Source\GameOverScene.cpp">
       <Filter>OverScene</Filter>
@@ -224,11 +234,25 @@
     <ClCompile Include="Goalpost.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="AmmoCounter.cpp" />
+    <ClCompile Include="Axis.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Object2D.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMap.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
