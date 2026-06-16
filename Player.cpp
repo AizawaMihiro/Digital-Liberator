@@ -56,6 +56,7 @@ Player::Player()
 
 	gunAmmo_ = AmmoCounter::GetCurrentAmmo();
 	AmmoCounter::SetDisplayAmmo();
+	AmmoCounter::UpdateDisplay();//弾数表示の初期化
 }
 
 Player::~Player()

@@ -6,7 +6,6 @@ namespace
 {
     const int LIMIT_AMMO = 5;
 	static int currentAmmo = 0;
-	static bool isInitialized = false;
 
 	const int DISPLAY_NUMBER = 5;
 	Object2D* ammoDisplay[DISPLAY_NUMBER] = { nullptr };
@@ -29,7 +28,7 @@ void AmmoCounter::CountDown()
 	AmmoCounter::UpdateDisplay();
 }
 
-void AmmoCounter::Reset()
+void AmmoCounter::CountReset()
 {
 	currentAmmo = LIMIT_AMMO;
 	AmmoCounter::UpdateDisplay();
@@ -44,42 +43,38 @@ int AmmoCounter::GetCurrentAmmo()
 //フォーマットは「現在の弾数/最大弾数」
 void AmmoCounter::SetDisplayAmmo()
 {
-	if (!isInitialized)
+	//弾数表示用のオブジェクトを生成する
+	for (int i = 0; i < DISPLAY_NUMBER; i++)
 	{
-		//弾数表示用のオブジェクトを生成する
-		for (int i=0; i< DISPLAY_NUMBER; i++)
-		{
-			ammoDisplay[i] = new Object2D();
-			ammoDisplay[i]->SetDrawFlag(false);//最初は非表示にしておく
-			ammoDisplay[i]->SetTransFlag(1);
-			Transform displayTransform = ammoDisplay[i]->GetTransform();
-			VECTOR3 displayPos = { 20.0f + i * 80.0f, 500.0f, 0.0f };//表示位置を調整
-			displayTransform.position = displayPos;
-			ammoDisplay[i]->SetTransform(displayTransform);
+		ammoDisplay[i] = new Object2D();
+		ammoDisplay[i]->SetDrawFlag(false);//最初は非表示にしておく
+		ammoDisplay[i]->SetTransFlag(1);
+		Transform displayTransform = ammoDisplay[i]->GetTransform();
+		VECTOR3 displayPos = { 20.0f + i * 80.0f, 500.0f, 0.0f };//表示位置を調整
+		displayTransform.position = displayPos;
+		ammoDisplay[i]->SetTransform(displayTransform);
 
-			int displayNumber;
-			std::string graphPath;
-			switch (i)
-			{
-			case 0:
-			case 3:
-				displayNumber = LIMIT_AMMO / 10; // 最大弾数の10の位を表示
-				graphPath = "Assets/image/number/7segu-" + std::to_string(displayNumber) + "-C.png";
-				break;
-			case 1:
-			case 4:
-				displayNumber = LIMIT_AMMO % 10; // 最大弾数の1の位を表示
-				graphPath = "Assets/image/number/7segu-" + std::to_string(displayNumber) + "-C.png";
-				break;
-			case 2:
-				graphPath = "Assets/image/number/7segu-slash-C.png"; // スラッシュを表示
-				break;
-			default:
-				break;
-			}
-			ammoDisplay[i]->SetGraph(graphPath.c_str());
+		int displayNumber;
+		std::string graphPath;
+		switch (i)
+		{
+		case 0:
+		case 3:
+			displayNumber = LIMIT_AMMO / 10; // 最大弾数の10の位を表示
+			graphPath = "Assets/image/number/7segu-" + std::to_string(displayNumber) + "-C.png";
+			break;
+		case 1:
+		case 4:
+			displayNumber = LIMIT_AMMO % 10; // 最大弾数の1の位を表示
+			graphPath = "Assets/image/number/7segu-" + std::to_string(displayNumber) + "-C.png";
+			break;
+		case 2:
+			graphPath = "Assets/image/number/7segu-slash-C.png"; // スラッシュを表示
+			break;
+		default:
+			break;
 		}
-		isInitialized = true;
+		ammoDisplay[i]->SetGraph(graphPath.c_str());
 	}
 }
 
