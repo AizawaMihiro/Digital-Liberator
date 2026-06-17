@@ -31,6 +31,8 @@ PlayScene::PlayScene()
 
 	PlaySoundMem(hBGM_, DX_PLAYTYPE_LOOP);
 	ChangeVolumeSoundMem(SOUND_VOLUME, hBGM_);
+
+	StageCounter::SetDisplayStage(CLEAR_STAGE_COUNT);
 }
 
 PlayScene::~PlayScene()
