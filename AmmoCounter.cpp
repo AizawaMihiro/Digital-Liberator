@@ -1,6 +1,7 @@
 #include "AmmoCounter.h"
 #include "Object2D.h"
 #include <string>
+#include "Source/Screen.h"
 
 namespace
 {
@@ -50,7 +51,7 @@ void AmmoCounter::SetDisplayAmmo()
 		ammoDisplay[i]->SetDrawFlag(false);//最初は非表示にしておく
 		ammoDisplay[i]->SetTransFlag(1);
 		Transform displayTransform = ammoDisplay[i]->GetTransform();
-		VECTOR3 displayPos = { 20.0f + i * 80.0f, 500.0f, 0.0f };//表示位置を調整
+		VECTOR3 displayPos = { i * 80.0f, Screen::HEIGHT- 150.0f, 0.0f };//表示位置を調整
 		displayTransform.position = displayPos;
 		ammoDisplay[i]->SetTransform(displayTransform);
 

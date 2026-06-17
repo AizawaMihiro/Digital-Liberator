@@ -18,7 +18,6 @@
 #include "../Source/Screen.h"
 #include "../ImGui/imgui_impl_dxlib.hpp"
 #include "../Input.h"
-#include "../global.h"
 #include <time.h>
 #include "../StageCounter.h"
 #include "../AmmoCounter.h"
@@ -74,7 +73,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int ColorBit;
 	int sucsessflag;
 	sucsessflag = GetScreenState(&width, &height, &ColorBit);
-	Global::SetScreenSize(width, height);
 	if (sucsessflag == -1)
 	{
 		OutputDebugString("GetScreenState failed\n");

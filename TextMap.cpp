@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Map.h"
-#include "global.h"
+#include "Source/Screen.h"
 #include <list>
 #include <vector>
 #include <string>
@@ -118,12 +118,11 @@ void TextMap::Draw()
 	}
 	
 	//テキスト描画
-	//std::pair<int, int> screenSize = std::pair<int, int>(Global::ScreenWidth, Global::ScreenHeight);
-	std::pair<int, int> screenSize = std::pair<int, int>(800, 600); //仮の画面サイズ
+	int screenWidth = Screen::WIDTH;
 	for (int y = 0; y < MapData.size(); y++)
 	{
 		for (int x = 0; x < MapData[y].size(); x++) {
-			DrawString(screenSize.first-(x * Text::FontWidth), 20 + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
+			DrawString(screenWidth - ((x+1)*Text::FontWidth)- 20.0f, 20.0f + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
 		}
 	}
 
@@ -133,11 +132,8 @@ void TextMap::Draw()
 void TextMap::DebugImGui()
 {
 	//デバッグ用にグローバル変数を表示
-	int Width = Global::ScreenWidth;
-	int Height = Global::ScreenHeight;
-
-	ImGui::Begin("Global");
-	ImGui::Text("ScreenWidth: %d", Width);
-	ImGui::Text("ScreenHeight: %d", Height);
+	ImGui::Begin("Screen Info");
+	ImGui::Text("ScreenWidth: %d", Screen::WIDTH);
+	ImGui::Text("ScreenHeight: %d", Screen::HEIGHT);
 	ImGui::End();
 }
