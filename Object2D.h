@@ -14,10 +14,13 @@ public:
     void SetGraph(std::string filename);
 	void SetDrawFlag(bool flag) { drawFlag = flag; }
 	void SetTransFlag(int flag) { transFlag = flag; }//透過フラグ　1なら透過する
+	void SetExtend(int width, int height) { extendWidth = width; extendHeight = height; }//拡大描画の幅と高さを設定　両方0なら通常描画
 private:
     int hImage;
 	bool drawFlag;
 	int transFlag;
+	int extendWidth;
+	int extendHeight;
     Transform transform;
 };
 

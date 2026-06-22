@@ -10,6 +10,7 @@ namespace
 
 	const int DISPLAY_NUMBER = 5;
 	Object2D* ammoDisplay[DISPLAY_NUMBER] = { nullptr };
+	Object2D* ammoTitle = nullptr;
 }
 
 void AmmoCounter::AmmoCounter()
@@ -77,6 +78,14 @@ void AmmoCounter::SetDisplayAmmo()
 		}
 		ammoDisplay[i]->SetGraph(graphPath.c_str());
 	}
+	ammoTitle = new Object2D();
+	ammoTitle->SetDrawFlag(true);
+	ammoTitle->SetTransFlag(1);
+	Transform titleTransform = ammoTitle->GetTransform();
+	VECTOR3 titlePos = { 0.0f, 490.0f, 0.0f }; // タイトルの表示位置を調整
+	titleTransform.position = titlePos;
+	ammoTitle->SetTransform(titleTransform);
+	ammoTitle->SetGraph("Assets/image/Ammo.png"); // タイトル画像を設定
 }
 
 void AmmoCounter::UpdateDisplay()

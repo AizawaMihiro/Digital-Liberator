@@ -7,6 +7,7 @@ namespace
 
 	const int DISPLAY_NUMBER = 5;
 	Object2D* stageDisplay[DISPLAY_NUMBER] = {nullptr};
+	Object2D* stageTitle = nullptr;
 }
 
 void StageCounter::StageCounter()
@@ -44,7 +45,7 @@ void StageCounter::SetDisplayStage(int stage)
 		stageDisplay[i]->SetDrawFlag(true);
 		stageDisplay[i]->SetTransFlag(1);
 		Transform displayTransform = stageDisplay[i]->GetTransform();
-		VECTOR3 displayPos = { i * 80.0f, 10.0f, 0.0f };//表示位置を調整
+		VECTOR3 displayPos = { i * 80.0f, 60.0f, 0.0f };//表示位置を調整
 		displayTransform.position = displayPos;
 		stageDisplay[i]->SetTransform(displayTransform);
 		int displayNumber;
@@ -76,4 +77,12 @@ void StageCounter::SetDisplayStage(int stage)
 		}
 		stageDisplay[i]->SetGraph(graphPath.c_str());
 	}
+	stageTitle = new Object2D();
+	stageTitle->SetDrawFlag(true);
+	stageTitle->SetTransFlag(1);
+	Transform titleTransform = stageTitle->GetTransform();
+	VECTOR3 titlePos = { -20.0f, -20.0f, 0.0f }; // タイトルの表示位置を調整
+	titleTransform.position = titlePos;
+	stageTitle->SetTransform(titleTransform);
+	stageTitle->SetGraph("Assets/image/Floor.png"); // タイトル画像を設定
 }
