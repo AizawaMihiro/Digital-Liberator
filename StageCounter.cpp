@@ -1,13 +1,14 @@
 #include "StageCounter.h"
 #include "Object2D.h"
 
-namespace 
+namespace StageCounter
 {
 	int count_;
 
 	const int DISPLAY_NUMBER = 5;
 	Object2D* stageDisplay[DISPLAY_NUMBER] = {nullptr};
 	Object2D* stageTitle = nullptr;
+	Object2D* stageBG = nullptr;
 }
 
 void StageCounter::StageCounter()
@@ -39,13 +40,24 @@ int StageCounter::GetCount()
 //フォーマットは「現在のステージ数/最大ステージ数」
 void StageCounter::SetDisplayStage(int stage)
 {
+	//背景用のオブジェクトを生成する
+	stageBG = new Object2D();
+	stageBG->SetDrawFlag(true);
+	stageBG->SetTransFlag(1);
+	stageBG->SetExtend(500, 250); // 背景の拡大描画サイズを設定
+	Transform bgTransform = stageBG->GetTransform();
+	VECTOR3 bgPos = { 0.0f, 0.0f, 0.0f }; // 背景の表示位置を調整
+	bgTransform.position = bgPos;
+	stageBG->SetTransform(bgTransform);
+	stageBG->SetGraph("Assets/image/BackGround.png"); // 背景画像を設定
+
 	for (int i = 0; i < DISPLAY_NUMBER; i++)
 	{
 		stageDisplay[i] = new Object2D();
 		stageDisplay[i]->SetDrawFlag(true);
 		stageDisplay[i]->SetTransFlag(1);
 		Transform displayTransform = stageDisplay[i]->GetTransform();
-		VECTOR3 displayPos = { i * 80.0f, 60.0f, 0.0f };//表示位置を調整
+		VECTOR3 displayPos = { i * 80.0f, 70.0f, 0.0f };//表示位置を調整
 		displayTransform.position = displayPos;
 		stageDisplay[i]->SetTransform(displayTransform);
 		int displayNumber;
@@ -81,7 +93,7 @@ void StageCounter::SetDisplayStage(int stage)
 	stageTitle->SetDrawFlag(true);
 	stageTitle->SetTransFlag(1);
 	Transform titleTransform = stageTitle->GetTransform();
-	VECTOR3 titlePos = { -20.0f, -20.0f, 0.0f }; // タイトルの表示位置を調整
+	VECTOR3 titlePos = { 20.0f, 10.0f, 0.0f }; // タイトルの表示位置を調整
 	titleTransform.position = titlePos;
 	stageTitle->SetTransform(titleTransform);
 	stageTitle->SetGraph("Assets/image/Floor.png"); // タイトル画像を設定
