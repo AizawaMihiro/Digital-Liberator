@@ -22,11 +22,12 @@ TextMap::TextMap()
 
 TextMap::TextMap(std::vector<std::vector<int>> mapData)
 {
-	MapData = mapData;
+	MapData_ = mapData;
 	player_ = FindGameObject<Player>();
 	std::list<Enemy*> tempEnemies = ObjectManager::FindGameObjects<Enemy>();
 	enemies_.assign(tempEnemies.begin(), tempEnemies.end());
 	playerPos_ = std::pair<int, int>(-1, -1);
+	DataReverse();//実際のマップの向きとテキストマップの向きを合わせるために反転させる
 }
 
 TextMap::~TextMap()
@@ -62,13 +63,14 @@ void TextMap::Draw()
 	//テキストデータは右側に表示する
 
 	std::vector<std::vector<std::string>> line = {};
-	line.resize(MapData.size());
-	for (int y = 0; y < MapData.size(); y++)
+	line.resize(MapData_.size());
+
+	for (int y = 0; y < MapData_.size(); y++)
 	{
-		for (int x = 0; x < MapData[y].size(); x++)
+		for (int x = 0; x < MapData_[y].size(); x++)
 		{
 			std::string MapChar = " ";
-			switch (MapData[y][x])
+			switch (MapData_[y][x])
 			{
 			case maze::START:
 				MapChar = "S";
@@ -97,8 +99,8 @@ void TextMap::Draw()
 	//プレイヤーの位置を反映
 	if (player_ != nullptr)
 	{
-		int px = playerPos_.first;
-		int py = playerPos_.second;
+		int px = (MapData_[0].size() - 1) - playerPos_.first;
+		int py = (MapData_.size() - 1) - playerPos_.second;
 		if (py >= 0 && py < line.size() && px >= 0 && px < line[py].size())
 		{
 			line[py][px] = "P";
@@ -108,20 +110,20 @@ void TextMap::Draw()
 	if (enemies_.size() != 0)
 	{
 		for (auto ePos : enemyPos_) {
-			int ex = ePos.first;
-			int ey = ePos.second;
+			int ex = (MapData_[0].size() - 1) - ePos.first;
+			int ey = (MapData_.size() - 1) - ePos.second;
 			if (ey >= 0 && ey < line.size() && ex >= 0 && ex < line[ey].size())
 			{
 				line[ey][ex] = "E";
 			}
 		}
 	}
-	
+
 	//テキスト描画
 	int screenWidth = Screen::WIDTH;
-	for (int y = 0; y < MapData.size(); y++)
+	for (int y = 0; y < MapData_.size(); y++)
 	{
-		for (int x = 0; x < MapData[y].size(); x++) {
+		for (int x = 0; x < MapData_[y].size(); x++) {
 			DrawString(screenWidth - ((x+1)*Text::FontWidth)- 20.0f, 20.0f + y * Text::FontSize, line[y][x].c_str(), GetColor(255, 255, 255));
 		}
 	}
@@ -136,4 +138,16 @@ void TextMap::DebugImGui()
 	ImGui::Text("ScreenWidth: %d", Screen::WIDTH);
 	ImGui::Text("ScreenHeight: %d", Screen::HEIGHT);
 	ImGui::End();
+}
+
+//マップデータを反転させる
+void TextMap::DataReverse()
+{
+	//マップデータの行を反転させる
+	for (auto& row : MapData_)
+	{
+		std::reverse(row.begin(), row.end());
+	}
+	//マップデータの列を反転させる
+	std::reverse(MapData_.begin(), MapData_.end());
 }

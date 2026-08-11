@@ -15,11 +15,12 @@ public:
 	void Update() override;
 	void Draw() override;
 private:
-	std::vector<std::vector<int>> MapData;
+	std::vector<std::vector<int>> MapData_;
 	Player* player_;
 	std::pair<int, int> playerPos_;
 	std::list<Enemy*> enemies_;
 	std::vector<std::pair<int, int>> enemyPos_;
 	void DebugImGui();
+	void DataReverse();
 };
 
