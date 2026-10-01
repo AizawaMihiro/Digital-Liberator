@@ -42,7 +42,6 @@ void AmmoCounter::CountDown()
 void AmmoCounter::CountReset()
 {
 	currentAmmo = LIMIT_AMMO;
-	AmmoCounter::UpdateDisplay();
 }
 
 int AmmoCounter::GetCurrentAmmo()

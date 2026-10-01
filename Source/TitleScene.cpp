@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 #include "Time.h"
 #include "../StageCounter.h"
+#include "../AmmoCounter.h"
 #include <iostream>
 
 namespace
@@ -11,6 +12,7 @@ namespace
 TitleScene::TitleScene()
 {
 	StageCounter::Reset();
+	AmmoCounter::CountReset();
 	hImage_ = LoadGraph("Assets/image/Title.jpg");
 	textTimer_ = 0;
 	startTimer_ = 0;
@@ -44,6 +46,7 @@ void TitleScene::Update()
 	}
 
 	//スタートキーを押してから1秒後にシーンを切り替える
+	//それ以外のときはテキストを1.5秒ごとに点滅させる
 	if (PressStartKey_)
 	{
 		startTimer_ += Time::DeltaTime();
